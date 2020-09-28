@@ -57,7 +57,7 @@ object TestUtil {
     val TEST_GROUP_RESPONSE_5 =
         GroupResponse(
             "group_5",
-            "group_name_51",
+            "group_name_5",
             listOf(
                 ChannelResponse("channel_501", "channel_name_501", "logo_url_501"),
                 ChannelResponse("channel_502", "channel_name_502", "logo_url_502"),
@@ -70,6 +70,13 @@ object TestUtil {
                 ChannelResponse("channel_509", "channel_name_509", "logo_url_509")
             )
         )
+    val TEST_GROUP_RESPONSES = arrayListOf(
+        TEST_GROUP_RESPONSE_1,
+        TEST_GROUP_RESPONSE_2,
+        TEST_GROUP_RESPONSE_3,
+        TEST_GROUP_RESPONSE_4,
+        TEST_GROUP_RESPONSE_5
+    )
 
     //  test program responses
     fun generateTestProgramResponses(id: Int, count: Int): List<ProgramResponse> {
@@ -87,6 +94,7 @@ object TestUtil {
     val TEST_GROUP_ENTITY_3 = GroupEntity("group_3", "group_name_3")
     val TEST_GROUP_ENTITY_4 = GroupEntity("group_4", "group_name_4")
     val TEST_GROUP_ENTITY_5 = GroupEntity("group_5", "group_name_5")
+    val TEST_GROUP_ENTITIES = arrayListOf(TEST_GROUP_ENTITY_1,TEST_GROUP_ENTITY_2,TEST_GROUP_ENTITY_3,TEST_GROUP_ENTITY_4,TEST_GROUP_ENTITY_5)
 
     //  test channel entities
     //  for channel_1:
