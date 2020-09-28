@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- margin -->
+    <dimen name="margin_horizontal_normal">16dp</dimen>
+    <dimen name="margin_horizontal_small">8dp</dimen>
+    <dimen name="margin_vertical_normal">16dp</dimen>
+    <dimen name="margin_vertical_small">8dp</dimen>
+    <dimen name="margin_vertical_very_small">4dp</dimen>
+
+    <!-- padding -->
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_normal">8dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+
+    <!-- height -->
+    <dimen name="height_text_list">24dp</dimen>
+    <dimen name="height_program_item">204dp</dimen>
+    <dimen name="height_img_program_item">104dp</dimen>
+    <dimen name="height_channel_item">75dp</dimen>
+    <dimen name="height_line_on_top_of_program">2dp</dimen>
+    <dimen name="height_line_over_channel_items">4dp</dimen>
+
+    <!-- width -->
+    <dimen name="width_program_item">168dp</dimen>
+    <dimen name="width_channel_item">80dp</dimen>
+    <dimen name="width_line_over_channel_items">400dp</dimen>
+
+    <dimen name="icon_size">18dp</dimen>
+
+    <!-- text size -->
+    <dimen name="text_size_normal">10sp</dimen>
+    <dimen name="text_size_header_1">14sp</dimen>
+
+</resources>

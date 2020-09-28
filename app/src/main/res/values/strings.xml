@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Television broadcasting</string>
+    <string name="holder_age">16+</string>
+    <string name="holder_date">19 пн, 11:38</string>
+    <string name="holder_program_description">Дельта, 12-я серия - \"Фильм 6-й - \"Черный мент\", 2-я серия\"</string>
+    <string name="holder_country_and_year_of_production">Россия, 2013</string>
+    <string name="holder_genre">Боевик</string>
+    <string name="holder_day">Сегодня</string>
+    <string name="holder_group">Спорт HD</string>
+    <string name="holder_current_time">11:57</string>
+    <string name="showcase">Витрина</string>
+    <string name="television">Телевидение</string>
+    <string name="favorites">Избранное</string>
+    <string name="search">Поиск</string>
+    <string name="message_count">0</string>
+    <string name="holder_channel">КХЛ ТВ HD</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
