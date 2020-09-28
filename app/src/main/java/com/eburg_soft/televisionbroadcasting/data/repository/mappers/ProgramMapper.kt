@@ -4,13 +4,19 @@ import com.eburg_soft.televisionbroadcasting.core.BaseMapper
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.ProgramResponse
 
-object ProgramMapper : BaseMapper<List<ProgramResponse>, List<ProgramEntity>> {
+class ProgramMapper : BaseMapper<List<ProgramResponse>, List<ProgramEntity>> {
+
+    private var channelId = ""
+
+    fun setChannelId(id: String) {
+        channelId = id
+    }
 
     override fun map(type: List<ProgramResponse>?): List<ProgramEntity> {
         val programEntities = mutableListOf<ProgramEntity>()
         type?.let { list ->
             list.forEach { programResponse ->
-                programEntities.add(ProgramEntity(programResponse.id, programResponse.name))
+                programEntities.add(ProgramEntity(programResponse.id, channelId, programResponse.name))
             }
         }
         return programEntities

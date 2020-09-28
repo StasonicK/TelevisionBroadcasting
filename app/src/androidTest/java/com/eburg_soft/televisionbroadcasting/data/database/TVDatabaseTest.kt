@@ -3,6 +3,7 @@ package com.eburg_soft.televisionbroadcasting.data.database
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.TVDatabase
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ChannelDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ProgramDao
 import org.junit.*
@@ -12,6 +13,8 @@ abstract class TVDatabaseTest {
     private lateinit var tvDatabase: TVDatabase
 
     fun getGroupDao(): GroupDao? = tvDatabase.groupDao()
+
+    fun getChannelDao(): ChannelDao? = tvDatabase.channelDao()
 
     fun getProgramDao(): ProgramDao? = tvDatabase.programDao()
 
@@ -25,7 +28,7 @@ abstract class TVDatabaseTest {
     }
 
     @After
-    fun finish(){
+    fun finish() {
         tvDatabase.close()
     }
 }

@@ -94,8 +94,8 @@ object TestUtil {
 
     //  for channel_2:
     val TEST_CHANNEL_ENTITY_2_1 = ChannelEntity("channel_201", "group_2", "channel_name_201", "logo_url_201")
-    val TEST_CHANNEL_ENTITY_2_2 = ChannelEntity("channel_201", "group_2", "channel_name_201", "logo_url_201")
-    val TEST_CHANNEL_ENTITY_2_3 = ChannelEntity("channel_201", "group_2", "channel_name_201", "logo_url_201")
+    val TEST_CHANNEL_ENTITY_2_2 = ChannelEntity("channel_202", "group_2", "channel_name_202", "logo_url_202")
+    val TEST_CHANNEL_ENTITY_2_3 = ChannelEntity("channel_203", "group_2", "channel_name_203", "logo_url_203")
     val TEST_CHANNEL_ENTITIES_2 =
         arrayListOf(TEST_CHANNEL_ENTITY_2_1, TEST_CHANNEL_ENTITY_2_2, TEST_CHANNEL_ENTITY_2_3)
 
@@ -154,10 +154,10 @@ object TestUtil {
     )
 
     //  test program entities
-    fun generateTestProgramEntities(id: Int, count: Int): List<ProgramEntity> {
+    fun generateTestProgramEntities(id: Int, count: Int, channelId: String): List<ProgramEntity> {
         val list = mutableListOf<ProgramEntity>()
         for (i in 0..count) {
-            list.add(ProgramEntity("program-$id-$i", "Передача $id-$i"))
+            list.add(ProgramEntity("program-$id-$i", channelId, "Передача $id-$i"))
         }
         return list
     }
