@@ -2,7 +2,6 @@ package com.eburg_soft.televisionbroadcasting.data.datasource.network
 
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.GroupResponse
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.ProgramResponse
-import io.reactivex.Flowable
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -10,13 +10,13 @@ object GroupMapper : BaseMapper<List<GroupResponse>, Map<GroupEntity, List<Chann
     override fun map(type: List<GroupResponse>?): Map<GroupEntity, List<ChannelEntity>> {
         val groupAndChannelMap = mutableMapOf<GroupEntity, List<ChannelEntity>>()
         var groupEntity: GroupEntity
-        val channelEntities = mutableListOf<ChannelEntity>()
 
         type?.let { groupResponses ->
             //  move to each GroupResponses from list
             groupResponses.forEach { groupResponse ->
                 //  create a GroupEntity
                 groupEntity = GroupEntity(groupResponse.id, groupResponse.name)
+                val channelEntities = mutableListOf<ChannelEntity>()
                 //  move to each ChannelResponses of list
                 groupResponse.channelResponses.forEach { channelResponse ->
                     //  add new ChannelEntity to the list
