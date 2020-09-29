@@ -14,8 +14,6 @@ import com.eburg_soft.televisionbroadcasting.data.repository.mappers.ProgramMapp
 import eburg_soft.televisionbroadcasting.utils.TestUtil
 import io.mockk.*
 import io.mockk.junit5.*
-import io.reactivex.Completable
-import io.reactivex.Single
 import org.junit.*
 import org.junit.jupiter.api.extension.*
 import org.junit.rules.*
@@ -106,7 +104,7 @@ class TVRepositoryTest {
         //  Arrange
         val id = 1
         val count = 10
-        val channelId = "1"
+        val channelId = 1
         val programResponses = Result.success(TestUtil.generateTestProgramResponses(1, count))
         val programEntities = TestUtil.generateTestProgramEntities(id, count, channelId)
 

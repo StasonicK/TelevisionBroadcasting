@@ -168,10 +168,10 @@ object TestUtil {
     )
 
     //  test program entities
-    fun generateTestProgramEntities(id: Int, count: Int, channelId: String): List<ProgramEntity> {
+    fun generateTestProgramEntities(idNumber: Int, count: Int, channelId: String): List<ProgramEntity> {
         val list = mutableListOf<ProgramEntity>()
         for (i in 0 until count) {
-            list.add(ProgramEntity("program-$id-$i", channelId, "Передача $id-$i"))
+            list.add(ProgramEntity("program-$idNumber-$i", channelId, "Передача $idNumber-$i"))
         }
         return list
     }

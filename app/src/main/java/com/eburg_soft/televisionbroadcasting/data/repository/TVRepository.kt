@@ -16,7 +16,7 @@ interface TVRepository {
 
     fun getChannelsById(id: String): Flowable<List<ChannelEntity>>
 
-    fun getProgramsById(id: String): Flowable<List<ProgramEntity>>
+    fun getProgramsByChannelId(channelId: String): Flowable<List<ProgramEntity>>
 
     fun removeAllGroups(): Completable
 

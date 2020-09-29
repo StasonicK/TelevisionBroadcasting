@@ -6,7 +6,7 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.Progr
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
-import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSource
+import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSourceImplTest
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.GroupMapper
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.ProgramMapper
 import io.reactivex.Completable
@@ -18,7 +18,7 @@ class TVRepositoryImpl @Inject constructor(
     private val groupDao: GroupDao,
     private val channelDao: ChannelDao,
     private val programDao: ProgramDao,
-    private val tvNetworkDataSourceImpl: TVNetworkDataSource,
+    private val tvNetworkDataSourceImpl: TVNetworkDataSourceImplTest,
     private val programMapper: ProgramMapper
 ) : TVRepository {
 
@@ -60,8 +60,8 @@ class TVRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun getProgramsById(id: String): Flowable<List<ProgramEntity>> {
-        return programDao.getProgramsById(id)
+    override fun getProgramsByChannelId(channelId: String): Flowable<List<ProgramEntity>> {
+        return programDao.getProgramsByChannelId(channelId)
             .subscribeOn(Schedulers.io())
     }
 

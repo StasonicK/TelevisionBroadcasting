@@ -1,10 +1,12 @@
 package com.eburg_soft.televisionbroadcasting.data.database
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import eburg_soft.televisionbroadcasting.utils.TestUtil
 import org.junit.*
+import org.junit.runner.*
 
-//@RunWith(AndroidJUnit4ClassRunner::class)
+@RunWith(AndroidJUnit4ClassRunner::class)
 class GroupDaoTest : TVDatabaseTest() {
 
     @Rule
@@ -56,6 +58,7 @@ class GroupDaoTest : TVDatabaseTest() {
         // delete
         getGroupDao()?.deleteAllGroups()?.blockingAwait()
 
+        // confirm the Groups table is empty
         getGroupDao()?.getAllGroups()
             ?.test()
             ?.assertValue { it ->
