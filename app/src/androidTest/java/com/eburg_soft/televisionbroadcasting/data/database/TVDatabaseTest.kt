@@ -24,7 +24,17 @@ abstract class TVDatabaseTest {
             ApplicationProvider.getApplicationContext(),
             TVDatabase::class.java
         )
+            // allowing main thread queries, just for testing
+            .allowMainThreadQueries()
             .build()
+
+//        RxAndroidPlugins.reset()
+//        RxJavaPlugins.reset()
+//
+//        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
+//        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
+//            Schedulers.trampoline()
+//        }
     }
 
     @After

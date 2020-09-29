@@ -5,10 +5,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
-import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupWithChannels
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Single
 
 @Dao
 interface ChannelDao {

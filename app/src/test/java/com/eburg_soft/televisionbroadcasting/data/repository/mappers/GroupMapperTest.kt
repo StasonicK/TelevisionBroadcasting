@@ -1,12 +1,7 @@
 package com.eburg_soft.televisionbroadcasting.data.repository.mappers
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import eburg_soft.televisionbroadcasting.utils.TestUtil
-import io.mockk.*
-import org.junit.*
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Test
-import org.junit.rules.*
 
 class GroupMapperTest {
 

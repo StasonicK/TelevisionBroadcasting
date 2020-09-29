@@ -49,11 +49,11 @@
         tools:listitem="@layout/item_groups_recycler" />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_text_list"
         android:layout_marginTop="@dimen/margin_vertical_very_small"
         android:layout_marginBottom="@dimen/margin_vertical_very_small"
-        android:layout_width="match_parent"
         android:gravity="center_horizontal"
-        android:layout_height="@dimen/height_text_list"
         android:orientation="horizontal">
 
         <ImageView
@@ -65,77 +65,71 @@
 
         <TextView
             android:id="@+id/tv_current_time"
-            android:text="@string/holder_current_time"
-            android:textSize="@dimen/text_size_normal"
-            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            />
+            android:text="@string/holder_current_time"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/tv_showcase"
-            android:text="@string/showcase"
-            android:textSize="@dimen/text_size_normal"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            />
+            android:text="@string/showcase"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/bt_television"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/television"
-            android:textSize="@dimen/text_size_normal"
-            android:textColor="@color/white"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            />
+            android:text="@string/television"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/bt_favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/favorites"
-            android:textSize="@dimen/text_size_normal"
-            android:textColor="@color/white"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            />
+            android:text="@string/favorites"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/bt_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search"
-            android:textSize="@dimen/text_size_normal"
-            android:textColor="@color/white"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            />
+            android:text="@string/search"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
 
         <ImageView
             android:id="@+id/img_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/outline_perm_identity_white_18"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/margin_horizontal_normal"
+            android:src="@drawable/outline_perm_identity_white_18"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/bt_messages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/message_count"
-            android:textSize="@dimen/text_size_normal"
-            android:textColor="@color/white"
             android:layout_gravity="center"
-            />
+            android:text="@string/message_count"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
 
     </LinearLayout>
 </LinearLayout>

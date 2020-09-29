@@ -10,7 +10,7 @@ interface TVRepository {
 
     fun saveGroupsAndChannelsFromApiToDb(): Completable
 
-    fun saveProgramsFromApiToDb(id:String, channelId:String): Completable
+    fun saveProgramsFromApiToDb(id: String, channelId: String): Completable
 
     fun getAllGroups(): Flowable<List<GroupEntity>>
 

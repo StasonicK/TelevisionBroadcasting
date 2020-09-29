@@ -5,12 +5,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity.Companion
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity.Companion.TABLE_NAME
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Entity(tableName = TABLE_NAME,
+@Entity(
+    tableName = TABLE_NAME,
     foreignKeys = [ForeignKey(
         entity = ChannelEntity::class,
         parentColumns = [ChannelEntity.COLUMN_ID],
@@ -18,7 +18,8 @@ import kotlinx.android.parcel.Parcelize
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE,
         deferred = true
-    )])
+    )]
+)
 data class ProgramEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_ID)

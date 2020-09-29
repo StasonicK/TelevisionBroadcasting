@@ -24,7 +24,6 @@ data class ChannelResponse(
     var logoUrl: String
 ) : Parcelable {}
 
-
 @Parcelize
 data class ProgramResponse(
     val id: String,

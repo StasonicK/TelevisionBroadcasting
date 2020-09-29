@@ -1,5 +1,6 @@
-package com.eburg_soft.televisionbroadcasting.data.datasource.network
+package com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource
 
+import com.eburg_soft.televisionbroadcasting.data.datasource.network.TVApi
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.exceptions.handleNetworkExceptions
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.GroupResponse
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.ProgramResponse
@@ -7,9 +8,9 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class TVNetworkDataSource @Inject constructor(private val tvApi: TVApi) {
+class TVNetworkDataSourceImpl @Inject constructor(private val tvApi: TVApi) : TVNetworkDataSource {
 
-    fun getGroupsAndChannelsFromApi(): Single<com.eburg_soft.televisionbroadcasting.core.datatype.Result<List<GroupResponse>>> {
+    override fun getGroupsAndChannelsFromApi(): Single<com.eburg_soft.televisionbroadcasting.core.datatype.Result<List<GroupResponse>>> {
         return Single.create {
             tvApi.getGroupsFromApi()
                 .subscribeOn(Schedulers.io())
@@ -21,7 +22,7 @@ class TVNetworkDataSource @Inject constructor(private val tvApi: TVApi) {
         }
     }
 
-    fun getProgramsFromApi(id: String): Single<com.eburg_soft.televisionbroadcasting.core.datatype.Result<List<ProgramResponse>>> {
+    override fun getProgramsFromApi(id: String): Single<com.eburg_soft.televisionbroadcasting.core.datatype.Result<List<ProgramResponse>>> {
         return Single.create {
             tvApi.getProgramsFromApi(id)
                 .subscribeOn(Schedulers.io())

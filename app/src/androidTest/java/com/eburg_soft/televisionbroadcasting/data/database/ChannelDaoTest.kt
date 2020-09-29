@@ -1,15 +1,41 @@
 package com.eburg_soft.televisionbroadcasting.data.database
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import eburg_soft.televisionbroadcasting.utils.TestUtil
 import org.junit.*
 import org.junit.Assert.*
+import org.junit.runner.*
 
+@RunWith(AndroidJUnit4ClassRunner::class)
 class ChannelDaoTest : TVDatabaseTest() {
 
     @Rule
     @JvmField
     var rule = InstantTaskExecutorRule()
+
+    /*
+        ChannelEntity
+        -   insert,
+        -   read
+     */
+    @Test
+    @Throws(Exception::class)
+    fun insertReadChannel() {
+        val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_2
+        val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_2)
+
+        // insert
+        getGroupDao()?.insertGroups(group)?.blockingAwait()
+        getChannelDao()?.insertChannels(resultChannels)?.blockingAwait()
+
+        // read
+        getChannelDao()?.getAllChannels()
+            ?.test()
+            ?.assertValue { it ->
+                return@assertValue it == resultChannels
+            }
+    }
 
     /*
         ChannelEntity
@@ -23,10 +49,10 @@ class ChannelDaoTest : TVDatabaseTest() {
         val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_2
 
         // insert
-        getChannelDao()?.insertChannels(resultChannels)?.blockingGet()
+        getChannelDao()?.insertChannels(resultChannels)?.test()
 
         // read
-        var insertedChannels = getChannelDao()?.getAllChannels()?.blockingFirst()
+        var insertedChannels = getChannelDao()?.getAllChannels()?.test()
         assertNotNull(insertedChannels)
         assertEquals(resultChannels, insertedChannels)
         println(insertedChannels)
@@ -36,7 +62,7 @@ class ChannelDaoTest : TVDatabaseTest() {
         getChannelDao()?.deleteAllChannels()?.blockingGet()
 
         // confirm the database is empty
-        insertedChannels = getChannelDao()?.getAllChannels()?.blockingFirst()
+        insertedChannels = getChannelDao()?.getAllChannels()?.test()
 //        assertEquals(0, insertedChannels?.size)
         println(insertedChannels)
         println(insertedChannels)
@@ -45,7 +71,7 @@ class ChannelDaoTest : TVDatabaseTest() {
     /*
         ChannelEntity
         -   insert,
-        -   read,
+        -   read by ReadChannelByGroupId(),
         -   delete
      */
     @Test

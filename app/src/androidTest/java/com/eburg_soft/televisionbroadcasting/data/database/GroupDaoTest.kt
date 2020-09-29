@@ -3,13 +3,34 @@ package com.eburg_soft.televisionbroadcasting.data.database
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import eburg_soft.televisionbroadcasting.utils.TestUtil
 import org.junit.*
-import org.junit.Assert.*
 
+//@RunWith(AndroidJUnit4ClassRunner::class)
 class GroupDaoTest : TVDatabaseTest() {
 
     @Rule
     @JvmField
     var rule = InstantTaskExecutorRule()
+
+    /*
+        GroupEntity
+        -   insert,
+        -   read
+     */
+    @Test
+    @Throws(Exception::class)
+    fun insertReadGroup() {
+        val resultGroups = listOf(TestUtil.TEST_GROUP_ENTITY_1)
+
+        // insert
+        getGroupDao()?.insertGroups(resultGroups)?.blockingAwait()
+
+        // read
+        getGroupDao()?.getAllGroups()
+            ?.test()
+            ?.assertValue { it ->
+                return@assertValue it == resultGroups
+            }
+    }
 
     /*
         GroupEntity
@@ -20,25 +41,26 @@ class GroupDaoTest : TVDatabaseTest() {
     @Test
     @Throws(Exception::class)
     fun insertReadDeleteGroup() {
-        val resultGroups = listOf(TestUtil.TEST_GROUP_ENTITY_1)
+        val resultGroups = listOf(TestUtil.TEST_GROUP_ENTITY_2)
 
         // insert
-        getGroupDao()?.insertGroups(resultGroups)?.blockingGet()
+        getGroupDao()?.insertGroups(resultGroups)?.blockingAwait()
 
         // read
-        var insertedGroups = getGroupDao()?.getAllGroups()?.blockingFirst()
-        assertNotNull(insertedGroups)
-        assertEquals(resultGroups, insertedGroups)
-        println(insertedGroups)
-        println(resultGroups)
+        getGroupDao()?.getAllGroups()
+            ?.test()
+            ?.assertValue { it ->
+                return@assertValue it == resultGroups
+            }
 
         // delete
         getGroupDao()?.deleteAllGroups()?.blockingAwait()
 
-        // confirm the database is empty
-        insertedGroups = getGroupDao()?.getAllGroups()?.blockingFirst ()
-        assertEquals(0, insertedGroups?.size)
-        println(insertedGroups)
+        getGroupDao()?.getAllGroups()
+            ?.test()
+            ?.assertValue { it ->
+                return@assertValue it.isEmpty()
+            }
     }
 
     /*

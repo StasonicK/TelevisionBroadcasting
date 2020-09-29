@@ -4,14 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
-import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
-import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupWithChannels
-import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Single
 
 @Dao
 interface GroupDao {

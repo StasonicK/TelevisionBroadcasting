@@ -6,7 +6,7 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.Progr
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
-import com.eburg_soft.televisionbroadcasting.data.datasource.network.TVNetworkDataSource
+import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSource
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.GroupMapper
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.ProgramMapper
 import io.reactivex.Completable
@@ -18,12 +18,12 @@ class TVRepositoryImpl @Inject constructor(
     private val groupDao: GroupDao,
     private val channelDao: ChannelDao,
     private val programDao: ProgramDao,
-    private val tvNetworkDataSource: TVNetworkDataSource,
+    private val tvNetworkDataSourceImpl: TVNetworkDataSource,
     private val programMapper: ProgramMapper
 ) : TVRepository {
 
     override fun saveGroupsAndChannelsFromApiToDb(): Completable {
-        return tvNetworkDataSource.getGroupsAndChannelsFromApi()
+        return tvNetworkDataSourceImpl.getGroupsAndChannelsFromApi()
             .map { it.data }
             .flatMapCompletable { list ->
                 val map = GroupMapper.map(list)
@@ -39,7 +39,7 @@ class TVRepositoryImpl @Inject constructor(
     }
 
     override fun saveProgramsFromApiToDb(id: String, channelId: String): Completable {
-        return tvNetworkDataSource.getProgramsFromApi(id)
+        return tvNetworkDataSourceImpl.getProgramsFromApi(id)
             .map { it.data }
             .flatMapCompletable { list ->
                 programMapper.setChannelId(channelId)
