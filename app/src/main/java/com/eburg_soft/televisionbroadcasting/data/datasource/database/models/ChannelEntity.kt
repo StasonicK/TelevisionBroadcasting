@@ -24,13 +24,13 @@ import kotlinx.android.parcel.Parcelize
 data class ChannelEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_ID, index = true)
-    val id: String,
+    val id: String = "",
     @ColumnInfo(name = COLUMN_GROUP_ID, index = true)
-    val groupId: String,
+    val groupId: String = "",
     @ColumnInfo(name = COLUMN_NAME)
-    val name: String,
+    val name: String = "",
     @ColumnInfo(name = COLUMN_LOGO_URL)
-    val logoUrl: String
+    val logoUrl: String = ""
 ) : Parcelable {
 
     companion object {

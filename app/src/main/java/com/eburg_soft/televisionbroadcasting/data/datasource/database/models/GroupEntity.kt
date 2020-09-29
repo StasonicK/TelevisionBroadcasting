@@ -12,9 +12,9 @@ import kotlinx.android.parcel.Parcelize
 data class GroupEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_ID, index = true)
-    val id: String,
+    val id: String = "",
     @ColumnInfo(name = COLUMN_NAME)
-    val name: String
+    val name: String = ""
 ) : Parcelable {
 
     companion object {

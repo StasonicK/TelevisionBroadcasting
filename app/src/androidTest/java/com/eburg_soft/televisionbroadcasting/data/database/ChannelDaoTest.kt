@@ -22,8 +22,8 @@ class ChannelDaoTest : TVDatabaseTest() {
     @Test
     @Throws(Exception::class)
     fun insertReadChannel() {
-        val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_2
-        val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_2)
+        val resultChannels = arrayListOf(TestUtil.TEST_CHANNEL_ENTITY_1_1)
+        val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_1)
 
         // insert
         getGroupDao()?.insertGroups(group)?.blockingAwait()
@@ -39,20 +39,22 @@ class ChannelDaoTest : TVDatabaseTest() {
 
     /*
         ChannelEntity
-        -   insert,
-        -   read,
-        -   delete
+        -   insert group, channels,
+        -   read channels,
+        -   delete all channels
      */
     @Test
     @Throws(Exception::class)
-    fun insertReadDeleteChannel() {
+    fun insertReadDeleteChannels() {
         val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_2
+        val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_2)
 
         // insert
-        getChannelDao()?.insertChannels(resultChannels)?.test()
+        getGroupDao()?.insertGroups(group)?.blockingAwait()
+        getChannelDao()?.insertChannels(resultChannels)?.blockingAwait()
 
         // read
-        var insertedChannels = getChannelDao()?.getAllChannels()?.test()
+        var insertedChannels = getChannelDao()?.getAllChannels()?.blockingFirst()
         assertNotNull(insertedChannels)
         assertEquals(resultChannels, insertedChannels)
         println(insertedChannels)
@@ -61,45 +63,130 @@ class ChannelDaoTest : TVDatabaseTest() {
         // delete
         getChannelDao()?.deleteAllChannels()?.blockingGet()
 
-        // confirm the database is empty
-        insertedChannels = getChannelDao()?.getAllChannels()?.test()
-//        assertEquals(0, insertedChannels?.size)
-        println(insertedChannels)
+        // confirm the Channels table is empty
+        insertedChannels = getChannelDao()?.getAllChannels()?.blockingFirst()
+        assertEquals(0, insertedChannels?.size)
         println(insertedChannels)
     }
 
     /*
         ChannelEntity
-        -   insert,
-        -   read by ReadChannelByGroupId(),
-        -   delete
+        -   insert group, channels,
+        -   read channels,
+        -   delete all groups
      */
     @Test
     @Throws(Exception::class)
-    fun insertReadChannelByGroupIdDeleteChannel() {
+    fun insertReadDeleteChannelsByDeletingGroups() {
         val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_2
-        val groupIds: ArrayList<String> = ArrayList()
-        resultChannels.forEach { it ->
-            groupIds.add(it.groupId)
-        }
+        val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_2)
 
         // insert
-        getChannelDao()?.insertChannels(resultChannels)?.blockingGet()
+        getGroupDao()?.insertGroups(group)?.blockingAwait()
+        getChannelDao()?.insertChannels(resultChannels)?.blockingAwait()
 
         // read
-        var insertedChannels = getChannelDao()?.getChannelByGroupId(groupIds[0])?.blockingFirst()
+        var insertedChannels = getChannelDao()?.getAllChannels()?.blockingFirst()
         assertNotNull(insertedChannels)
         assertEquals(resultChannels, insertedChannels)
         println(insertedChannels)
         println(resultChannels)
 
         // delete
-        getChannelDao()?.deleteAllChannels()?.blockingGet()
+        getGroupDao()?.deleteAllGroups()?.blockingAwait()
 
         // confirm the database is empty
         insertedChannels = getChannelDao()?.getAllChannels()?.blockingFirst()
-//        assertEquals(0, insertedChannels?.size)
+        assertEquals(0, insertedChannels?.size)
         println(insertedChannels)
-        println(insertedChannels)
+        val insertedGroups = getGroupDao()?.getAllGroups()?.blockingFirst()
+        assertEquals(0, insertedGroups?.size)
+        println(insertedGroups)
+    }
+
+    /*
+        ChannelEntity
+        -   insert group, channels,
+        -   read by ReadChannelByGroupId(),
+        -   delete all channels
+     */
+    @Test
+    @Throws(Exception::class)
+    fun insertReadChannelByGroupIdDeleteChannels() {
+        val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_3
+        val groupIds: ArrayList<String> = ArrayList()
+        resultChannels.forEach {
+            groupIds.add(it.groupId)
+        }
+        val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_3)
+
+        // insert
+        getGroupDao()?.insertGroups(group)?.blockingAwait()
+        getChannelDao()?.insertChannels(resultChannels)?.blockingGet()
+
+        // read
+        getChannelDao()?.getChannelByGroupId(groupIds[0])
+            ?.test()
+            ?.assertNoErrors()
+            ?.assertValue { it ->
+                return@assertValue it == resultChannels
+            }
+
+        // delete
+        getChannelDao()?.deleteAllChannels()?.blockingGet()
+
+        // confirm the Channels table is empty
+        getChannelDao()?.getAllChannels()
+            ?.test()
+            ?.assertNoErrors()
+            ?.assertValue { it ->
+                return@assertValue it.isEmpty()
+            }
+    }
+
+    /*
+        ChannelEntity
+        -   insert group, channels,
+        -   read by ReadChannelByGroupId(),
+        -   delete all groups
+     */
+    @Test
+    @Throws(Exception::class)
+    fun insertReadChannelByGroupIdDeleteChannelsByDeletingGroups() {
+        val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_3
+        val groupIds: ArrayList<String> = ArrayList()
+        resultChannels.forEach {
+            groupIds.add(it.groupId)
+        }
+        val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_3)
+
+        // insert
+        getGroupDao()?.insertGroups(group)?.blockingAwait()
+        getChannelDao()?.insertChannels(resultChannels)?.blockingGet()
+
+        // read
+        getChannelDao()?.getChannelByGroupId(groupIds[0])
+            ?.test()
+            ?.assertNoErrors()
+            ?.assertValue { it ->
+                return@assertValue it == resultChannels
+            }
+
+        // delete
+        getGroupDao()?.deleteAllGroups()?.blockingAwait()
+
+        // confirm the database is empty
+        getChannelDao()?.getAllChannels()
+            ?.test()
+            ?.assertNoErrors()
+            ?.assertValue { it ->
+                return@assertValue it.isEmpty()
+            }
+        getGroupDao()?.getAllGroups()
+            ?.test()
+            ?.assertNoErrors()
+            ?.assertValue { it ->
+                return@assertValue it.isEmpty()
+            }
     }
 }

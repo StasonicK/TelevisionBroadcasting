@@ -11,8 +11,14 @@ import io.reactivex.Flowable
 @Dao
 interface ProgramDao {
 
-    @Query("SELECT * FROM ${ProgramEntity.TABLE_NAME} WHERE ${ProgramEntity.COLUMN_ID} like :programId")
-    fun getProgramsById(programId: String): Flowable<List<ProgramEntity>>
+    @Query("SELECT * FROM ${ProgramEntity.TABLE_NAME}")
+    fun getAllPrograms(): Flowable<List<ProgramEntity>>
+
+    @Query("SELECT * FROM ${ProgramEntity.TABLE_NAME} WHERE ${ProgramEntity.COLUMN_ID} like :id")
+    fun getProgramById(id: String): Flowable<List<ProgramEntity>>
+
+    @Query("SELECT * FROM ${ProgramEntity.TABLE_NAME} WHERE ${ProgramEntity.COLUMN_CHANNEL_ID} like :programId")
+    fun getProgramsByChannelId(programId: String): Flowable<List<ProgramEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPrograms(programs: List<ProgramEntity>): Completable
