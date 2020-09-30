@@ -1,7 +1,12 @@
-package com.eburg_soft.televisionbroadcasting.data.di.presentation
+package com.eburg_soft.televisionbroadcasting.data.di.tvmenu
 
-import dagger.Component
+import com.eburg_soft.televisionbroadcasting.data.di.scopes.PerScreen
+import com.eburg_soft.televisionbroadcasting.presentation.main.TVMenuFragment
+import dagger.Subcomponent
 
-@Component
-interface PresentationComponent {
+@PerScreen
+@Subcomponent(modules = [TVMenuModule::class])
+interface TVMenuComponent {
+
+    fun inject(fragment: TVMenuFragment)
 }
