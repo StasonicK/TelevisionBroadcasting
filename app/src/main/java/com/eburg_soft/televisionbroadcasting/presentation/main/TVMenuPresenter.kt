@@ -9,13 +9,20 @@ import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveProgramsFromApi
 import javax.inject.Inject
 
 class TVMenuPresenter @Inject constructor(
-    private val getAllGroupsUseCase: GetAllGroupsUseCase,
-    private val getChannelsByGroupIdUseCase: GetChannelsByGroupIdUseCase,
-    private val getProgramsByChannelIdUseCase: GetProgramsByChannelIdUseCase,
-    private val saveGroupsAndChannelsFromApiToDbUseCase: SaveGroupsAndChannelsFromApiToDbUseCase,
-    private val saveProgramsFromApiToDbUseCase: SaveProgramsFromApiToDbUseCase,
-    private val removeAllGroupsUseCase: RemoveAllGroupsUseCase
+//    private val getAllGroupsUseCase: GetAllGroupsUseCase,
+//    private val getChannelsByGroupIdUseCase: GetChannelsByGroupIdUseCase,
+//    private val getProgramsByChannelIdUseCase: GetProgramsByChannelIdUseCase,
+//    private val saveGroupsAndChannelsFromApiToDbUseCase: SaveGroupsAndChannelsFromApiToDbUseCase,
+//    private val saveProgramsFromApiToDbUseCase: SaveProgramsFromApiToDbUseCase,
+//    private val removeAllGroupsUseCase: RemoveAllGroupsUseCase
 ) : TVMenuContract.Presenter() {
+
+    @Inject lateinit var getAllGroupsUseCase: GetAllGroupsUseCase
+    @Inject lateinit var getChannelsByGroupIdUseCase: GetChannelsByGroupIdUseCase
+    @Inject lateinit var getProgramsByChannelIdUseCase: GetProgramsByChannelIdUseCase
+    @Inject lateinit var saveGroupsAndChannelsFromApiToDbUseCase: SaveGroupsAndChannelsFromApiToDbUseCase
+    @Inject lateinit var saveProgramsFromApiToDbUseCase: SaveProgramsFromApiToDbUseCase
+    @Inject lateinit var removeAllGroupsUseCase: RemoveAllGroupsUseCase
 
     override fun syncData() {
         TODO("Not yet implemented")

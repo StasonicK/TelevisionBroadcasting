@@ -15,7 +15,7 @@ import javax.inject.Inject
 class TVMenuFragment : Fragment(), TVMenuContract.View {
 
     @Inject
-    private lateinit var presenter: TVMenuPresenter
+    lateinit var presenter: TVMenuContract.Presenter
 
     private val groupAdapter: GroupsAdapter? = null
 

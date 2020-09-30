@@ -1,12 +1,15 @@
 package com.eburg_soft.televisionbroadcasting.data.repository
 
+import com.eburg_soft.televisionbroadcasting.core.TVNetworkDataSource
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ChannelDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ProgramDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSourceImpl
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSourceImplTest
+import com.eburg_soft.televisionbroadcasting.data.di.context.TestContext
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.GroupMapper
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.ProgramMapper
 import io.reactivex.Completable
@@ -18,7 +21,7 @@ class TVRepositoryImpl @Inject constructor(
     private val groupDao: GroupDao,
     private val channelDao: ChannelDao,
     private val programDao: ProgramDao,
-    private val tvNetworkDataSourceImpl: TVNetworkDataSourceImplTest,
+    @TestContext private val tvNetworkDataSourceImpl: TVNetworkDataSource,
     private val programMapper: ProgramMapper
 ) : TVRepository {
 
