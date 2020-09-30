@@ -1,6 +1,6 @@
 package com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource
 
-import com.eburg_soft.televisionbroadcasting.core.datatype.Result
+import com.eburg_soft.televisionbroadcasting.core.TVNetworkDataSource
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.GroupResponse
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.ProgramResponse
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TestData.TEST_GROUP_RESPONSES
@@ -9,9 +9,9 @@ import io.reactivex.Single
 
 class TVNetworkDataSourceImplTest : TVNetworkDataSource {
 
-    override fun getGroupsAndChannelsFromApi(): Single<Result<List<GroupResponse>>> =
-        Single.just(Result.success(TEST_GROUP_RESPONSES))
+    override fun getGroupsAndChannelsFromApi(): Single<List<GroupResponse>> =
+        Single.just(TEST_GROUP_RESPONSES)
 
-    override fun getProgramsFromApi(id: String): Single<Result<List<ProgramResponse>>> =
-        Single.just(Result.success(generateTestProgramResponses(id.toInt(), 10)))
+    override fun getProgramsFromApi(id: String): Single<List<ProgramResponse>> =
+        Single.just(generateTestProgramResponses(id.toInt(), 10))
 }

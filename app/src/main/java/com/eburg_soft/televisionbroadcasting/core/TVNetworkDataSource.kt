@@ -1,4 +1,4 @@
-package com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource
+package com.eburg_soft.televisionbroadcasting.core
 
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.GroupResponse
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.ProgramResponse

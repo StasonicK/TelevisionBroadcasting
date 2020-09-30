@@ -24,7 +24,6 @@ class TVRepositoryImpl @Inject constructor(
 
     override fun saveGroupsAndChannelsFromApiToDb(): Completable {
         return tvNetworkDataSourceImpl.getGroupsAndChannelsFromApi()
-            .map { it.data }
             .flatMapCompletable { list ->
                 val map = GroupMapper.map(list)
                 val groups = map.keys.toList().sortedBy { it.id }
@@ -40,7 +39,6 @@ class TVRepositoryImpl @Inject constructor(
 
     override fun saveProgramsFromApiToDb(id: String, channelId: String): Completable {
         return tvNetworkDataSourceImpl.getProgramsFromApi(id)
-            .map { it.data }
             .flatMapCompletable { list ->
                 programMapper.setChannelId(channelId)
                 val programEntities = programMapper.map(list)
@@ -54,9 +52,8 @@ class TVRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun getChannelsById(id: String): Flowable<List<ChannelEntity>> {
-//        return groupDao.getChannelByGroupId(id)
-        return channelDao.getChannelByGroupId(id)
+    override fun getChannelsByGroupId(groupId: String): Flowable<List<ChannelEntity>> {
+        return channelDao.getChannelsByGroupId(groupId)
             .subscribeOn(Schedulers.io())
     }
 
@@ -71,7 +68,6 @@ class TVRepositoryImpl @Inject constructor(
     }
 
     override fun removeAllChannels(): Completable {
-//        return groupDao.deleteAllChannels()
         return channelDao.deleteAllChannels()
             .subscribeOn(Schedulers.io())
     }

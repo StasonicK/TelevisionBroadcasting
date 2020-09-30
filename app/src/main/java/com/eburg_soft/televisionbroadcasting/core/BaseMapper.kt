@@ -1,4 +1,4 @@
-package com.eburg_soft.televisionbroadcasting.data.repository.mappers
+package com.eburg_soft.televisionbroadcasting.core
 
 interface BaseMapper<in A, out B> {
 
