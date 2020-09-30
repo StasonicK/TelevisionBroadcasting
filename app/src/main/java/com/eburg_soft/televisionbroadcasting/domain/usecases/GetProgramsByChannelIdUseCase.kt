@@ -5,11 +5,7 @@ import com.eburg_soft.televisionbroadcasting.data.repository.TVRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class GetProgramsByChannelIdUseCase //@Inject constructor()
-@Inject constructor(private val repository: TVRepository)
-{
+class GetProgramsByChannelIdUseCase @Inject constructor(private val repository: TVRepository) {
 
-//    @Inject
-//    lateinit var repository: TVRepository
     fun execute(channelId: String): Flowable<List<ProgramEntity>> = repository.getProgramsByChannelId(channelId)
 }

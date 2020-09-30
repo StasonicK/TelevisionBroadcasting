@@ -7,35 +7,38 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.Progr
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
-import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSourceImpl
-import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSourceImplTest
-import com.eburg_soft.televisionbroadcasting.data.di.context.TestContext
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.GroupMapper
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.ProgramMapper
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import javax.inject.Named
 
 class TVRepositoryImpl @Inject constructor(
     private val groupDao: GroupDao,
     private val channelDao: ChannelDao,
     private val programDao: ProgramDao,
-    @TestContext private val tvNetworkDataSourceImpl: TVNetworkDataSource,
+    @Named("test") private val tvNetworkDataSourceImpl: TVNetworkDataSource,
     private val programMapper: ProgramMapper
 ) : TVRepository {
 
-    override fun saveGroupsAndChannelsFromApiToDb(): Completable {
+    override fun saveGroupsAndChannelsFromApiToDbReturnIds(): Single<ArrayList<String>> {
         return tvNetworkDataSourceImpl.getGroupsAndChannelsFromApi()
-            .flatMapCompletable { list ->
+            .flatMap { list ->
                 val map = GroupMapper.map(list)
                 val groups = map.keys.toList().sortedBy { it.id }
                 val channels = mutableListOf<ChannelEntity>()
                 map.values.forEach { list1 -> channels.addAll(list1.sortedBy { it.id }) }
                 //  insert
                 groupDao.insertGroups(groups)
-//                groupDao.insertChannels(channels)
                 channelDao.insertChannels(channels)
+                val ids: ArrayList<String> = ArrayList()
+                channels.forEach { channelEntity ->
+                    ids.add(channelEntity.id.substringAfterLast("-"))
+                }
+                Single.just((ids))
             }
             .subscribeOn(Schedulers.io())
     }

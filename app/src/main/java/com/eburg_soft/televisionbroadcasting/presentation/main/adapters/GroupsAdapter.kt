@@ -18,7 +18,7 @@ class GroupsAdapter : BaseAdapter<GroupEntity, GroupsAdapter.GroupViewHolder>(Gr
     class GroupViewHolder(view1: View) : BaseViewHolder(view1) {
         init {
             itemView.setOnClickListener {
-                onClick?.onClick(item,it)
+                onClick?.onClick(item, it)
             }
         }
 

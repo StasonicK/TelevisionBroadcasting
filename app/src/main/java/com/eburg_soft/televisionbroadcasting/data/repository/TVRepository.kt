@@ -5,10 +5,11 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Gro
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 interface TVRepository {
 
-    fun saveGroupsAndChannelsFromApiToDb(): Completable
+    fun saveGroupsAndChannelsFromApiToDbReturnIds(): Single<ArrayList<String>>
 
     fun saveProgramsFromApiToDb(id: String, channelId: String): Completable
 

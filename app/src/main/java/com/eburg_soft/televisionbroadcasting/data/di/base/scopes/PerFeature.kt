@@ -1,4 +1,4 @@
-package com.eburg_soft.televisionbroadcasting.data.di.scopes
+package com.eburg_soft.televisionbroadcasting.data.di.base.scopes
 
 import java.lang.annotation.Documented
 import java.lang.annotation.Retention
