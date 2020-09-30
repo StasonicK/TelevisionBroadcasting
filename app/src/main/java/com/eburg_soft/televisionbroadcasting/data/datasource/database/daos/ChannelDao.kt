@@ -15,8 +15,7 @@ interface ChannelDao {
     fun getAllChannels(): Flowable<List<ChannelEntity>>
 
     @Query("SELECT * from ${ChannelEntity.TABLE_NAME} WHERE ${ChannelEntity.COLUMN_GROUP_ID}=:groupId")
-//    fun getChannelByGroupId(groupId: String): Flowable<List<GroupWithChannels>>
-    fun getChannelByGroupId(groupId: String): Flowable<List<ChannelEntity>>
+    fun getChannelsByGroupId(groupId: String): Flowable<List<ChannelEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertChannels(channels: List<ChannelEntity>): Completable

@@ -7,7 +7,7 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.Group
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ProgramDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.TVApi
-import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSource
+import com.eburg_soft.televisionbroadcasting.core.TVNetworkDataSource
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSourceImpl
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.GroupMapper
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.ProgramMapper

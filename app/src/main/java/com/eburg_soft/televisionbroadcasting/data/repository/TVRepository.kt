@@ -14,7 +14,7 @@ interface TVRepository {
 
     fun getAllGroups(): Flowable<List<GroupEntity>>
 
-    fun getChannelsById(id: String): Flowable<List<ChannelEntity>>
+    fun getChannelsByGroupId(groupId: String): Flowable<List<ChannelEntity>>
 
     fun getProgramsByChannelId(channelId: String): Flowable<List<ProgramEntity>>
 

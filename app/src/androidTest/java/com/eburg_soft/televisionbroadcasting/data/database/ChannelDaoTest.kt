@@ -125,7 +125,7 @@ class ChannelDaoTest : TVDatabaseTest() {
         getChannelDao()?.insertChannels(resultChannels)?.blockingGet()
 
         // read
-        getChannelDao()?.getChannelByGroupId(groupIds[0])
+        getChannelDao()?.getChannelsByGroupId(groupIds[0])
             ?.test()
             ?.assertNoErrors()
             ?.assertValue { it ->
@@ -165,7 +165,7 @@ class ChannelDaoTest : TVDatabaseTest() {
         getChannelDao()?.insertChannels(resultChannels)?.blockingGet()
 
         // read
-        getChannelDao()?.getChannelByGroupId(groupIds[0])
+        getChannelDao()?.getChannelsByGroupId(groupIds[0])
             ?.test()
             ?.assertNoErrors()
             ?.assertValue { it ->
