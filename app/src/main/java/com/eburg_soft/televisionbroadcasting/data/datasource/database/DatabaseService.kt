@@ -5,7 +5,7 @@ import androidx.room.Room
 
 object DatabaseService {
 
-    private const val DATABASE_NAME = "tv.db"
+    private const val DATABASE_NAME = "TV.db"
 
     fun createDatabase(applicationContext: Context): TVDatabase {
         return Room.databaseBuilder(

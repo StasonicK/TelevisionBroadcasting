@@ -1,6 +1,6 @@
 package com.eburg_soft.televisionbroadcasting.data.di.application
 
-import android.app.Application
+import android.content.Context
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.DatabaseService
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.TVDatabase
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ChannelDao
@@ -11,11 +11,11 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DatabaseModule(val application: Application) {
+class DatabaseModule() {
 
     @Singleton
     @Provides
-    fun provideDatabase(): TVDatabase = DatabaseService.createDatabase(application.applicationContext)
+    fun provideDatabase(context: Context): TVDatabase = DatabaseService.createDatabase(context)
 
     @Singleton
     @Provides

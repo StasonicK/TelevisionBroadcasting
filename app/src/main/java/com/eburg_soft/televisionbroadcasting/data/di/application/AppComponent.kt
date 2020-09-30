@@ -1,12 +1,16 @@
 package com.eburg_soft.televisionbroadcasting.data.di.application
 
+import android.app.Application
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
+import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, NetworkModule::class, DatabaseModule::class])
+@Component(modules = [AppContextModule::class, NetworkModule::class, DatabaseModule::class, RepositoryModule::class, UseCaseModule::class, NetworkDataSourceModule::class])
 interface AppComponent {
 
-    fun tvMenuComponent(): TVMenuComponent
+    fun createTVMenuComponent(tvMenuContextModule: TVMenuContextModule): TVMenuComponent
+
+    fun inject(app: Application)
 }

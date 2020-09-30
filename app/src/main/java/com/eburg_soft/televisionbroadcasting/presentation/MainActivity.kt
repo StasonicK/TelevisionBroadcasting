@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.frame_container,
                     TVMenuFragment.getNewInstance()
                 )
-                .addToBackStack(null)
+//                .addToBackStack(null)
                 .commitNow()
         }
     }

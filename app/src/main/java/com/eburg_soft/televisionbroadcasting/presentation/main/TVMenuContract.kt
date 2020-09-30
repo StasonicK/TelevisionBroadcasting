@@ -6,7 +6,7 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Gro
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 
 interface TVMenuContract {
-    interface View:BaseContract.View {
+    interface View : BaseContract.View {
 
         fun showLoading()
 
@@ -23,12 +23,13 @@ interface TVMenuContract {
         fun openProgramsList(program: ProgramEntity)
     }
 
-    abstract class Presenter:BaseContract.Presenter<View>() {
+    abstract class Presenter : BaseContract.Presenter<View>() {
 
         abstract fun syncData()
 
         abstract fun loadGroupsFromDb()
-        abstract fun loadChannelsByGroupIdFromDb()
-        abstract fun loadProgramsByChannelIdFromDb()
+        abstract fun loadChannelsByGroupIdFromDb(groupId: String)
+        abstract fun loadProgramsByChannelIdFromDb(channelId: String)
+        abstract fun removeAllGroups()
     }
 }
