@@ -6,8 +6,9 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.Prog
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TestData.TEST_GROUP_RESPONSES
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TestData.generateTestProgramResponses
 import io.reactivex.Single
+import javax.inject.Inject
 
-class TVNetworkDataSourceImplTest : TVNetworkDataSource {
+class TVNetworkDataSourceImplTest @Inject constructor() : TVNetworkDataSource {
 
     override fun getGroupsAndChannelsFromApi(): Single<List<GroupResponse>> =
         Single.just(TEST_GROUP_RESPONSES)

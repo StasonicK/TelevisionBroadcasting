@@ -23,16 +23,16 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
 
     private val groupAdapter: GroupsAdapter? = null
 
-    private fun getTVMenuComponent(context: Context): TVMenuComponent =
-        (context.applicationContext as TelevisionBroadcastingApp)
-            .component
-            .createTVMenuComponent(TVMenuContextModule(context))
-
     companion object {
 
         @JvmStatic
         fun getNewInstance(): TVMenuFragment = TVMenuFragment()
     }
+
+    private fun getTVMenuComponent(context: Context): TVMenuComponent =
+        (context.applicationContext as TelevisionBroadcastingApp)
+            .component
+            .createTVMenuComponent(TVMenuContextModule(context))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

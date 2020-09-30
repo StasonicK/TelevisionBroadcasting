@@ -10,5 +10,6 @@ class TVMenuContextModule(private val context: Context) {
 
     @Provides
     @PerScreen
+//    @PerScreenContext
     fun provideContext(): Context = context
 }

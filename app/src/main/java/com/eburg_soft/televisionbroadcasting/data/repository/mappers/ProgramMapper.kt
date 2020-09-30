@@ -3,8 +3,9 @@ package com.eburg_soft.televisionbroadcasting.data.repository.mappers
 import com.eburg_soft.televisionbroadcasting.core.BaseMapper
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.ProgramResponse
+import javax.inject.Inject
 
-class ProgramMapper : BaseMapper<List<ProgramResponse>, List<ProgramEntity>> {
+class ProgramMapper @Inject constructor() : BaseMapper<List<ProgramResponse>, List<ProgramEntity>> {
 
     private var channelId = ""
 

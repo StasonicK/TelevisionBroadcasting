@@ -7,7 +7,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, NetworkModule::class, DatabaseModule::class])
+@Component(modules = [AppContextModule::class, NetworkModule::class, DatabaseModule::class, RepositoryModule::class, UseCaseModule::class, NetworkDataSourceModule::class])
 interface AppComponent {
 
     fun createTVMenuComponent(tvMenuContextModule: TVMenuContextModule): TVMenuComponent

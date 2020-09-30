@@ -7,9 +7,9 @@ import dagger.Module
 import javax.inject.Singleton
 
 @Module
-interface RepositoryModule {
+abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    fun providesRepository(repository: TVRepositoryImpl): TVRepository
+    abstract fun providesRepository(repository: TVRepositoryImpl): TVRepository
 }

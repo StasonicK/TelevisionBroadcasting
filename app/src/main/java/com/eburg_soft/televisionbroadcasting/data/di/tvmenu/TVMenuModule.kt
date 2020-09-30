@@ -5,7 +5,6 @@ import com.eburg_soft.televisionbroadcasting.presentation.main.TVMenuContract
 import com.eburg_soft.televisionbroadcasting.presentation.main.TVMenuPresenter
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 
 @Module
 interface TVMenuModule {
