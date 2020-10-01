@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="vertical"
+        tools:context=".presentation.main.TVMenuFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_days_list"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_text_list"
+            android:layout_marginTop="@dimen/margin_vertical_small"
+            tools:listitem="@layout/item_days_recycler" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_programs_list"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_program_item"
+            android:layout_marginTop="@dimen/margin_vertical_very_small"
+            tools:listitem="@layout/item_programs_recycler" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_very_small">
+
+            <View
+                android:layout_width="@dimen/width_line_over_channel_items"
+                android:layout_height="@dimen/height_line_over_channel_items"
+                android:layout_gravity="center|top"
+                android:background="@color/blue" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_channel_list"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_channel_item"
+                android:layout_marginTop="@dimen/margin_vertical_very_small"
+                tools:listitem="@layout/item_channels_recycler" />
+
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_group_list"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_text_list"
+            android:layout_marginTop="@dimen/margin_vertical_very_small"
+            tools:listitem="@layout/item_groups_recycler" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_text_list"
+            android:layout_marginTop="@dimen/margin_vertical_very_small"
+            android:layout_marginBottom="@dimen/margin_vertical_very_small"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_horizontal_normal"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tv_current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_horizontal_normal"
+                android:text="@string/holder_current_time"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/tv_showcase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_horizontal_normal"
+                android:text="@string/showcase"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/bt_television"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_horizontal_normal"
+                android:text="@string/television"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/bt_favorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_horizontal_normal"
+                android:text="@string/favorites"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/bt_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_horizontal_normal"
+                android:text="@string/search"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal" />
+
+            <ImageView
+                android:id="@+id/img_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_horizontal_normal"
+                android:src="@drawable/outline_perm_identity_white_18"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/bt_messages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/message_count"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
