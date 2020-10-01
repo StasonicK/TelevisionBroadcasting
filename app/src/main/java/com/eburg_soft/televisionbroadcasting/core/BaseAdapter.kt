@@ -17,14 +17,10 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
         holder.onClick = onClick
     }
 
-    fun setOnClick(click: (Any?, View) -> Unit, longClick: (Any?, View) -> Unit = { _, _ -> }) {
+    fun setOnClick(click: (Any?, View) -> Unit) {
         onClick = object : OnClick {
             override fun onClick(item: Any?, view: View) {
                 click(item, view)
-            }
-
-            override fun onLongClick(item: Any?, view: View) {
-                longClick(item, view)
             }
         }
     }
@@ -32,7 +28,6 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
     interface OnClick {
 
         fun onClick(item: Any?, view: View)
-        fun onLongClick(item: Any?, view: View)
     }
 
     abstract class BaseViewHolder(protected val view: View) : RecyclerView.ViewHolder(view) {
@@ -43,10 +38,6 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
         init {
             view.setOnClickListener {
                 onClick?.onClick(item, it)
-            }
-            view.setOnLongClickListener {
-                onClick?.onLongClick(item, it)
-                true
             }
         }
 

@@ -10,12 +10,13 @@ import kotlinx.android.synthetic.main.item_groups_recycler.view.tv_group_name
 
 class GroupsAdapter : BaseAdapter<GroupEntity, GroupsAdapter.GroupViewHolder>(GroupsDiffCallback()) {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val view = parent.inflate(R.layout.item_groups_recycler)
         return GroupViewHolder(view)
     }
 
-    class GroupViewHolder(view1: View) : BaseViewHolder(view1) {
+    class GroupViewHolder(view: View) : BaseViewHolder(view) {
         init {
             itemView.setOnClickListener {
                 onClick?.onClick(item, it)
