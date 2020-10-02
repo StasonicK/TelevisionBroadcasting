@@ -14,10 +14,9 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Gro
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsAdapter
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdapter
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsRecyclerAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsRecyclerAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsRecyclerAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.pb_main
 import kotlinx.android.synthetic.main.fragment_tv_menu1.recycler_channel_list
@@ -31,10 +30,13 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
     @Inject
     lateinit var presenter: TVMenuContract.Presenter
 
-    private val groupAdapter: GroupsAdapter? = null
-    private val channelsAdapter: ChannelsAdapter? = null
-    private val programsAdapter: ProgramsAdapter? = null
-    private val dayAdapter: DaysAdapter? = null
+    //    private val groupAdapter: GroupsAdapter? = null
+//    private val channelsAdapter: ChannelsAdapter? = null
+//    private val programsAdapter: ProgramsAdapter? = null
+    private val groupAdapter: GroupsRecyclerAdapter? = null
+    private val channelsAdapter: ChannelsRecyclerAdapter? = null
+    private val programsAdapter: ProgramsRecyclerAdapter? = null
+//    private val dayAdapter: DaysAdapter? = null
 
     private var groupId: String? = null
     private var channelId: String? = null
@@ -68,9 +70,6 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
             dayId = it.getString(DAY_ID)
         }
         getTVMenuComponent(requireContext()).inject(this)
-
-
-
     }
 
     override fun onCreateView(
@@ -118,15 +117,15 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
     }
 
     override fun submitGroupsList(list: List<GroupEntity>) {
-        groupAdapter?.submitList(list)
+        groupAdapter?.setData(list)
     }
 
     override fun submitChannelsList(list: List<ChannelEntity>) {
-        channelsAdapter?.submitList(list)
+        channelsAdapter?.setData(list)
     }
 
     override fun submitProgramsList(list: List<ProgramEntity>) {
-        programsAdapter?.submitList(list)
+        programsAdapter?.setData(list)
     }
 
     override fun showNetworkErrorMessage(message: String) {
@@ -143,7 +142,7 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
                     presenter.loadChannelsByGroupIdFromDb(it.id)
                     groupId = it.id
                 }
-                view.isFocusable = true
+                view?.isFocusable = true
             }
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             presenter.loadGroupsFromDb()
@@ -159,7 +158,7 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
                     presenter.loadProgramsByChannelIdFromDb(any.id)
                     channelId = any.id
                 }
-                view.isFocusable = true
+                view?.isFocusable = true
             }
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 //            val groups = groupAdapter?.currentList
@@ -179,7 +178,7 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
                     presenter.loadProgramsByChannelIdFromDb(any.id)
                     programId = any.id
                 }
-                view.isFocusable = true
+                view?.isFocusable = true
             }
         }
         Timber.d("showProgramsList accomplished")
