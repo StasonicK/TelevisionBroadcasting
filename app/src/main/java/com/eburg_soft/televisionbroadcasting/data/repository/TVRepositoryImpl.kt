@@ -1,5 +1,6 @@
 package com.eburg_soft.televisionbroadcasting.data.repository
 
+import com.eburg_soft.televisionbroadcasting.core.Constants
 import com.eburg_soft.televisionbroadcasting.core.TVNetworkDataSource
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ChannelDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupDao
@@ -20,7 +21,7 @@ class TVRepositoryImpl @Inject constructor(
     private val groupDao: GroupDao,
     private val channelDao: ChannelDao,
     private val programDao: ProgramDao,
-    @Named("test") private val tvNetworkDataSourceImpl: TVNetworkDataSource,
+    @Named(Constants.PRODUCTIVE_VERSION) private val tvNetworkDataSourceImpl: TVNetworkDataSource,
     private val programMapper: ProgramMapper
 ) : TVRepository {
 

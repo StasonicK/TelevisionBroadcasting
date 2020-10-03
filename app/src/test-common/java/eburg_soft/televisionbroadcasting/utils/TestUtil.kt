@@ -1,11 +1,16 @@
 package eburg_soft.televisionbroadcasting.utils
 
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.ChannelResponse
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.GroupResponse
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.ProgramResponse
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.GregorianCalendar
 
 object TestUtil {
 
@@ -174,5 +179,29 @@ object TestUtil {
             list.add(ProgramEntity("program-$idNumber-$i", channelId, "Передача $idNumber-$i"))
         }
         return list
+    }
+
+    //  test day entities
+    fun generateDayEntities(startDate: String, endDate: String): List<DayEntity> {
+        var id = 0
+        val pattern = "dd.MM.yyyy"
+        val patternToString = "dd MMMM yyyy"
+        val dateFormat = SimpleDateFormat(pattern)
+
+        val start: Date? = dateFormat.parse(startDate)
+        val end: Date? = dateFormat.parse(endDate)
+        val calendar = GregorianCalendar();
+        calendar.time = start;
+
+        val totalDates: MutableList<DayEntity> = ArrayList()
+
+        while (calendar.time.before(end)) {
+            val date = SimpleDateFormat(patternToString).format(calendar.time)
+            totalDates.add(DayEntity(id.toString(), date))
+
+            calendar.add(Calendar.DATE, 1)
+            id += 1
+        }
+        return totalDates
     }
 }

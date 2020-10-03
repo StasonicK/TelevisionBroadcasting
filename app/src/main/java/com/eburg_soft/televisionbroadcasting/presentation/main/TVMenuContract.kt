@@ -18,9 +18,9 @@ interface TVMenuContract {
 
         fun showNetworkErrorMessage(message: String)
 
-        fun showGroupsRecycler(grId:String?)
-        fun showChannelsRecycler(chId:String?)
-        fun showProgramsRecycler(prId:String?)
+        fun showGroupsRecycler(grId: String?)
+        fun showChannelsRecycler(chId: String?)
+        fun showProgramsRecycler(prId: String?)
     }
 
     abstract class Presenter : BaseContract.Presenter<View>() {

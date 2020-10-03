@@ -7,59 +7,60 @@ import org.junit.*
 import org.junit.runner.*
 
 @RunWith(AndroidJUnit4ClassRunner::class)
-class GroupDaoTest : TVDatabaseTest() {
+class DayDaoTest : TVDatabaseTest() {
 
     @Rule
     @JvmField
     var rule = InstantTaskExecutorRule()
 
     /*
-        GroupEntity
+        DayEntity
         -   insert,
         -   read
      */
     @Test
     @Throws(Exception::class)
-    fun insertReadGroup() {
-        val resultGroups = listOf(TestUtil.TEST_GROUP_ENTITY_1)
+    fun insertReadDays() {
+        val expectedDays = TestUtil.generateDayEntities("01.06.2020", "04.06.2020")
 
         // insert
-        getGroupDao()?.insertGroups(resultGroups)?.blockingAwait()
+        getDayDao()?.insertDays(expectedDays)?.blockingAwait()
 
         // read
-        getGroupDao()?.getAllGroups()
+        getDayDao()?.getAllDays()
             ?.test()
+            ?.assertNoErrors()
             ?.assertValue { it ->
-                return@assertValue it == resultGroups
+                return@assertValue it == expectedDays
             }
     }
 
     /*
-        GroupEntity
+        DayEntity
         -   insert,
         -   read,
         -   delete
      */
     @Test
     @Throws(Exception::class)
-    fun insertReadDeleteGroup() {
-        val resultGroups = listOf(TestUtil.TEST_GROUP_ENTITY_2)
+    fun insertReadDeleteDays() {
+        val expectedDays = TestUtil.generateDayEntities("01.01.2020", "01.02.2020")
 
         // insert
-        getGroupDao()?.insertGroups(resultGroups)?.blockingAwait()
+        getDayDao()?.insertDays(expectedDays)?.blockingAwait()
 
         // read
-        getGroupDao()?.getAllGroups()
+        getDayDao()?.getAllDays()
             ?.test()
             ?.assertValue { it ->
-                return@assertValue it == resultGroups
+                return@assertValue it == expectedDays
             }
 
         // delete
-        getGroupDao()?.deleteAllGroups()?.blockingAwait()
+        getDayDao()?.deleteAllDays()?.blockingAwait()
 
-        // confirm the Groups table is empty
-        getGroupDao()?.getAllGroups()
+        // confirm the Days table is empty
+        getDayDao()?.getAllDays()
             ?.test()
             ?.assertValue { it ->
                 return@assertValue it.isEmpty()

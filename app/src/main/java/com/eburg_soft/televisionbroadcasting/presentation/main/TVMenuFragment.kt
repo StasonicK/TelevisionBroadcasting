@@ -15,6 +15,7 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Pro
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsRecyclerAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysRecyclerAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsRecyclerAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsRecyclerAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -30,13 +31,10 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
     @Inject
     lateinit var presenter: TVMenuContract.Presenter
 
-    //    private val groupAdapter: GroupsAdapter? = null
-//    private val channelsAdapter: ChannelsAdapter? = null
-//    private val programsAdapter: ProgramsAdapter? = null
     private val groupAdapter: GroupsRecyclerAdapter? = null
     private val channelsAdapter: ChannelsRecyclerAdapter? = null
     private val programsAdapter: ProgramsRecyclerAdapter? = null
-//    private val dayAdapter: DaysAdapter? = null
+    private val dayAdapter: DaysRecyclerAdapter? = null
 
     private var groupId: String? = null
     private var channelId: String? = null
@@ -61,15 +59,13 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
 
-        savedInstanceState?.let {
-            groupId = it.getString(GROUP_ID)
-            channelId = it.getString(CHANNEL_ID)
-            programId = it.getString(PROGRAM_ID)
-            dayId = it.getString(DAY_ID)
-        }
         getTVMenuComponent(requireContext()).inject(this)
+        presenter.attach(this)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -82,6 +78,16 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        retainInstance = true
+
+        savedInstanceState?.let {
+            groupId = it.getString(GROUP_ID)
+            channelId = it.getString(CHANNEL_ID)
+            programId = it.getString(PROGRAM_ID)
+            dayId = it.getString(DAY_ID)
+        }
+
         showGroupsRecycler(groupId)
         showChannelsRecycler(channelId)
         showProgramsRecycler(programId)
@@ -99,6 +105,7 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
     override fun onStart() {
         super.onStart()
         presenter.attach(this)
+        presenter.syncData()
     }
 
     override fun onStop() {

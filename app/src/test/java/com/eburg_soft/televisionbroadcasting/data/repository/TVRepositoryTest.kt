@@ -2,7 +2,6 @@ package com.eburg_soft.televisionbroadcasting.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.eburg_soft.televisionbroadcasting.core.TVNetworkDataSource
-import com.eburg_soft.televisionbroadcasting.core.datatype.Result
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ChannelDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ProgramDao
@@ -71,8 +70,8 @@ class TVRepositoryTest {
     @Throws(Exception::class)
     fun saveGroupsAndChannelsFromApiToDb() {
         //  Arrange
-        val result = Result.success(TestUtil.TEST_GROUP_RESPONSES)
-        val map = GroupMapper.map(result.data)
+        val result = TestUtil.TEST_GROUP_RESPONSES
+        val map = GroupMapper.map(result)
         val groups = map.keys.toList().sortedBy { it.id }
         val channels = mutableListOf<ChannelEntity>()
         map.values.forEach { list1 -> channels.addAll(list1.sortedBy { it.id }) }
@@ -105,8 +104,8 @@ class TVRepositoryTest {
         val id = 1
         val count = 10
         val channelId = 1
-        val programResponses = Result.success(TestUtil.generateTestProgramResponses(1, count))
-        val programEntities = TestUtil.generateTestProgramEntities(id, count, channelId)
+        val programResponses = TestUtil.generateTestProgramResponses(1, count)
+        val programEntities = TestUtil.generateTestProgramEntities(id, count, channelId.toString())
 
 //        every { mTvNetworkDataSource.getProgramsFromApi(any()) } returns Single.just(programResponses)
 //        every { programMapper.setChannelId(channelId) } just Runs
