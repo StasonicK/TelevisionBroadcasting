@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
+import com.eburg_soft.televisionbroadcasting.presentation.base.BaseRecyclerAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysRecyclerAdapter.DayViewHolder
 import kotlinx.android.synthetic.main.item_days_recycler.view.tv_day_date
 

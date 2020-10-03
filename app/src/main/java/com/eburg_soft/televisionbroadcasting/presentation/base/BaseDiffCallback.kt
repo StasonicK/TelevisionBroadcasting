@@ -1,4 +1,4 @@
-package com.eburg_soft.televisionbroadcasting.presentation.main.adapters
+package com.eburg_soft.televisionbroadcasting.presentation.base
 
 import androidx.recyclerview.widget.DiffUtil
 

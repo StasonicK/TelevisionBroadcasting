@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
+import com.eburg_soft.televisionbroadcasting.presentation.base.BaseRecyclerAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsRecyclerAdapter.ProgramViewHolder
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_programs_recycler.view.img_program

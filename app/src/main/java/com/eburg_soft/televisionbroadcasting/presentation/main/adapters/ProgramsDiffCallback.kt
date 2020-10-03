@@ -1,6 +1,7 @@
 package com.eburg_soft.televisionbroadcasting.presentation.main.adapters
 
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
+import com.eburg_soft.televisionbroadcasting.presentation.base.BaseDiffCallback
 
 class ProgramsDiffCallback(
     private val oldList: List<ProgramEntity>,

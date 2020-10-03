@@ -1,8 +1,8 @@
-package com.eburg_soft.televisionbroadcasting.presentation.main.adapters
+package com.eburg_soft.televisionbroadcasting.presentation.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.BaseRecyclerAdapter.BaseViewHolder
+import com.eburg_soft.televisionbroadcasting.presentation.base.BaseRecyclerAdapter.BaseViewHolder
 
 abstract class BaseRecyclerAdapter<T, V> : RecyclerView.Adapter<BaseViewHolder>() {
 

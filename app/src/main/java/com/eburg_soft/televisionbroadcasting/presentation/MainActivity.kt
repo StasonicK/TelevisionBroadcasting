@@ -12,15 +12,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .add(
-                    R.id.frame_container,
-                    TVMenuFragment.getNewInstance()
-                )
-//                .addToBackStack(null)
-                .commitNow()
+//        if (savedInstanceState == null) {
+//            supportFragmentManager
+//                .beginTransaction()
+//                .add(
+//                    R.id.frame_container,
+//                    TVMenuFragment.getNewInstance()
+//                )
+////                .addToBackStack(null)
+//                .commitNow()
+//        }
+        if (supportFragmentManager.findFragmentByTag(TVMenuFragment::class.java.simpleName) == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.frame_container, TVMenuFragment.getNewInstance())
+                .addToBackStack(TVMenuFragment::class.java.simpleName)
+                .commit()
         }
     }
 }

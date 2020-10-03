@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
+import com.eburg_soft.televisionbroadcasting.presentation.base.BaseRecyclerAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsRecyclerAdapter.ChannelViewHolder
 import kotlinx.android.synthetic.main.item_channels_recycler.view.tv_channel_name
 

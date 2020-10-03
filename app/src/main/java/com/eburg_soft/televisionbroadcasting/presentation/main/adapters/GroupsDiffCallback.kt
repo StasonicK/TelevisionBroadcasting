@@ -1,6 +1,7 @@
 package com.eburg_soft.televisionbroadcasting.presentation.main.adapters
 
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
+import com.eburg_soft.televisionbroadcasting.presentation.base.BaseDiffCallback
 
 class GroupsDiffCallback(
     private val oldList: List<GroupEntity>,
