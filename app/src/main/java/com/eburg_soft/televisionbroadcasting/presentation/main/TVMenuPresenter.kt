@@ -9,6 +9,7 @@ import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChanne
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsAndChannelsFromApiToDbReturnIdsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveProgramsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.presentation.main.TVMenuContract.View
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -23,6 +24,11 @@ class TVMenuPresenter @Inject constructor(
     private val saveProgramsFromApiToDbUseCase: SaveProgramsFromApiToDbUseCase,
     private val removeAllGroupsUseCase: RemoveAllGroupsUseCase
 ) : TVMenuContract.Presenter() {
+
+    override fun attach(view: View) {
+        super.attach(view)
+        syncData()
+    }
 
     override fun syncData() {
         view?.showLoading()

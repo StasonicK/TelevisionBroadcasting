@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_programs_list
 import timber.log.Timber
 import javax.inject.Inject
 
-class TVMenuFragment : Fragment(), TVMenuContract.View {
+class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View {
 
     @Inject
     lateinit var presenter: TVMenuContract.Presenter
@@ -75,18 +75,8 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
         showDaysRecycler()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tv_menu, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        retainInstance = true
 
         savedInstanceState?.let {
             groupId = it.getString(GROUP_ID)
@@ -109,7 +99,6 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
     override fun onStart() {
         super.onStart()
         presenter.attach(this)
-        presenter.syncData()
     }
 
     override fun onStop() {

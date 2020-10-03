@@ -101,12 +101,12 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
     //  RxJava
-    def rxjava_version = '2.2.19'
-    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+//    def rxjava_version = '2.2.19'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.19"
 
     //  RxAndroid
-    def rxandroid_version = '2.1.1'
-    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+//    def rxandroid_version = '2.1.1'
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
     //  Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
