@@ -1,12 +1,15 @@
 package com.eburg_soft.televisionbroadcasting.presentation.main
 
 import android.accounts.NetworkErrorException
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.TestDataDb
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChannelIdUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsAndChannelsFromApiToDbReturnIdsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveProgramsFromApiToDbUseCase
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.net.UnknownHostException
@@ -21,55 +24,13 @@ class TVMenuPresenter @Inject constructor(
     private val removeAllGroupsUseCase: RemoveAllGroupsUseCase
 ) : TVMenuContract.Presenter() {
 
-    override fun attach(view: TVMenuContract.View) {
-        this.view = view
-    }
-
     override fun syncData() {
         view?.showLoading()
-        subscribe(
-            saveGroupsAndChannelsFromApiToDbReturnIdsUseCase
-                .execute()
-                .subscribeOn(Schedulers.io())
-                .subscribe({ ids ->
-                    ids.forEach { id ->
-                        saveProgramsFromApiToDbUseCase.execute("1", id)
-                            .subscribe({
-                                Timber.d("saveProgramsFromApiToDbUseCase fetched $id")
-                            }, { error ->
-                                when (error) {
-                                    is NetworkErrorException, is UnknownHostException -> {
-                                        view?.showNetworkErrorMessage("Error")
-                                        Timber.d("saveProgramsFromApiToDbUseCase error")
-                                        view?.hideLoading()
-                                    }
-                                    else -> {
-                                        error.printStackTrace()
-                                        Timber.d(error.message)
-                                        view?.hideLoading()
-                                    }
-                                }
-                            })
-                    }
-                    Timber.d("getAllGroupsUseCase accomplished")
-                    view?.hideLoading()
-                }, { error ->
-
-                    when (error) {
-                        is NetworkErrorException, is UnknownHostException -> {
-                            view?.showNetworkErrorMessage("Error")
-                            Timber.d("saveGroupsAndChannelsFromApiToDbReturnIdsUseCase error")
-                            view?.hideLoading()
-                        }
-                        else -> {
-                            error.printStackTrace()
-                            Timber.d(error.message)
-                            view?.hideLoading()
-                        }
-                    }
-                }
-                )
-        )
+        if (isDbEmpty()) {
+            subscribe(
+                saveAllDataInDb()
+            )
+        }
     }
 
     override fun loadGroupsFromDb() {
@@ -126,6 +87,12 @@ class TVMenuPresenter @Inject constructor(
         )
     }
 
+    override fun loadDaysByChannelIdFromDb() {
+        view?.showLoading()
+        view?.submitDaysList(TestDataDb.generateDayEntities("01.06.2020", "14.06.2020"))
+        view?.hideLoading()
+    }
+
     override fun removeAllGroups() {
         view?.showLoading()
         subscribe(
@@ -140,5 +107,58 @@ class TVMenuPresenter @Inject constructor(
                     view?.hideLoading()
                 })
         )
+    }
+
+    private fun isDbEmpty(): Boolean {
+        val list = arrayListOf<GroupEntity>()
+        subscribe(
+            getAllGroupsUseCase.execute()
+                .subscribeOn(Schedulers.io())
+                .subscribe { list.addAll(it) }
+        )
+        return list.isEmpty()
+    }
+
+    private fun saveAllDataInDb(): Disposable {
+        return saveGroupsAndChannelsFromApiToDbReturnIdsUseCase
+            .execute()
+            .subscribeOn(Schedulers.io())
+            .subscribe({ ids ->
+                ids.forEach { id ->
+                    saveProgramsFromApiToDbUseCase.execute("1", id)
+                        .subscribe({
+                            Timber.d("saveProgramsFromApiToDbUseCase fetched $id")
+                        }, { error ->
+                            when (error) {
+                                is NetworkErrorException, is UnknownHostException -> {
+                                    view?.showNetworkErrorMessage("Error")
+                                    Timber.d("saveProgramsFromApiToDbUseCase error")
+                                    view?.hideLoading()
+                                }
+                                else -> {
+                                    error.printStackTrace()
+                                    Timber.d(error.message)
+                                    view?.hideLoading()
+                                }
+                            }
+                        })
+                }
+                Timber.d("getAllGroupsUseCase accomplished")
+                view?.hideLoading()
+            }, { error ->
+                when (error) {
+                    is NetworkErrorException, is UnknownHostException -> {
+                        view?.showNetworkErrorMessage("Error")
+                        Timber.d("saveGroupsAndChannelsFromApiToDbReturnIdsUseCase error")
+                        view?.hideLoading()
+                    }
+                    else -> {
+                        error.printStackTrace()
+                        Timber.d(error.message)
+                        view?.hideLoading()
+                    }
+                }
+            }
+            )
     }
 }

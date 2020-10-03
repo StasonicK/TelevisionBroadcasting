@@ -2,7 +2,6 @@ package com.eburg_soft.televisionbroadcasting.presentation.main.adapters
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
@@ -27,9 +26,9 @@ class ChannelsRecyclerAdapter : BaseRecyclerAdapter<ChannelViewHolder, ChannelEn
         return ChannelViewHolder(view)
     }
 
-    override fun updateAdapter(updatedList: List<ChannelEntity>) {
-        val result = DiffUtil.calculateDiff(ChannelsDiffCallback(list, updatedList))
-        list.addAll(updatedList)
-        result.dispatchUpdatesTo(this)
-    }
+//    override fun updateAdapter(updatedList: List<ChannelEntity>) {
+//        val result = DiffUtil.calculateDiff(ChannelsDiffCallback(list, updatedList))
+//        list.addAll(updatedList)
+//        result.dispatchUpdatesTo(this)
+//    }
 }

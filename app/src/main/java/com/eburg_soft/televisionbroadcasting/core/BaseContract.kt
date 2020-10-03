@@ -1,8 +1,5 @@
 package com.eburg_soft.televisionbroadcasting.core
 
-import android.content.Context
-import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
-import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 

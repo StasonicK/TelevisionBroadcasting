@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_light"
-    android:orientation="vertical"
+    android:background="@color/blue_light"
     tools:context=".presentation.main.TVMenuFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -12,6 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_text_list"
         android:layout_marginTop="@dimen/margin_vertical_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_days_recycler" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -19,117 +22,147 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_program_item"
         android:layout_marginTop="@dimen/margin_vertical_very_small"
-        tools:listitem="@layout/item_programs_recycler" />
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_days_list"
+        tools:listitem="@layout/item_programs_recycler"
+        tools:visibility="visible" />
 
-    <FrameLayout
+    <View
+        android:id="@+id/view_blue_lint"
+        android:layout_width="@dimen/width_line_over_channel_items"
+        android:layout_height="@dimen/height_line_over_channel_items"
+        android:layout_gravity="center|top"
+        android:background="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_programs_list" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_channel_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_vertical_very_small">
+        android:layout_height="@dimen/height_channel_item"
+        android:layout_marginTop="@dimen/margin_vertical_very_small"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_blue_lint"
+        tools:listitem="@layout/item_channels_recycler"
+        tools:visibility="visible" />
 
-        <View
-            android:layout_width="@dimen/width_line_over_channel_items"
-            android:layout_height="@dimen/height_line_over_channel_items"
-            android:layout_gravity="center|top"
-            android:background="@color/blue" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_channel_list"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_channel_item"
-            android:layout_marginTop="@dimen/margin_vertical_very_small"
-            tools:listitem="@layout/item_channels_recycler" />
-
-    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_group_list"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_text_list"
-        android:layout_marginTop="@dimen/margin_vertical_very_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_channel_list"
         tools:listitem="@layout/item_groups_recycler" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_text_list"
-        android:layout_marginTop="@dimen/margin_vertical_very_small"
-        android:layout_marginBottom="@dimen/margin_vertical_very_small"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/img_bear"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_gravity="center"
+        android:layout_marginStart="160dp"
+        android:src="@drawable/teddy_bear_white_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_current_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_group_list"
+        tools:ignore="ContentDescription" />
 
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            android:src="@drawable/teddy_bear_white_24"
-            tools:ignore="ContentDescription" />
+    <TextView
+        android:id="@+id/tv_current_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/holder_current_time"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_showcase"
+        app:layout_constraintStart_toEndOf="@id/img_bear"
+        app:layout_constraintTop_toBottomOf="@id/recycler_group_list" />
 
-        <TextView
-            android:id="@+id/tv_current_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            android:text="@string/holder_current_time"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal" />
+    <TextView
+        android:id="@+id/tv_showcase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/showcase"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_television"
+        app:layout_constraintStart_toEndOf="@id/tv_current_time"
+        app:layout_constraintTop_toBottomOf="@id/recycler_group_list" />
 
-        <TextView
-            android:id="@+id/tv_showcase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            android:text="@string/showcase"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal" />
+    <TextView
+        android:id="@+id/tv_television"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/television"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_favorites"
+        app:layout_constraintStart_toEndOf="@id/tv_showcase"
+        app:layout_constraintTop_toBottomOf="@id/recycler_group_list" />
 
-        <TextView
-            android:id="@+id/tv_television"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            android:text="@string/television"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal" />
+    <TextView
+        android:id="@+id/tv_favorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/favorites"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_search"
+        app:layout_constraintStart_toEndOf="@id/tv_television"
+        app:layout_constraintTop_toBottomOf="@id/recycler_group_list" />
 
-        <TextView
-            android:id="@+id/tv_favorites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            android:text="@string/favorites"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal" />
+    <TextView
+        android:id="@+id/tv_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/search"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/img_profile"
+        app:layout_constraintStart_toEndOf="@id/tv_favorites"
+        app:layout_constraintTop_toBottomOf="@id/recycler_group_list" />
 
-        <TextView
-            android:id="@+id/tv_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            android:text="@string/search"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal" />
+    <ImageView
+        android:id="@+id/img_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/outline_perm_identity_white_18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_messages"
+        app:layout_constraintStart_toEndOf="@id/tv_search"
+        app:layout_constraintTop_toBottomOf="@id/recycler_group_list"
+        tools:ignore="ContentDescription" />
 
-        <ImageView
-            android:id="@+id/img_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/margin_horizontal_normal"
-            android:src="@drawable/outline_perm_identity_white_18"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/tv_messages"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/message_count"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal" />
-    </LinearLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_messages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="96dp"
+        android:text="@string/message_count"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_profile"
+        app:layout_constraintTop_toBottomOf="@id/recycler_group_list" />
+</androidx.constraintlayout.widget.ConstraintLayout>

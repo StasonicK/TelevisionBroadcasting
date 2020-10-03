@@ -1,5 +1,6 @@
 package com.eburg_soft.televisionbroadcasting.data.di.application
 
+import com.eburg_soft.televisionbroadcasting.core.Constants
 import com.eburg_soft.televisionbroadcasting.core.TVNetworkDataSource
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSourceImpl
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSourceImplTest
@@ -13,11 +14,11 @@ interface NetworkDataSourceModule {
 
     @Singleton
     @Binds
-    @Named("release")
-    fun provideReleaseNetworkDataSource(dataSource: TVNetworkDataSourceImpl): TVNetworkDataSource
+    @Named(Constants.PRODUCTIVE_VERSION)
+    fun provideProductiveNetworkDataSource(dataSource: TVNetworkDataSourceImpl): TVNetworkDataSource
 
     @Singleton
     @Binds
-    @Named("test")
+    @Named(Constants.TEST_VERSION)
     fun provideTestNetworkDataSource(dataSource: TVNetworkDataSourceImplTest): TVNetworkDataSource
 }

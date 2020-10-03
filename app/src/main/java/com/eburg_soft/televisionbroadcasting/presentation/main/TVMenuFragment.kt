@@ -10,18 +10,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.core.TelevisionBroadcastingApp
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsRecyclerAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysRecyclerAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsRecyclerAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsRecyclerAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.pb_main
-import kotlinx.android.synthetic.main.fragment_tv_menu1.recycler_channel_list
-import kotlinx.android.synthetic.main.fragment_tv_menu1.recycler_group_list
-import kotlinx.android.synthetic.main.fragment_tv_menu1.recycler_programs_list
+import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_channel_list
+import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_days_list
+import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_group_list
+import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_programs_list
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,13 +33,10 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
     @Inject
     lateinit var presenter: TVMenuContract.Presenter
 
-    //    private val groupAdapter: GroupsAdapter? = null
-//    private val channelsAdapter: ChannelsAdapter? = null
-//    private val programsAdapter: ProgramsAdapter? = null
     private val groupAdapter: GroupsRecyclerAdapter? = null
     private val channelsAdapter: ChannelsRecyclerAdapter? = null
     private val programsAdapter: ProgramsRecyclerAdapter? = null
-//    private val dayAdapter: DaysAdapter? = null
+    private val dayAdapter: DaysRecyclerAdapter? = null
 
     private var groupId: String? = null
     private var channelId: String? = null
@@ -61,6 +61,31 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        getTVMenuComponent(requireContext()).inject(this)
+        presenter.attach(this)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        presenter.syncData()
+        showGroupsRecycler()
+        showChannelsRecycler(groupId)
+        showProgramsRecycler(channelId)
+        showDaysRecycler()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_tv_menu, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         retainInstance = true
 
         savedInstanceState?.let {
@@ -69,22 +94,7 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
             programId = it.getString(PROGRAM_ID)
             dayId = it.getString(DAY_ID)
         }
-        getTVMenuComponent(requireContext()).inject(this)
-    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tv_menu1, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        showGroupsRecycler(groupId)
-        showChannelsRecycler(channelId)
-        showProgramsRecycler(programId)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -99,6 +109,7 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
     override fun onStart() {
         super.onStart()
         presenter.attach(this)
+        presenter.syncData()
     }
 
     override fun onStop() {
@@ -128,14 +139,16 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
         programsAdapter?.setData(list)
     }
 
+    override fun submitDaysList(list: List<DayEntity>) {
+        dayAdapter?.setData(list)
+    }
+
     override fun showNetworkErrorMessage(message: String) {
         Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
         Timber.d(message)
     }
 
-//    fun pupulate
-
-    override fun showGroupsRecycler(grId: String?) {
+    override fun showGroupsRecycler() {
         recycler_group_list.apply {
             groupAdapter?.setOnClick { any, view ->
                 (any as GroupEntity).let {
@@ -144,14 +157,15 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
                 }
                 view?.isFocusable = true
             }
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             presenter.loadGroupsFromDb()
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = groupAdapter
+            setHasFixedSize(true)
         }
         Timber.d("showGroupsList accomplished")
     }
 
-    override fun showChannelsRecycler(chId: String?) {
+    override fun showChannelsRecycler(grId: String?) {
         recycler_channel_list.apply {
             channelsAdapter?.setOnClick { any, view ->
                 (any as GroupEntity).let {
@@ -160,28 +174,37 @@ class TVMenuFragment : Fragment(), TVMenuContract.View {
                 }
                 view?.isFocusable = true
             }
+            grId?.let { presenter.loadChannelsByGroupIdFromDb(grId) }
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//            val groups = groupAdapter?.currentList
-//            val sizeGroupList = groupAdapter?.currentList?.size
-//            val halfSize = (sizeGroupList?.div(2))
-//            val centerGroup = halfSize?.let { groups?.get(it) }
-//            centerGroup?.id?.let { presenter.loadChannelsByGroupIdFromDb(it) }
             adapter = channelsAdapter
+            setHasFixedSize(true)
         }
         Timber.d("showChannelsList accomplished")
     }
 
-    override fun showProgramsRecycler(prId: String?) {
+    override fun showProgramsRecycler(chId: String?) {
         recycler_programs_list.apply {
             programsAdapter?.setOnClick { any, view ->
                 (any as ProgramEntity).let {
-                    presenter.loadProgramsByChannelIdFromDb(any.id)
                     programId = any.id
                 }
                 view?.isFocusable = true
             }
+            chId?.let { presenter.loadProgramsByChannelIdFromDb(it) }
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = programsAdapter
+            setHasFixedSize(true)
         }
         Timber.d("showProgramsList accomplished")
+    }
+
+    override fun showDaysRecycler() {
+        recycler_days_list.apply {
+            presenter.loadDaysByChannelIdFromDb()
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = dayAdapter
+            setHasFixedSize(true)
+        }
     }
 
     //endregion

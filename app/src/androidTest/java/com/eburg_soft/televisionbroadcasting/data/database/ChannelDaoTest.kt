@@ -22,18 +22,18 @@ class ChannelDaoTest : TVDatabaseTest() {
     @Test
     @Throws(Exception::class)
     fun insertReadChannel() {
-        val resultChannels = arrayListOf(TestUtil.TEST_CHANNEL_ENTITY_1_1)
+        val expectedChannels = arrayListOf(TestUtil.TEST_CHANNEL_ENTITY_1_1)
         val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_1)
 
         // insert
         getGroupDao()?.insertGroups(group)?.blockingAwait()
-        getChannelDao()?.insertChannels(resultChannels)?.blockingAwait()
+        getChannelDao()?.insertChannels(expectedChannels)?.blockingAwait()
 
         // read
         getChannelDao()?.getAllChannels()
             ?.test()
             ?.assertValue { it ->
-                return@assertValue it == resultChannels
+                return@assertValue it == expectedChannels
             }
     }
 
@@ -46,19 +46,19 @@ class ChannelDaoTest : TVDatabaseTest() {
     @Test
     @Throws(Exception::class)
     fun insertReadDeleteChannels() {
-        val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_2
+        val expectedChannels = TestUtil.TEST_CHANNEL_ENTITIES_2
         val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_2)
 
         // insert
         getGroupDao()?.insertGroups(group)?.blockingAwait()
-        getChannelDao()?.insertChannels(resultChannels)?.blockingAwait()
+        getChannelDao()?.insertChannels(expectedChannels)?.blockingAwait()
 
         // read
         var insertedChannels = getChannelDao()?.getAllChannels()?.blockingFirst()
         assertNotNull(insertedChannels)
-        assertEquals(resultChannels, insertedChannels)
+        assertEquals(expectedChannels, insertedChannels)
         println(insertedChannels)
-        println(resultChannels)
+        println(expectedChannels)
 
         // delete
         getChannelDao()?.deleteAllChannels()?.blockingGet()
@@ -78,19 +78,19 @@ class ChannelDaoTest : TVDatabaseTest() {
     @Test
     @Throws(Exception::class)
     fun insertReadDeleteChannelsByDeletingGroups() {
-        val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_2
+        val expectedChannels = TestUtil.TEST_CHANNEL_ENTITIES_2
         val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_2)
 
         // insert
         getGroupDao()?.insertGroups(group)?.blockingAwait()
-        getChannelDao()?.insertChannels(resultChannels)?.blockingAwait()
+        getChannelDao()?.insertChannels(expectedChannels)?.blockingAwait()
 
         // read
         var insertedChannels = getChannelDao()?.getAllChannels()?.blockingFirst()
         assertNotNull(insertedChannels)
-        assertEquals(resultChannels, insertedChannels)
+        assertEquals(expectedChannels, insertedChannels)
         println(insertedChannels)
-        println(resultChannels)
+        println(expectedChannels)
 
         // delete
         getGroupDao()?.deleteAllGroups()?.blockingAwait()
@@ -113,23 +113,23 @@ class ChannelDaoTest : TVDatabaseTest() {
     @Test
     @Throws(Exception::class)
     fun insertReadChannelByGroupIdDeleteChannels() {
-        val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_3
+        val expectedChannels = TestUtil.TEST_CHANNEL_ENTITIES_3
         val groupIds: ArrayList<String> = ArrayList()
-        resultChannels.forEach {
+        expectedChannels.forEach {
             groupIds.add(it.groupId)
         }
         val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_3)
 
         // insert
         getGroupDao()?.insertGroups(group)?.blockingAwait()
-        getChannelDao()?.insertChannels(resultChannels)?.blockingGet()
+        getChannelDao()?.insertChannels(expectedChannels)?.blockingGet()
 
         // read
         getChannelDao()?.getChannelsByGroupId(groupIds[0])
             ?.test()
             ?.assertNoErrors()
             ?.assertValue { it ->
-                return@assertValue it == resultChannels
+                return@assertValue it == expectedChannels
             }
 
         // delete
@@ -153,23 +153,23 @@ class ChannelDaoTest : TVDatabaseTest() {
     @Test
     @Throws(Exception::class)
     fun insertReadChannelByGroupIdDeleteChannelsByDeletingGroups() {
-        val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_3
+        val expectedChannels = TestUtil.TEST_CHANNEL_ENTITIES_3
         val groupIds: ArrayList<String> = ArrayList()
-        resultChannels.forEach {
+        expectedChannels.forEach {
             groupIds.add(it.groupId)
         }
         val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_3)
 
         // insert
         getGroupDao()?.insertGroups(group)?.blockingAwait()
-        getChannelDao()?.insertChannels(resultChannels)?.blockingGet()
+        getChannelDao()?.insertChannels(expectedChannels)?.blockingGet()
 
         // read
         getChannelDao()?.getChannelsByGroupId(groupIds[0])
             ?.test()
             ?.assertNoErrors()
             ?.assertValue { it ->
-                return@assertValue it == resultChannels
+                return@assertValue it == expectedChannels
             }
 
         // delete
