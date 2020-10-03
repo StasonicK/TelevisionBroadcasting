@@ -1,6 +1,7 @@
 package com.eburg_soft.televisionbroadcasting.presentation.main
 
 import android.accounts.NetworkErrorException
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.TestDataDb
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdUseCase
@@ -84,6 +85,12 @@ class TVMenuPresenter @Inject constructor(
                     view?.hideLoading()
                 })
         )
+    }
+
+    override fun loadDaysByChannelIdFromDb() {
+        view?.showLoading()
+        view?.submitDaysList(TestDataDb.generateDayEntities("01.06.2020", "14.06.2020"))
+        view?.hideLoading()
     }
 
     override fun removeAllGroups() {

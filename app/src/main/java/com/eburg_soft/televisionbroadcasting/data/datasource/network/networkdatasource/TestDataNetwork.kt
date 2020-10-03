@@ -4,7 +4,7 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.Chan
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.GroupResponse
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.ProgramResponse
 
-object TestData {
+object TestDataNetwork {
 
     private val TEST_GROUP_RESPONSE_1 =
         GroupResponse(
