@@ -2,6 +2,7 @@ package com.eburg_soft.televisionbroadcasting.presentation.main
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,15 +65,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         presenter.attach(this)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-//        presenter.syncData()
-        showGroupsRecycler()
-        showChannelsRecycler(groupId)
-        showProgramsRecycler(channelId)
-        showDaysRecycler()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -82,6 +74,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             programId = it.getString(PROGRAM_ID)
             dayId = it.getString(DAY_ID)
         }
+
+        showGroupsRecycler()
+        showChannelsRecycler(groupId)
+        showProgramsRecycler(channelId)
+        showDaysRecycler()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -22,17 +22,11 @@ class TVRepositoryImpl @Inject constructor(
     private val groupDao: GroupDao,
     private val channelDao: ChannelDao,
     private val programDao: ProgramDao,
-    @Named(Constants.PRODUCTIVE_VERSION) private val tvNetworkDataSourceImpl: TVNetworkDataSource,
     private val tvApi: TVApi,
     private val programMapper: ProgramMapper
 ) : TVRepository {
 
     override fun saveGroupsAndChannelsFromApiToDbReturnIds(): Single<ArrayList<String>> {
-//        val listApi =
-//            tvNetworkDataSourceImpl.getGroupsAndChannelsFromApi()
-//            .subscribe {  }
-//            .subscribeOn(Schedulers.io())
-//        return tvNetworkDataSourceImpl.getGroupsAndChannelsFromApi()
         return tvApi.getGroupsFromApi()
             .flatMap { list ->
                 val map = GroupMapper.map(list)
@@ -52,7 +46,7 @@ class TVRepositoryImpl @Inject constructor(
     }
 
     override fun saveProgramsFromApiToDb(id: String, channelId: String): Completable {
-        return tvNetworkDataSourceImpl.getProgramsFromApi(id)
+        return tvApi.getProgramsFromApi(id)
             .flatMapCompletable { list ->
                 programMapper.setChannelId(channelId)
                 val programEntities = programMapper.map(list)

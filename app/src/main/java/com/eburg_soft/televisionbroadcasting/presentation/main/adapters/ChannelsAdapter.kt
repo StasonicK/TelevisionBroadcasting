@@ -33,6 +33,7 @@ class ChannelsAdapter : BaseAdapter<ChannelEntity, ChannelViewHolder>(ChannelsDi
                     Picasso.get()
                         .load(Constants.BASE_URL + item.logoUrl)
                         .placeholder(R.drawable.old_tv_white_32)
+                        .error(R.drawable.old_tv_white_32)
                         .fit()
                         .into(img_channel_icon)
 
