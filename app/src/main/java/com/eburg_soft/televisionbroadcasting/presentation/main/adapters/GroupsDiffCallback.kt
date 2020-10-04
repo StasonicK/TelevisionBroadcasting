@@ -3,15 +3,9 @@ package com.eburg_soft.televisionbroadcasting.presentation.main.adapters
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseDiffCallback
 
-class GroupsDiffCallback(
-    private val oldList: List<GroupEntity>,
-    private val newList: List<GroupEntity>
-) : BaseDiffCallback<GroupEntity>(oldList, newList) {
+class GroupsDiffCallback : BaseDiffCallback<GroupEntity>() {
 
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldEntity = oldList[oldItemPosition]
-        val newEntity = newList[newItemPosition]
-        return oldEntity.id == newEntity.id &&
-                oldEntity.name == newEntity.name
+    override fun areContentsTheSame(oldItem: GroupEntity, newItem: GroupEntity): Boolean {
+        return oldItem.id == newItem.id && oldItem.name == newItem.name
     }
 }

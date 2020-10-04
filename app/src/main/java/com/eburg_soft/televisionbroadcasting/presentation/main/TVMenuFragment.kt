@@ -2,9 +2,7 @@ package com.eburg_soft.televisionbroadcasting.presentation.main
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eburg_soft.televisionbroadcasting.R
@@ -15,10 +13,6 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Gro
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsRecyclerAdapter
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysRecyclerAdapter
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsRecyclerAdapter
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsRecyclerAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.pb_main
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_channel_list
@@ -84,7 +78,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             programId = it.getString(PROGRAM_ID)
             dayId = it.getString(DAY_ID)
         }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

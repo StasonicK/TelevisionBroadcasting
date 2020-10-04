@@ -2,18 +2,9 @@ package com.eburg_soft.televisionbroadcasting.presentation.base
 
 import androidx.recyclerview.widget.DiffUtil
 
-abstract class BaseDiffCallback<V>(
-    private val oldList: List<V>,
-    private val newList: List<V>
-) : DiffUtil.Callback() {
+abstract class BaseDiffCallback<T> : DiffUtil.ItemCallback<T>() {
 
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldItem = oldList[oldItemPosition]
-        val newItem = newList[newItemPosition]
+    override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
         return oldItem == newItem
     }
 }
