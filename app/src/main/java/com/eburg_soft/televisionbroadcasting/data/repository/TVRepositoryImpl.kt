@@ -8,6 +8,7 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.Progr
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.network.TVApi
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.GroupMapper
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.ProgramMapper
 import io.reactivex.Completable
@@ -22,11 +23,17 @@ class TVRepositoryImpl @Inject constructor(
     private val channelDao: ChannelDao,
     private val programDao: ProgramDao,
     @Named(Constants.PRODUCTIVE_VERSION) private val tvNetworkDataSourceImpl: TVNetworkDataSource,
+    private val tvApi: TVApi,
     private val programMapper: ProgramMapper
 ) : TVRepository {
 
     override fun saveGroupsAndChannelsFromApiToDbReturnIds(): Single<ArrayList<String>> {
-        return tvNetworkDataSourceImpl.getGroupsAndChannelsFromApi()
+//        val listApi =
+//            tvNetworkDataSourceImpl.getGroupsAndChannelsFromApi()
+//            .subscribe {  }
+//            .subscribeOn(Schedulers.io())
+//        return tvNetworkDataSourceImpl.getGroupsAndChannelsFromApi()
+        return tvApi.getGroupsFromApi()
             .flatMap { list ->
                 val map = GroupMapper.map(list)
                 val groups = map.keys.toList().sortedBy { it.id }

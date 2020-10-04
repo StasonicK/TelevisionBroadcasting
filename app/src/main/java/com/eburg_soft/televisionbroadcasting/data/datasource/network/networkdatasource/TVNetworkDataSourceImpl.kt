@@ -11,16 +11,12 @@ import javax.inject.Inject
 class TVNetworkDataSourceImpl @Inject constructor(private val tvApi: TVApi) : TVNetworkDataSource {
 
     override fun getGroupsAndChannelsFromApi(): Single<List<GroupResponse>> {
-        return Single.create {
-            tvApi.getGroupsFromApi()
-                .subscribeOn(Schedulers.io())
-        }
+        return tvApi.getGroupsFromApi()
+            .subscribeOn(Schedulers.io())
     }
 
     override fun getProgramsFromApi(id: String): Single<List<ProgramResponse>> {
-        return Single.create {
-            tvApi.getProgramsFromApi(id)
-                .subscribeOn(Schedulers.io())
-        }
+        return tvApi.getProgramsFromApi(id)
+            .subscribeOn(Schedulers.io())
     }
 }
