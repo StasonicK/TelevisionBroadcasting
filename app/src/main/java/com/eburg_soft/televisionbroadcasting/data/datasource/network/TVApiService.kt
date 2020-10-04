@@ -1,6 +1,7 @@
 package com.eburg_soft.televisionbroadcasting.data.datasource.network
 
 import com.eburg_soft.televisionbroadcasting.core.Constants.BASE_URL
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -18,6 +19,8 @@ object TVApiService {
         logging.level = HttpLoggingInterceptor.Level.BASIC
 
         return OkHttpClient().newBuilder()
+                //  Stetho interceptor
+            .addNetworkInterceptor(StethoInterceptor())
             .addInterceptor(logging)
             .build()
     }

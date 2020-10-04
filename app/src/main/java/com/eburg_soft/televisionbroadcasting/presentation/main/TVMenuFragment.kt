@@ -13,6 +13,10 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Gro
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.pb_main
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_channel_list
@@ -27,10 +31,10 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     @Inject
     lateinit var presenter: TVMenuContract.Presenter
 
-    private val groupAdapter: GroupsRecyclerAdapter? = null
-    private val channelsAdapter: ChannelsRecyclerAdapter? = null
-    private val programsAdapter: ProgramsRecyclerAdapter? = null
-    private val dayAdapter: DaysRecyclerAdapter? = null
+    private val groupAdapter: GroupsAdapter? = null
+    private val channelsAdapter: ChannelsAdapter? = null
+    private val programsAdapter: ProgramsAdapter? = null
+    private val dayAdapter: DaysAdapter? = null
 
     private var groupId: String? = null
     private var channelId: String? = null
@@ -62,7 +66,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter.syncData()
+//        presenter.syncData()
         showGroupsRecycler()
         showChannelsRecycler(groupId)
         showProgramsRecycler(channelId)
@@ -110,19 +114,19 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     }
 
     override fun submitGroupsList(list: List<GroupEntity>) {
-        groupAdapter?.setData(list)
+        groupAdapter?.submitList(list)
     }
 
     override fun submitChannelsList(list: List<ChannelEntity>) {
-        channelsAdapter?.setData(list)
+        channelsAdapter?.submitList(list)
     }
 
     override fun submitProgramsList(list: List<ProgramEntity>) {
-        programsAdapter?.setData(list)
+        programsAdapter?.submitList(list)
     }
 
     override fun submitDaysList(list: List<DayEntity>) {
-        dayAdapter?.setData(list)
+        dayAdapter?.submitList(list)
     }
 
     override fun showNetworkErrorMessage(message: String) {
@@ -137,7 +141,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                     presenter.loadChannelsByGroupIdFromDb(it.id)
                     groupId = it.id
                 }
-                view?.isFocusable = true
+                view.isFocusable = true
             }
             presenter.loadGroupsFromDb()
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -154,7 +158,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                     presenter.loadProgramsByChannelIdFromDb(any.id)
                     channelId = any.id
                 }
-                view?.isFocusable = true
+                view.isFocusable = true
             }
             grId?.let { presenter.loadChannelsByGroupIdFromDb(grId) }
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -170,7 +174,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                 (any as ProgramEntity).let {
                     programId = any.id
                 }
-                view?.isFocusable = true
+                view.isFocusable = true
             }
             chId?.let { presenter.loadProgramsByChannelIdFromDb(it) }
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

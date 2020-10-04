@@ -10,6 +10,7 @@ import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseC
 import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsAndChannelsFromApiToDbReturnIdsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveProgramsFromApiToDbUseCase
 import com.eburg_soft.televisionbroadcasting.presentation.main.TVMenuContract.View
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -45,6 +46,7 @@ class TVMenuPresenter @Inject constructor(
             getAllGroupsUseCase
                 .execute()
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ list ->
                     view?.submitGroupsList(list)
                     Timber.d("getAllGroupsUseCase accomplished")
@@ -63,6 +65,7 @@ class TVMenuPresenter @Inject constructor(
             getChannelsByGroupIdUseCase
                 .execute(groupId)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ list ->
                     view?.submitChannelsList(list)
                     Timber.d("getChannelsByGroupIdUseCase accomplished")
@@ -81,6 +84,7 @@ class TVMenuPresenter @Inject constructor(
             getProgramsByChannelIdUseCase
                 .execute(channelId)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ list ->
                     view?.submitProgramsList(list)
                     Timber.d("getProgramsByChannelIdUseCase accomplished")
@@ -105,6 +109,7 @@ class TVMenuPresenter @Inject constructor(
             removeAllGroupsUseCase
                 .execute()
                 .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
                 .subscribe({
                     Timber.d("removeAllGroupsUseCase accomplished")
                     view?.hideLoading()
@@ -120,6 +125,7 @@ class TVMenuPresenter @Inject constructor(
         subscribe(
             getAllGroupsUseCase.execute()
                 .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
                 .subscribe { list.addAll(it) }
         )
         return list.isEmpty()
@@ -129,9 +135,11 @@ class TVMenuPresenter @Inject constructor(
         return saveGroupsAndChannelsFromApiToDbReturnIdsUseCase
             .execute()
             .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
             .subscribe({ ids ->
                 ids.forEach { id ->
                     saveProgramsFromApiToDbUseCase.execute("1", id)
+                        .observeOn(Schedulers.io())
                         .subscribe({
                             Timber.d("saveProgramsFromApiToDbUseCase fetched $id")
                         }, { error ->

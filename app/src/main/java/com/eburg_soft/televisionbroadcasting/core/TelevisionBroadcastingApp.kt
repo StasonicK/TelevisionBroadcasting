@@ -6,6 +6,7 @@ import com.eburg_soft.televisionbroadcasting.data.di.application.AppContextModul
 import com.eburg_soft.televisionbroadcasting.data.di.application.DaggerAppComponent
 import com.eburg_soft.televisionbroadcasting.data.di.application.DatabaseModule
 import com.eburg_soft.televisionbroadcasting.data.di.application.NetworkModule
+import com.facebook.stetho.Stetho
 import com.github.ajalt.timberkt.Timber
 
 class TelevisionBroadcastingApp : Application() {
@@ -14,6 +15,28 @@ class TelevisionBroadcastingApp : Application() {
         super.onCreate()
         component.inject(this)
         initTimber()
+        initStetho()
+    }
+
+    private fun initStetho() {
+        // Create an InitializerBuilder
+        val initializerBuilder = Stetho.newInitializerBuilder(this)
+
+        // Enable Chrome DevTools
+        initializerBuilder.enableWebKitInspector(
+            Stetho.defaultInspectorModulesProvider(this)
+        )
+
+        // Enable command line interface
+        initializerBuilder.enableDumpapp(
+            Stetho.defaultDumperPluginsProvider(this)
+        )
+
+        // Use the InitializerBuilder to generate an Initializer
+        val initializer = initializerBuilder.build()
+
+        // Initialize Stetho with the Initializer
+        Stetho.initialize(initializer)
     }
 
     val component: AppComponent by lazy {
