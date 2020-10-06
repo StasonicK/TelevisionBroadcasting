@@ -5,6 +5,7 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.DatabaseSe
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.TVDatabase
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ChannelDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupDao
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupWithChannelsDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ProgramDao
 import dagger.Module
 import dagger.Provides
@@ -24,6 +25,10 @@ class DatabaseModule() {
     @Singleton
     @Provides
     fun provideChannelDao(tvDatabase: TVDatabase): ChannelDao = tvDatabase.channelDao()
+
+    @Singleton
+    @Provides
+    fun provideGroupWithChannelsDao(tvDatabase: TVDatabase): GroupWithChannelsDao = tvDatabase.groupWithChannelsDao()
 
     @Singleton
     @Provides

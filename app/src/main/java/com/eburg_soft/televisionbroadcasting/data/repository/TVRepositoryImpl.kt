@@ -1,9 +1,8 @@
 package com.eburg_soft.televisionbroadcasting.data.repository
 
-import com.eburg_soft.televisionbroadcasting.core.Constants
-import com.eburg_soft.televisionbroadcasting.core.TVNetworkDataSource
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ChannelDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupDao
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupWithChannelsDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ProgramDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
@@ -15,42 +14,62 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Named
 
 class TVRepositoryImpl @Inject constructor(
     private val groupDao: GroupDao,
     private val channelDao: ChannelDao,
     private val programDao: ProgramDao,
+    private val groupWithChannelsDao: GroupWithChannelsDao,
     private val tvApi: TVApi,
     private val programMapper: ProgramMapper
 ) : TVRepository {
 
-    override fun saveGroupsAndChannelsFromApiToDbReturnIds(): Single<ArrayList<String>> {
+    private val emptySet: MutableSet<ChannelEntity> = mutableSetOf()
+    private val emptyList: MutableList<String> = mutableListOf()
+
+    override fun saveGroupsFromApiToDbReturnChannelIds():
+            Single<MutableSet<ChannelEntity>> {
         return tvApi.getGroupsFromApi()
             .flatMap { list ->
                 val map = GroupMapper.map(list)
                 val groups = map.keys.toList().sortedBy { it.id }
-                val channels = mutableListOf<ChannelEntity>()
+                val channels = mutableSetOf<ChannelEntity>()
                 map.values.forEach { list1 -> channels.addAll(list1.sortedBy { it.id }) }
+                Timber.d("groups: $groups")
                 //  insert
                 groupDao.insertGroups(groups)
-                channelDao.insertChannels(channels)
-                val ids: ArrayList<String> = ArrayList()
-                channels.forEach { channelEntity ->
-                    ids.add(channelEntity.id.substringAfterLast("-"))
-                }
-                Single.just((ids))
+                    .toSingleDefault(channels).onErrorReturnItem(emptySet)
             }
             .subscribeOn(Schedulers.io())
     }
 
-    override fun saveProgramsFromApiToDb(id: String, channelId: String): Completable {
+    override fun saveChannelsFromApiToDb(set: MutableSet<ChannelEntity>): Single<MutableList<String>> {
+        return Single.fromCallable { set }
+            .flatMap { set1 ->
+                val channels = mutableListOf<ChannelEntity>()
+                channels.addAll(set1)
+                val channelIdList = mutableListOf<String>()
+                channels.forEach {
+                    channelIdList.add(it.id)
+                }
+                channelDao.insertChannels(channels)
+                    .toSingleDefault(channelIdList).onErrorReturnItem(emptyList)
+            }
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun saveProgramsFromApiToDb(id: String, channelIdList: MutableList<String>): Completable {
         return tvApi.getProgramsFromApi(id)
             .flatMapCompletable { list ->
-                programMapper.setChannelId(channelId)
-                val programEntities = programMapper.map(list)
-                programDao.insertPrograms(programEntities)
+                val allProgramEntities = mutableListOf<ProgramEntity>()
+                channelIdList.forEach { channelId ->
+                    programMapper.setChannelId(channelId)
+                    val programEntities = programMapper.map(list)
+                    allProgramEntities.addAll(programEntities)
+                }
+                programDao.insertPrograms(allProgramEntities)
             }
             .subscribeOn(Schedulers.io())
     }

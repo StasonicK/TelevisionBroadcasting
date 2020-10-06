@@ -103,11 +103,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     //region ====================== Contract implementation ======================
 
     override fun showLoading() {
-        requireActivity().pb_main.visibility = View.VISIBLE
+//        requireActivity().pb_main.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        requireActivity().pb_main.visibility = View.GONE
+//        requireActivity().pb_main.visibility = View.GONE
     }
 
     override fun submitGroupsList(list: List<GroupEntity>) {

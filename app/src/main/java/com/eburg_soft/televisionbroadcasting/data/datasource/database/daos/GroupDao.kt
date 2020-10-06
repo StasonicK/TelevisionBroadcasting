@@ -15,9 +15,9 @@ interface GroupDao {
     @Query("SELECT * from `groups`")
     fun getAllGroups(): Flowable<List<GroupEntity>>
 
-    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGroups(groups: List<GroupEntity>): Completable
+//    Single<Long>
 
     @Query("DELETE FROM `groups`")
     fun deleteAllGroups(): Completable

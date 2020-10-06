@@ -7,7 +7,8 @@ import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChanne
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllChannelsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllProgramsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsAndChannelsFromApiToDbReturnIdsUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveChannelsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsFromApiToDbReturnChannelIdsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveProgramsFromApiToDbUseCase
 import dagger.Module
 import dagger.Provides
@@ -32,8 +33,13 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideSaveGroupsAndChannelsFromApiToDbUseCase(repository: TVRepository): SaveGroupsAndChannelsFromApiToDbReturnIdsUseCase =
-        SaveGroupsAndChannelsFromApiToDbReturnIdsUseCase(repository)
+    fun provideSaveGroupsFromApiToDbReturnChannelIdsUseCase(repository: TVRepository): SaveGroupsFromApiToDbReturnChannelIdsUseCase =
+        SaveGroupsFromApiToDbReturnChannelIdsUseCase(repository)
+
+    @Singleton
+    @Provides
+    fun provideSaveChannelsFromApiToDbUseCase(repository: TVRepository): SaveChannelsFromApiToDbUseCase =
+        SaveChannelsFromApiToDbUseCase(repository)
 
     @Singleton
     @Provides

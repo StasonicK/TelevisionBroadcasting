@@ -5,10 +5,10 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Cha
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.models.GroupResponse
 
-object GroupMapper : BaseMapper<List<GroupResponse>, Map<GroupEntity, List<ChannelEntity>>> {
+object GroupMapper : BaseMapper<List<GroupResponse>, Map<GroupEntity, MutableList<ChannelEntity>>> {
 
-    override fun map(type: List<GroupResponse>?): Map<GroupEntity, List<ChannelEntity>> {
-        val groupAndChannelMap = mutableMapOf<GroupEntity, List<ChannelEntity>>()
+    override fun map(type: List<GroupResponse>?): Map<GroupEntity, MutableList<ChannelEntity>> {
+        val groupAndChannelMap = mutableMapOf<GroupEntity, MutableList<ChannelEntity>>()
         var groupEntity: GroupEntity
 
         type?.let { groupResponses ->
@@ -16,7 +16,7 @@ object GroupMapper : BaseMapper<List<GroupResponse>, Map<GroupEntity, List<Chann
             groupResponses.forEach { groupResponse ->
                 //  create a GroupEntity
                 groupEntity = GroupEntity(groupResponse.id, groupResponse.name)
-                val channelEntities = mutableListOf<ChannelEntity>()
+                val channelEntities = arrayListOf<ChannelEntity>()
                 //  move to each ChannelResponses of list
                 groupResponse.channelResponses.forEach { channelResponse ->
                     //  add new ChannelEntity to the list

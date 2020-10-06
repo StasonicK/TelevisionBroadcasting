@@ -7,7 +7,8 @@ import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChannelIdUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsAndChannelsFromApiToDbReturnIdsUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveChannelsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsFromApiToDbReturnChannelIdsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveProgramsFromApiToDbUseCase
 import com.eburg_soft.televisionbroadcasting.presentation.main.TVMenuPresenter
 import eburg_soft.televisionbroadcasting.utils.TestUtil
@@ -38,10 +39,13 @@ class TVMenuPresenterTest {
     private lateinit var getProgramsByChannelIdUseCase: GetProgramsByChannelIdUseCase
 
     @MockK
-    private lateinit var saveGroupsAndChannelsFromApiToDbReturnIdsUseCase: SaveGroupsAndChannelsFromApiToDbReturnIdsUseCase
+    private lateinit var saveGroupsFromApiToDbReturnChannelIdsUseCase: SaveGroupsFromApiToDbReturnChannelIdsUseCase
 
     @MockK
     private lateinit var saveProgramsFromApiToDbUseCase: SaveProgramsFromApiToDbUseCase
+
+    @MockK
+    private lateinit var saveChannelsFromApiToDbUseCase: SaveChannelsFromApiToDbUseCase
 
     @MockK
     private lateinit var removeAllGroupsUseCase: RemoveAllGroupsUseCase
@@ -53,7 +57,8 @@ class TVMenuPresenterTest {
             getAllGroupsUseCase,
             getChannelsByGroupIdUseCase,
             getProgramsByChannelIdUseCase,
-            saveGroupsAndChannelsFromApiToDbReturnIdsUseCase,
+            saveGroupsFromApiToDbReturnChannelIdsUseCase,
+            saveChannelsFromApiToDbUseCase,
             saveProgramsFromApiToDbUseCase,
             removeAllGroupsUseCase
         )
@@ -81,7 +86,7 @@ class TVMenuPresenterTest {
             ids.add(channelEntity.id.substringAfterLast("-"))
         }
         every { getAllGroupsUseCase.execute() } returns Flowable.just(groupEntities)
-        every { saveGroupsAndChannelsFromApiToDbReturnIdsUseCase.execute() } returns Single.just(ids)
+        every { saveGroupsFromApiToDbReturnChannelIdsUseCase.execute() } returns Single.just(ids)
         every { saveProgramsFromApiToDbUseCase.execute(any(), any()) } returns Completable.complete()
 
         //  Act
@@ -89,7 +94,7 @@ class TVMenuPresenterTest {
 
         //  Assert
         verify(exactly = 1) { getAllGroupsUseCase.execute() }
-        verify(exactly = 1) { saveGroupsAndChannelsFromApiToDbReturnIdsUseCase.execute() }
+        verify(exactly = 1) { saveGroupsFromApiToDbReturnChannelIdsUseCase.execute() }
         verify(exactly = 25) { saveProgramsFromApiToDbUseCase.execute(any(), any()) }
     }
 

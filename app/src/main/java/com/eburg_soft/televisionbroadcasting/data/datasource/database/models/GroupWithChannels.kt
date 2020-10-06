@@ -5,9 +5,8 @@ import androidx.room.Relation
 
 data class GroupWithChannels(
     @Embedded
-    val groupEntity: GroupEntity,
+    val group: GroupEntity,
     @Relation(
-        entity = ChannelEntity::class,
         parentColumn = GroupEntity.COLUMN_ID,
         entityColumn = ChannelEntity.COLUMN_GROUP_ID
     )

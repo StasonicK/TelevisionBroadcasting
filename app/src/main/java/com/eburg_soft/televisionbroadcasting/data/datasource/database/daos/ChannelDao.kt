@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -18,7 +17,6 @@ interface ChannelDao {
     @Query("SELECT * from ${ChannelEntity.TABLE_NAME} WHERE ${ChannelEntity.COLUMN_GROUP_ID}=:groupId")
     fun getChannelsByGroupId(groupId: String): Flowable<List<ChannelEntity>>
 
-    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertChannels(channels: List<ChannelEntity>): Completable
 
