@@ -2,7 +2,6 @@ package com.eburg_soft.televisionbroadcasting.data.repository
 
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ChannelDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupDao
-import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupWithChannelsDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ProgramDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
@@ -21,46 +20,50 @@ class TVRepositoryImpl @Inject constructor(
     private val groupDao: GroupDao,
     private val channelDao: ChannelDao,
     private val programDao: ProgramDao,
-    private val groupWithChannelsDao: GroupWithChannelsDao,
     private val tvApi: TVApi,
     private val programMapper: ProgramMapper
 ) : TVRepository {
 
-    private val emptySet: MutableSet<ChannelEntity> = mutableSetOf()
-    private val emptyList: MutableList<String> = mutableListOf()
+    private val emptySet: Set<ChannelEntity> = mutableSetOf()
+    private val emptyList: List<String> = mutableListOf()
 
     override fun saveGroupsFromApiToDbReturnChannelIds():
-            Single<MutableSet<ChannelEntity>> {
+            Single<Set<ChannelEntity>> {
         return tvApi.getGroupsFromApi()
             .flatMap { list ->
                 val map = GroupMapper.map(list)
                 val groups = map.keys.toList().sortedBy { it.id }
-                val channels = mutableSetOf<ChannelEntity>()
-                map.values.forEach { list1 -> channels.addAll(list1.sortedBy { it.id }) }
+                val channelMutableSet = mutableSetOf<ChannelEntity>()
+                map.values.forEach { list1 -> channelMutableSet.addAll(list1.sortedBy { it.id }) }
+
+                val channelSet: Set<ChannelEntity> = HashSet<ChannelEntity>(channelMutableSet)
                 Timber.d("groups: $groups")
                 //  insert
                 groupDao.insertGroups(groups)
-                    .toSingleDefault(channels).onErrorReturnItem(emptySet)
+                    .toSingleDefault(channelSet).onErrorReturnItem(emptySet)
             }
             .subscribeOn(Schedulers.io())
     }
 
-    override fun saveChannelsFromApiToDb(set: MutableSet<ChannelEntity>): Single<MutableList<String>> {
+    override fun saveChannelsFromApiToDb(set: Set<ChannelEntity>): Single<List<String>> {
         return Single.fromCallable { set }
             .flatMap { set1 ->
                 val channels = mutableListOf<ChannelEntity>()
                 channels.addAll(set1)
-                val channelIdList = mutableListOf<String>()
+                val channelIdMutableList = mutableListOf<String>()
                 channels.forEach {
-                    channelIdList.add(it.id)
+                    channelIdMutableList.add(it.id)
                 }
+                val channelIdList: List<String> = ArrayList<String>(channelIdMutableList)
+                Timber.d("channels: $channels")
+                //  insert
                 channelDao.insertChannels(channels)
                     .toSingleDefault(channelIdList).onErrorReturnItem(emptyList)
             }
             .subscribeOn(Schedulers.io())
     }
 
-    override fun saveProgramsFromApiToDb(id: String, channelIdList: MutableList<String>): Completable {
+    override fun saveProgramsFromApiToDb(id: String, channelIdList: List<String>): Completable {
         return tvApi.getProgramsFromApi(id)
             .flatMapCompletable { list ->
                 val allProgramEntities = mutableListOf<ProgramEntity>()
@@ -68,7 +71,10 @@ class TVRepositoryImpl @Inject constructor(
                     programMapper.setChannelId(channelId)
                     val programEntities = programMapper.map(list)
                     allProgramEntities.addAll(programEntities)
+                    Timber.d("programs: $programEntities")
                 }
+                Timber.d("all programs: $allProgramEntities")
+                //  insert
                 programDao.insertPrograms(allProgramEntities)
             }
             .subscribeOn(Schedulers.io())

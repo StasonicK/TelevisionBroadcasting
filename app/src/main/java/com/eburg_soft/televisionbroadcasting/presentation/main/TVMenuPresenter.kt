@@ -129,10 +129,23 @@ class TVMenuPresenter @Inject constructor(
         return list.isEmpty()
     }
 
-
     private fun saveAllDataFromApiToDb() {
         view?.showLoading()
         subscribe(
+//            saveGroupsFromApiToDbReturnChannelChannelIdsUseCase.execute()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .flatMap {
+//                    saveChannelsFromApiToDbUseCase.execute(it)
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .flatMap { ids ->
+//                            saveProgramsFromApiToDbUseCase.execute("1", ids)
+//                                .subscribeOn(Schedulers.io())
+//                                .observeOn(AndroidSchedulers.mainThread())
+//                        }
+//                }
+//                .subscribe()
             saveGroupsFromApiToDbReturnChannelChannelIdsUseCase.execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -151,12 +164,12 @@ class TVMenuPresenter @Inject constructor(
                                     when (error) {
                                         is NetworkErrorException, is UnknownHostException -> {
                                             view?.showNetworkErrorMessage("Error")
-                                            Timber.d("saveProgramsFromApiToDbUseCase error")
+                                            Timber.d("saveProgramsFromApiToDbUseCase network error")
                                             view?.hideLoading()
                                         }
                                         else -> {
                                             error.printStackTrace()
-                                            Timber.d(error.message)
+                                            Timber.d("saveProgramsFromApiToDbUseCase error: ${error.message}")
                                             view?.hideLoading()
                                         }
                                     }
@@ -167,12 +180,12 @@ class TVMenuPresenter @Inject constructor(
                             when (error) {
                                 is NetworkErrorException, is UnknownHostException -> {
                                     view?.showNetworkErrorMessage("Error")
-                                    Timber.d("saveChannelsFromApiToDbUseCase error")
+                                    Timber.d("saveChannelsFromApiToDbUseCase network error")
                                     view?.hideLoading()
                                 }
                                 else -> {
                                     error.printStackTrace()
-                                    Timber.d(error.message)
+                                    Timber.d("saveGroupsFromApiToDbReturnChannelChannelIdsUseCase error: ${error.message}")
                                     view?.hideLoading()
                                 }
                             }
@@ -183,12 +196,12 @@ class TVMenuPresenter @Inject constructor(
                     when (error) {
                         is NetworkErrorException, is UnknownHostException -> {
                             view?.showNetworkErrorMessage("Error")
-                            Timber.d("saveGroupsFromApiToDbReturnChannelChannelIdsUseCase error")
+                            Timber.d("saveGroupsFromApiToDbReturnChannelChannelIdsUseCase network error")
                             view?.hideLoading()
                         }
                         else -> {
                             error.printStackTrace()
-                            Timber.d(error.message)
+                            Timber.d("saveGroupsFromApiToDbReturnChannelChannelIdsUseCase error: ${error.message}")
                             view?.hideLoading()
                         }
                     }

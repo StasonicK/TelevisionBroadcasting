@@ -1,7 +1,6 @@
 package com.eburg_soft.televisionbroadcasting.core
 
 import android.app.Application
-import com.eburg_soft.televisionbroadcasting.BuildConfig
 import com.eburg_soft.televisionbroadcasting.data.di.application.AppComponent
 import com.eburg_soft.televisionbroadcasting.data.di.application.AppContextModule
 import com.eburg_soft.televisionbroadcasting.data.di.application.DaggerAppComponent
@@ -50,7 +49,7 @@ class TelevisionBroadcastingApp : Application() {
 
     private fun initTimber() {
 //        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
+        Timber.plant(Timber.DebugTree())
 //        }
     }
 }

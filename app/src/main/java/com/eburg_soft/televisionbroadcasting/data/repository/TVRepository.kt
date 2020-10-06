@@ -9,15 +9,11 @@ import io.reactivex.Single
 
 interface TVRepository {
 
-    fun saveGroupsFromApiToDbReturnChannelIds(): //Completable
-//            Single<MutableSet<String>>
-//            Single<Map<GroupEntity, MutableList<ChannelEntity>>>
-            Single<MutableSet<ChannelEntity>>
+    fun saveGroupsFromApiToDbReturnChannelIds(): Single<Set<ChannelEntity>>
 
-    fun saveChannelsFromApiToDb(set: MutableSet<ChannelEntity>): //Completable
-            Single<MutableList<String>>
+    fun saveChannelsFromApiToDb(set: Set<ChannelEntity>): Single<List<String>>
 
-    fun saveProgramsFromApiToDb(id: String, channelIdList: MutableList<String>): Completable
+    fun saveProgramsFromApiToDb(id: String, channelIdList: List<String>): Completable
 
     fun getAllGroups(): Flowable<List<GroupEntity>>
 

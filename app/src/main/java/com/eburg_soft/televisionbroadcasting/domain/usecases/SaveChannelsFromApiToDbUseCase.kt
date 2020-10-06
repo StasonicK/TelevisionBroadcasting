@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 class SaveChannelsFromApiToDbUseCase @Inject constructor(private val repository: TVRepository) {
 
-    fun execute(set: MutableSet<ChannelEntity>): Single<MutableList<String>> = repository.saveChannelsFromApiToDb(set)
+    fun execute(set: Set<ChannelEntity>): Single<List<String>> = repository.saveChannelsFromApiToDb(set)
 }

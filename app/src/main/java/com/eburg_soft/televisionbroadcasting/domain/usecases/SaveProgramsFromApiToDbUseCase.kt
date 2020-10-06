@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class SaveProgramsFromApiToDbUseCase @Inject constructor(private val repository: TVRepository) {
 
-    fun execute(id: String, channelIdList: MutableList<String>): Completable =
+    fun execute(id: String, channelIdList: List<String>): Completable =
         repository.saveProgramsFromApiToDb(id, channelIdList)
 }
