@@ -13,16 +13,19 @@ interface TVMenuContract {
 
         fun hideLoading()
 
-        fun submitGroupsList(list: List<GroupEntity>)
-        fun submitChannelsList(list: List<ChannelEntity>)
-        fun submitProgramsList(list: List<ProgramEntity>)
+        fun submitGroupList(list: List<GroupEntity>)
+        fun submitChannelList(list: List<ChannelEntity>)
+        fun submitProgramList(list: List<ProgramEntity>)
         fun submitDaysList(list: List<DayEntity>)
+
+        fun submitDefaultGroupId(groupId: String)
+        fun submitDefaultChannelId(channelId: String)
 
         fun showNetworkErrorMessage(message: String)
 
         fun showGroupsRecycler()
-        fun showChannelsRecycler(chId: String?)
-        fun showProgramsRecycler(prId: String?)
+        fun showChannelsRecycler()
+        fun showProgramsRecycler()
         fun showDaysRecycler()
     }
 

@@ -75,8 +75,8 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         }
 
         showGroupsRecycler()
-        showChannelsRecycler(groupId)
-        showProgramsRecycler(channelId)
+        showChannelsRecycler()
+        showProgramsRecycler()
         showDaysRecycler()
     }
 
@@ -109,20 +109,30 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         requireActivity().pb_main.visibility = View.GONE
     }
 
-    override fun submitGroupsList(list: List<GroupEntity>) {
+    override fun submitGroupList(list: List<GroupEntity>) {
         groupsAdapter.submitList(list)
     }
 
-    override fun submitChannelsList(list: List<ChannelEntity>) {
+    override fun submitChannelList(list: List<ChannelEntity>) {
         channelsAdapter.submitList(list)
     }
 
-    override fun submitProgramsList(list: List<ProgramEntity>) {
+    override fun submitProgramList(list: List<ProgramEntity>) {
         programsAdapter.submitList(list)
     }
 
     override fun submitDaysList(list: List<DayEntity>) {
         daysAdapter.submitList(list)
+    }
+
+    override fun submitDefaultGroupId(groupId: String) {
+//        if (this.groupId.isNullOrEmpty())
+            this.groupId = groupId
+    }
+
+    override fun submitDefaultChannelId(channelId: String) {
+//        if (this.channelId.isNullOrEmpty())
+            this.channelId = channelId
     }
 
     override fun showNetworkErrorMessage(message: String) {
@@ -139,15 +149,15 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                 }
                 view.isFocusable = true
             }
-            adapter = groupsAdapter
             presenter.loadGroupsFromDb()
+            adapter = groupsAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
         Timber.d("showGroupsRecycler accomplished")
     }
 
-    override fun showChannelsRecycler(chId: String?) {
+    override fun showChannelsRecycler() {
         recycler_channel_list.apply {
             channelsAdapter.setOnClick { any, view ->
                 (any as GroupEntity).let {
@@ -157,21 +167,16 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                 view.isFocusable = true
             }
             adapter = channelsAdapter
+            // TODO: 06.10.2020 add item highlighting
 
-            if (chId.isNullOrEmpty()) {
-                val defaultGroup = groupsAdapter.currentList[0].id
-                // TODO: 06.10.2020 add item highlighting
-                presenter.loadChannelsByGroupIdFromDb(defaultGroup)
-            } else presenter.loadChannelsByGroupIdFromDb(chId)
-            chId?.let { presenter.loadChannelsByGroupIdFromDb(chId) }
-
+            channelId?.let { presenter.loadChannelsByGroupIdFromDb(it) }
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
         Timber.d("showChannelsRecycler accomplished")
     }
 
-    override fun showProgramsRecycler(prId: String?) {
+    override fun showProgramsRecycler() {
         recycler_programs_list.apply {
             programsAdapter.setOnClick { any, view ->
                 (any as ProgramEntity).let {
@@ -180,13 +185,9 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                 view.isFocusable = true
             }
             adapter = programsAdapter
+            // TODO: 06.10.2020 add item highlighting
 
-            if (prId.isNullOrEmpty()) {
-//                val defaultChannel = channelsAdapter.currentList[0].id
-                // TODO: 06.10.2020 add item highlighting
-//                presenter.loadProgramsByChannelIdFromDb(defaultChannel)
-            } else presenter.loadProgramsByChannelIdFromDb(prId)
-//            prId?.let { presenter.loadProgramsByChannelIdFromDb(it) }
+            programId?.let { presenter.loadProgramsByChannelIdFromDb(it) }
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }

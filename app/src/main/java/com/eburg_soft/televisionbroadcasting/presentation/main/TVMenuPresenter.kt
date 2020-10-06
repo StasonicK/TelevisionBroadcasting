@@ -46,7 +46,8 @@ class TVMenuPresenter @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ list ->
-                    view?.submitGroupsList(list)
+                    view?.submitDefaultGroupId(list[0].id)
+                    view?.submitGroupList(list)
                     Timber.d("getAllGroupsUseCase accomplished")
                     view?.hideLoading()
                 }, {
@@ -65,7 +66,8 @@ class TVMenuPresenter @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ list ->
-                    view?.submitChannelsList(list)
+                    view?.submitDefaultChannelId(list[0].id)
+                    view?.submitChannelList(list)
                     Timber.d("getChannelsByGroupIdUseCase accomplished")
                     view?.hideLoading()
                 }, {
@@ -84,7 +86,7 @@ class TVMenuPresenter @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ list ->
-                    view?.submitProgramsList(list)
+                    view?.submitProgramList(list)
                     Timber.d("getProgramsByChannelIdUseCase accomplished")
                     view?.hideLoading()
                 }, {
