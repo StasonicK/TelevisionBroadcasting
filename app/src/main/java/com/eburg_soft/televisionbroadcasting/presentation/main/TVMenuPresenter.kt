@@ -7,11 +7,11 @@ import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChannelIdUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsAndChannelsFromApiToDbReturnIdsUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveChannelsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsFromApiToDbReturnChannelIdsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveProgramsFromApiToDbUseCase
 import com.eburg_soft.televisionbroadcasting.presentation.main.TVMenuContract.View
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.net.UnknownHostException
@@ -21,7 +21,8 @@ class TVMenuPresenter @Inject constructor(
     private val getAllGroupsUseCase: GetAllGroupsUseCase,
     private val getChannelsByGroupIdUseCase: GetChannelsByGroupIdUseCase,
     private val getProgramsByChannelIdUseCase: GetProgramsByChannelIdUseCase,
-    private val saveGroupsAndChannelsFromApiToDbReturnIdsUseCase: SaveGroupsAndChannelsFromApiToDbReturnIdsUseCase,
+    private val saveGroupsFromApiToDbReturnChannelChannelIdsUseCase: SaveGroupsFromApiToDbReturnChannelIdsUseCase,
+    private val saveChannelsFromApiToDbUseCase: SaveChannelsFromApiToDbUseCase,
     private val saveProgramsFromApiToDbUseCase: SaveProgramsFromApiToDbUseCase,
     private val removeAllGroupsUseCase: RemoveAllGroupsUseCase
 ) : TVMenuContract.Presenter() {
@@ -32,11 +33,8 @@ class TVMenuPresenter @Inject constructor(
     }
 
     override fun syncData() {
-        view?.showLoading()
         if (isDbEmpty()) {
-            subscribe(
-                saveAllDataInDb()
-            )
+            saveAllDataFromApiToDb()
         }
     }
 
@@ -131,48 +129,84 @@ class TVMenuPresenter @Inject constructor(
         return list.isEmpty()
     }
 
-    private fun saveAllDataInDb(): Disposable {
-        return saveGroupsAndChannelsFromApiToDbReturnIdsUseCase
-            .execute()
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .subscribe({ ids ->
-                ids.forEach { id ->
-                    saveProgramsFromApiToDbUseCase.execute("1", id)
-                        .observeOn(Schedulers.io())
+    private fun saveAllDataFromApiToDb() {
+        view?.showLoading()
+        subscribe(
+//            saveGroupsFromApiToDbReturnChannelChannelIdsUseCase.execute()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .flatMap {
+//                    saveChannelsFromApiToDbUseCase.execute(it)
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .flatMap { ids ->
+//                            saveProgramsFromApiToDbUseCase.execute("1", ids)
+//                                .subscribeOn(Schedulers.io())
+//                                .observeOn(AndroidSchedulers.mainThread())
+//                        }
+//                }
+//                .subscribe()
+            saveGroupsFromApiToDbReturnChannelChannelIdsUseCase.execute()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ it ->
+                    saveChannelsFromApiToDbUseCase.execute(it)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
-                            Timber.d("saveProgramsFromApiToDbUseCase fetched $id")
+                            saveProgramsFromApiToDbUseCase.execute("1", it)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe({
+
+                                    Timber.d("saveProgramsFromApiToDbUseCase accomplished")
+                                }, { error ->
+                                    when (error) {
+                                        is NetworkErrorException, is UnknownHostException -> {
+                                            view?.showNetworkErrorMessage("Error")
+                                            Timber.d("saveProgramsFromApiToDbUseCase network error")
+                                            view?.hideLoading()
+                                        }
+                                        else -> {
+                                            error.printStackTrace()
+                                            Timber.d("saveProgramsFromApiToDbUseCase error: ${error.message}")
+                                            view?.hideLoading()
+                                        }
+                                    }
+                                })
+
+                            Timber.d("saveChannelsFromApiToDbUseCase accomplished")
                         }, { error ->
                             when (error) {
                                 is NetworkErrorException, is UnknownHostException -> {
                                     view?.showNetworkErrorMessage("Error")
-                                    Timber.d("saveProgramsFromApiToDbUseCase error")
+                                    Timber.d("saveChannelsFromApiToDbUseCase network error")
                                     view?.hideLoading()
                                 }
                                 else -> {
                                     error.printStackTrace()
-                                    Timber.d(error.message)
+                                    Timber.d("saveGroupsFromApiToDbReturnChannelChannelIdsUseCase error: ${error.message}")
                                     view?.hideLoading()
                                 }
                             }
                         })
-                }
-                Timber.d("getAllGroupsUseCase accomplished")
-                view?.hideLoading()
-            }, { error ->
-                when (error) {
-                    is NetworkErrorException, is UnknownHostException -> {
-                        view?.showNetworkErrorMessage("Error")
-                        Timber.d("saveGroupsAndChannelsFromApiToDbReturnIdsUseCase error")
-                        view?.hideLoading()
+
+                    Timber.d("saveProgramsFromApiToDbUseCase accomplished")
+                }, { error ->
+                    when (error) {
+                        is NetworkErrorException, is UnknownHostException -> {
+                            view?.showNetworkErrorMessage("Error")
+                            Timber.d("saveGroupsFromApiToDbReturnChannelChannelIdsUseCase network error")
+                            view?.hideLoading()
+                        }
+                        else -> {
+                            error.printStackTrace()
+                            Timber.d("saveGroupsFromApiToDbReturnChannelChannelIdsUseCase error: ${error.message}")
+                            view?.hideLoading()
+                        }
                     }
-                    else -> {
-                        error.printStackTrace()
-                        Timber.d(error.message)
-                        view?.hideLoading()
-                    }
                 }
-            }
-            )
+                )
+        )
     }
 }

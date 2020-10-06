@@ -2,7 +2,6 @@ package com.eburg_soft.televisionbroadcasting.presentation.main
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,6 @@ import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdap
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsAdapter
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.pb_main
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_channel_list
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_days_list
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_group_list
@@ -103,11 +101,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     //region ====================== Contract implementation ======================
 
     override fun showLoading() {
-        requireActivity().pb_main.visibility = View.VISIBLE
+//        requireActivity().pb_main.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        requireActivity().pb_main.visibility = View.GONE
+//        requireActivity().pb_main.visibility = View.GONE
     }
 
     override fun submitGroupsList(list: List<GroupEntity>) {
