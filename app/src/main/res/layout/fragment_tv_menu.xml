@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_light"
+    android:background="@color/black"
     tools:context=".presentation.main.TVMenuFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -23,6 +23,7 @@
         android:layout_height="@dimen/height_program_item"
         android:layout_marginTop="@dimen/margin_vertical_very_small"
         android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/view_blue_lint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recycler_days_list"
@@ -39,24 +40,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recycler_programs_list" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_channel_list"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_channel_item"
         android:layout_marginTop="@dimen/margin_vertical_very_small"
         android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_group_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_blue_lint"
         tools:listitem="@layout/item_channels_recycler"
         tools:visibility="visible" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_group_list"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_text_list"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/img_bear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recycler_channel_list"

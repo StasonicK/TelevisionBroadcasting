@@ -95,7 +95,7 @@ class TVMenuPresenter @Inject constructor(
         )
     }
 
-    override fun loadDaysByChannelIdFromDb() {
+    override fun loadDaysFromDb() {
         view?.showLoading()
         view?.submitDaysList(TestDataDb.generateDayEntities("01.06.2020", "14.06.2020"))
         view?.hideLoading()

@@ -33,7 +33,7 @@ interface TVMenuContract {
         abstract fun loadGroupsFromDb()
         abstract fun loadChannelsByGroupIdFromDb(groupId: String)
         abstract fun loadProgramsByChannelIdFromDb(channelId: String)
-        abstract fun loadDaysByChannelIdFromDb()
+        abstract fun loadDaysFromDb()
         abstract fun removeAllGroups()
     }
 }

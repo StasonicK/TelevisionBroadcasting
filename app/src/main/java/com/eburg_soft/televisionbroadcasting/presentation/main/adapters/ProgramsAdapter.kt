@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_programs_recycler.view.tv_program_nam
 class ProgramsAdapter : BaseAdapter<ProgramEntity, ProgramViewHolder>(ProgramsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProgramViewHolder {
-        val view = parent.inflate(R.layout.item_channels_recycler)
+        val view = parent.inflate(R.layout.item_programs_recycler)
         return ProgramViewHolder(view)
     }
 

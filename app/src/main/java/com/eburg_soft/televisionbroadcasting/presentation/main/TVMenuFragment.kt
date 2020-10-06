@@ -18,6 +18,7 @@ import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdap
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsAdapter
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.pb_main
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_channel_list
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_days_list
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_group_list
@@ -30,10 +31,10 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     @Inject
     lateinit var presenter: TVMenuContract.Presenter
 
-    private val groupAdapter: GroupsAdapter? = null
-    private val channelsAdapter: ChannelsAdapter? = null
-    private val programsAdapter: ProgramsAdapter? = null
-    private val dayAdapter: DaysAdapter? = null
+    private val groupsAdapter = GroupsAdapter()
+    private val channelsAdapter = ChannelsAdapter()
+    private val programsAdapter = ProgramsAdapter()
+    private val daysAdapter = DaysAdapter()
 
     private var groupId: String? = null
     private var channelId: String? = null
@@ -101,27 +102,27 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     //region ====================== Contract implementation ======================
 
     override fun showLoading() {
-//        requireActivity().pb_main.visibility = View.VISIBLE
+        requireActivity().pb_main.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-//        requireActivity().pb_main.visibility = View.GONE
+        requireActivity().pb_main.visibility = View.GONE
     }
 
     override fun submitGroupsList(list: List<GroupEntity>) {
-        groupAdapter?.submitList(list)
+        groupsAdapter.submitList(list)
     }
 
     override fun submitChannelsList(list: List<ChannelEntity>) {
-        channelsAdapter?.submitList(list)
+        channelsAdapter.submitList(list)
     }
 
     override fun submitProgramsList(list: List<ProgramEntity>) {
-        programsAdapter?.submitList(list)
+        programsAdapter.submitList(list)
     }
 
     override fun submitDaysList(list: List<DayEntity>) {
-        dayAdapter?.submitList(list)
+        daysAdapter.submitList(list)
     }
 
     override fun showNetworkErrorMessage(message: String) {
@@ -131,59 +132,77 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
 
     override fun showGroupsRecycler() {
         recycler_group_list.apply {
-            groupAdapter?.setOnClick { any, view ->
+            groupsAdapter.setOnClick { any, view ->
                 (any as GroupEntity).let {
                     presenter.loadChannelsByGroupIdFromDb(it.id)
                     groupId = it.id
                 }
                 view.isFocusable = true
             }
+            adapter = groupsAdapter
             presenter.loadGroupsFromDb()
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = groupAdapter
             setHasFixedSize(true)
         }
-        Timber.d("showGroupsList accomplished")
+        Timber.d("showGroupsRecycler accomplished")
     }
 
-    override fun showChannelsRecycler(grId: String?) {
+    override fun showChannelsRecycler(chId: String?) {
         recycler_channel_list.apply {
-            channelsAdapter?.setOnClick { any, view ->
+            channelsAdapter.setOnClick { any, view ->
                 (any as GroupEntity).let {
                     presenter.loadProgramsByChannelIdFromDb(any.id)
                     channelId = any.id
                 }
                 view.isFocusable = true
             }
-            grId?.let { presenter.loadChannelsByGroupIdFromDb(grId) }
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = channelsAdapter
+
+            if (chId.isNullOrEmpty()) {
+                val defaultGroup = groupsAdapter.currentList[0].id
+                // TODO: 06.10.2020 add item highlighting
+                presenter.loadChannelsByGroupIdFromDb(defaultGroup)
+            } else presenter.loadChannelsByGroupIdFromDb(chId)
+            chId?.let { presenter.loadChannelsByGroupIdFromDb(chId) }
+
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
-        Timber.d("showChannelsList accomplished")
+        Timber.d("showChannelsRecycler accomplished")
     }
 
-    override fun showProgramsRecycler(chId: String?) {
+    override fun showProgramsRecycler(prId: String?) {
         recycler_programs_list.apply {
-            programsAdapter?.setOnClick { any, view ->
+            programsAdapter.setOnClick { any, view ->
                 (any as ProgramEntity).let {
                     programId = any.id
                 }
                 view.isFocusable = true
             }
-            chId?.let { presenter.loadProgramsByChannelIdFromDb(it) }
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = programsAdapter
+
+            if (prId.isNullOrEmpty()) {
+//                val defaultChannel = channelsAdapter.currentList[0].id
+                // TODO: 06.10.2020 add item highlighting
+//                presenter.loadProgramsByChannelIdFromDb(defaultChannel)
+            } else presenter.loadProgramsByChannelIdFromDb(prId)
+//            prId?.let { presenter.loadProgramsByChannelIdFromDb(it) }
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
-        Timber.d("showProgramsList accomplished")
+        Timber.d("showProgramsRecycler accomplished")
     }
 
     override fun showDaysRecycler() {
         recycler_days_list.apply {
-            presenter.loadDaysByChannelIdFromDb()
+            daysAdapter.setOnClick { any, view ->
+                (any as DayEntity).let {
+                    dayId = it.id
+                }
+            }
+            presenter.loadDaysFromDb()
+            adapter = daysAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = dayAdapter
             setHasFixedSize(true)
         }
     }

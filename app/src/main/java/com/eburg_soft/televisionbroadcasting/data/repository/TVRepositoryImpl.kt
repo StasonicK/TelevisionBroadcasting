@@ -37,7 +37,7 @@ class TVRepositoryImpl @Inject constructor(
                 map.values.forEach { list1 -> channelMutableSet.addAll(list1.sortedBy { it.id }) }
 
                 val channelSet: Set<ChannelEntity> = HashSet<ChannelEntity>(channelMutableSet)
-                Timber.d("groups: $groups")
+                Timber.d("saveGroupsFromApiToDbReturnChannelIds accomplished")
                 //  insert
                 groupDao.insertGroups(groups)
                     .toSingleDefault(channelSet).onErrorReturnItem(emptySet)
@@ -71,7 +71,7 @@ class TVRepositoryImpl @Inject constructor(
                     }
                 }
                 val channelIdList: List<String> = ArrayList<String>(channelIdMutableList)
-                Timber.d("channels: $channels")
+                Timber.d("saveChannelsFromApiToDb accomplished")
                 //  insert
                 channelDao.insertChannels(channels)
                     .toSingleDefault(channelIdList).onErrorReturnItem(emptyList)
@@ -87,9 +87,8 @@ class TVRepositoryImpl @Inject constructor(
                     programMapper.setChannelId(channelId)
                     val programEntities = programMapper.map(list)
                     allProgramEntities.addAll(programEntities)
-                    Timber.d("programs: $programEntities")
                 }
-                Timber.d("all programs: $allProgramEntities")
+                Timber.d("saveProgramsFromApiToDb accomplished")
                 //  insert
                 programDao.insertPrograms(allProgramEntities)
             }
