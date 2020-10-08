@@ -3,13 +3,13 @@ package com.eburg_soft.televisionbroadcasting.presentation.presenters
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.GroupMapper
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChannelIdUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsFromDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdFromDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChannelIdFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveChannelsFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsFromApiToDbReturnChannelIdsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveProgramsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchChannelsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchGroupsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchProgramsFromApiToDbUseCase
 import com.eburg_soft.televisionbroadcasting.presentation.main.TVMenuPresenter
 import eburg_soft.televisionbroadcasting.utils.TestUtil
 import io.mockk.*
@@ -30,22 +30,22 @@ class TVMenuPresenterTest {
     private lateinit var presenter: TVMenuPresenter
 
     @MockK
-    private lateinit var getAllGroupsUseCase: GetAllGroupsUseCase
+    private lateinit var mGetAllGroupsFromDbUseCase: GetAllGroupsFromDbUseCase
 
     @MockK
-    private lateinit var getChannelsByGroupIdUseCase: GetChannelsByGroupIdUseCase
+    private lateinit var mGetChannelsByGroupIdFromDbUseCase: GetChannelsByGroupIdFromDbUseCase
 
     @MockK
-    private lateinit var getProgramsByChannelIdUseCase: GetProgramsByChannelIdUseCase
+    private lateinit var mGetProgramsByChannelIdFromDbUseCase: GetProgramsByChannelIdFromDbUseCase
 
     @MockK
-    private lateinit var saveGroupsFromApiToDbReturnChannelIdsUseCase: SaveGroupsFromApiToDbReturnChannelIdsUseCase
+    private lateinit var mFetchGroupsFromApiToDbUseCase: FetchGroupsFromApiToDbUseCase
 
     @MockK
-    private lateinit var saveProgramsFromApiToDbUseCase: SaveProgramsFromApiToDbUseCase
+    private lateinit var mFetchProgramsFromApiToDbUseCase: FetchProgramsFromApiToDbUseCase
 
     @MockK
-    private lateinit var saveChannelsFromApiToDbUseCase: SaveChannelsFromApiToDbUseCase
+    private lateinit var mFetchChannelsFromApiToDbUseCase: FetchChannelsFromApiToDbUseCase
 
     @MockK
     private lateinit var removeAllGroupsUseCase: RemoveAllGroupsUseCase
@@ -54,12 +54,12 @@ class TVMenuPresenterTest {
     fun init() {
         MockKAnnotations.init(this)
         presenter = TVMenuPresenter(
-            getAllGroupsUseCase,
-            getChannelsByGroupIdUseCase,
-            getProgramsByChannelIdUseCase,
-            saveGroupsFromApiToDbReturnChannelIdsUseCase,
-            saveChannelsFromApiToDbUseCase,
-            saveProgramsFromApiToDbUseCase,
+            mGetAllGroupsFromDbUseCase,
+            mGetChannelsByGroupIdFromDbUseCase,
+            mGetProgramsByChannelIdFromDbUseCase,
+            mFetchGroupsFromApiToDbUseCase,
+            mFetchChannelsFromApiToDbUseCase,
+            mFetchProgramsFromApiToDbUseCase,
             removeAllGroupsUseCase
         )
     }
@@ -108,15 +108,15 @@ class TVMenuPresenterTest {
         }
         val channelIdList: List<String> = ArrayList<String>(channelIdMutableList)
 
-        every { saveGroupsFromApiToDbReturnChannelIdsUseCase.execute() } returns Single.just(channelSet)
-        every { saveChannelsFromApiToDbUseCase.execute(any()) } returns Single.just(channelIdList)
-        every { saveProgramsFromApiToDbUseCase.execute(any(), any()) } returns Completable.complete()
+        every { mFetchGroupsFromApiToDbUseCase.execute() } returns Single.just(channelSet)
+        every { mFetchChannelsFromApiToDbUseCase.execute(any()) } returns Single.just(channelIdList)
+        every { mFetchProgramsFromApiToDbUseCase.execute(any(), any()) } returns Completable.complete()
 
         //  Act
         presenter.saveAllDataFromApiToDb()
 
         //  Assert
-        verify(exactly = 1) { saveGroupsFromApiToDbReturnChannelIdsUseCase.execute() }
+        verify(exactly = 1) { mFetchGroupsFromApiToDbUseCase.execute() }
 //        verify(exactly = 1) { saveChannelsFromApiToDbUseCase.execute(any()) }
 //        verify(exactly = 25) { saveProgramsFromApiToDbUseCase.execute(any(), any()) }
     }
@@ -131,13 +131,13 @@ class TVMenuPresenterTest {
         val groupResponses = TestUtil.TEST_GROUP_RESPONSES
         val map = GroupMapper.map(groupResponses)
         val groupEntities = map.keys.toList().sortedBy { it.id }
-        every { getAllGroupsUseCase.execute() } returns Flowable.just(groupEntities)
+        every { mGetAllGroupsFromDbUseCase.execute() } returns Flowable.just(groupEntities)
 
         //  Act
         presenter.loadGroupsFromDb()
 
         //  Assert
-        verify(exactly = 1) { getAllGroupsUseCase.execute() }
+        verify(exactly = 1) { mGetAllGroupsFromDbUseCase.execute() }
     }
 
     /*
@@ -148,13 +148,13 @@ class TVMenuPresenterTest {
     fun loadChannelsByGroupIdFromDb() {
         //    Arrange
         val channelEntities = TestUtil.TEST_CHANNEL_ENTITIES_5
-        every { getChannelsByGroupIdUseCase.execute(any()) } returns Flowable.just(channelEntities)
+        every { mGetChannelsByGroupIdFromDbUseCase.execute(any()) } returns Flowable.just(channelEntities)
 
         //  Act
         presenter.loadChannelsByGroupIdFromDb("1")
 
         //  Assert
-        verify(exactly = 1) { getChannelsByGroupIdUseCase.execute(any()) }
+        verify(exactly = 1) { mGetChannelsByGroupIdFromDbUseCase.execute(any()) }
     }
 
     /*
@@ -166,13 +166,13 @@ class TVMenuPresenterTest {
         //    Arrange
         val channelId = "1"
         val programEntities = TestUtil.generateTestProgramEntities(1, 1, channelId)
-        every { getProgramsByChannelIdUseCase.execute(channelId) } returns Flowable.just(programEntities)
+        every { mGetProgramsByChannelIdFromDbUseCase.execute(channelId) } returns Flowable.just(programEntities)
 
         //  Act
         presenter.loadProgramsByChannelIdFromDb(channelId)
 
         //  Assert
-        verify(exactly = 1) { getProgramsByChannelIdUseCase.execute(channelId) }
+        verify(exactly = 1) { mGetProgramsByChannelIdFromDbUseCase.execute(channelId) }
     }
 
     /*

@@ -5,7 +5,7 @@ import com.eburg_soft.televisionbroadcasting.data.repository.TVRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class GetAllGroupsUseCase @Inject constructor(private val repository: TVRepository) {
+class GetAllGroupsFromDbUseCase @Inject constructor(private val repository: TVRepository) {
 
     fun execute(): Flowable<List<GroupEntity>> = repository.getAllGroups()
 }

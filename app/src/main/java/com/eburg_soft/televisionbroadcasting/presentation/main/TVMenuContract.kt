@@ -27,17 +27,24 @@ interface TVMenuContract {
         fun showChannelsRecycler()
         fun showProgramsRecycler()
         fun showDaysRecycler()
+
+        fun populateRecyclers()
     }
 
     abstract class Presenter : BaseContract.Presenter<View>() {
 
         abstract fun syncData()
+//        abstract fun fetchGroupsWithChannelsFromApiIntoDb()
+//        abstract fun fetchProgramsByChannelIdFromApiIntoDb(channelIdList: List<String>)
+//        abstract fun fetchDaysFromApiIntoDb()
 
+        abstract fun loadAllData()
         abstract fun loadGroupsFromDb()
         abstract fun loadChannelsByGroupIdFromDb(groupId: String)
         abstract fun loadProgramsByChannelIdFromDb(channelId: String)
         abstract fun loadDaysFromDb()
 
         abstract fun removeAllGroups()
+
     }
 }

@@ -31,7 +31,7 @@ class TVRepositoryImpl @Inject constructor(
     private val emptySet: Set<ChannelEntity> = mutableSetOf()
     private val emptyList: List<String> = mutableListOf()
 
-    override fun saveGroupsFromApiToDbReturnChannelIds():
+    override fun fetchGroupsFromApiToDbReturnChannelIds():
             Single<Set<ChannelEntity>> {
         return tvApi.getGroupsFromApi()
             .flatMap { list ->
@@ -41,7 +41,7 @@ class TVRepositoryImpl @Inject constructor(
                 map.values.forEach { list1 -> channelMutableSet.addAll(list1.sortedBy { it.id }) }
 
                 val channelSet: Set<ChannelEntity> = HashSet<ChannelEntity>(channelMutableSet)
-                Timber.d("saveGroupsFromApiToDbReturnChannelIds accomplished")
+                Timber.d("fetchGroupsFromApiToDbReturnChannelIds accomplished")
                 //  insert
                 groupDao.insertGroups(groups)
                     .toSingleDefault(channelSet).onErrorReturnItem(emptySet)
@@ -49,7 +49,7 @@ class TVRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun saveChannelsFromApiToDb(set: Set<ChannelEntity>): Single<List<String>> {
+    override fun fetchChannelsFromApiToDb(set: Set<ChannelEntity>): Single<List<String>> {
         return Single.fromCallable { set }
             .flatMap { set1 ->
                 val channels = mutableListOf<ChannelEntity>()
@@ -75,7 +75,7 @@ class TVRepositoryImpl @Inject constructor(
                     }
                 }
                 val channelIdList: List<String> = ArrayList<String>(channelIdMutableList)
-                Timber.d("saveChannelsFromApiToDb accomplished")
+                Timber.d("fetchChannelsFromApiToDb accomplished")
                 //  insert
                 channelDao.insertChannels(channels)
                     .toSingleDefault(channelIdList).onErrorReturnItem(emptyList)
@@ -83,7 +83,7 @@ class TVRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun saveProgramsFromApiToDb(id: String, channelIdList: List<String>): Completable {
+    override fun fetchProgramsFromApiToDb(id: String, channelIdList: List<String>): Completable {
         return tvApi.getProgramsFromApi(id)
             .flatMapCompletable { list ->
                 val allProgramEntities = mutableListOf<ProgramEntity>()
@@ -92,17 +92,17 @@ class TVRepositoryImpl @Inject constructor(
                     val programEntities = programMapper.map(list)
                     allProgramEntities.addAll(programEntities)
                 }
-                Timber.d("saveProgramsFromApiToDb accomplished")
+                Timber.d("fetchProgramsFromApiToDb accomplished")
                 //  insert
                 programDao.insertPrograms(allProgramEntities)
             }
             .subscribeOn(Schedulers.io())
     }
 
-    override fun saveDaysFromApiToDb(): Completable {
+    override fun fetchDaysFromApiToDb(): Completable {
         return Single.fromCallable { TestDataDb.generateDayEntities("01.06.2020", "14.06.2020")}
             .flatMapCompletable { days->
-                Timber.d("saveDaysFromApiToDb accomplished")
+                Timber.d("fetchDaysFromApiToDb accomplished")
                 //  insert
                 dayDao.insertDays(days)
             }

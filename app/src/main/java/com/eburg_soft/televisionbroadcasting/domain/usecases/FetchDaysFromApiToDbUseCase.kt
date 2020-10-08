@@ -5,7 +5,7 @@ import com.eburg_soft.televisionbroadcasting.data.repository.TVRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class SaveDaysFromApiToDbUseCase @Inject constructor(private val repository: TVRepository) {
+class FetchDaysFromApiToDbUseCase @Inject constructor(private val repository: TVRepository) {
 
     fun execute(): Flowable<List<DayEntity>> = repository.getAllDays()
 }

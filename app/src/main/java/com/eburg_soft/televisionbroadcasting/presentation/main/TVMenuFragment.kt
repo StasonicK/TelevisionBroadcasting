@@ -79,6 +79,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         if (savedInstanceState == null) {
             presenter.syncData()
         }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -102,10 +103,21 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             dayRecyclerTouchStatus = it.getBoolean(DAY_RECYCLER_TOUCH_STATUS)
         }
 
-        showGroupsRecycler()
-        showChannelsRecycler()
-        showProgramsRecycler()
-        showDaysRecycler()
+        populateRecyclers()
+//        groupId?.let { presenter.loadChannelsByGroupIdFromDb(it) }
+
+        Timber.d("groupId in onActivityCreated: $groupId")
+//        showGroupsRecycler()
+//        showChannelsRecycler()
+//        showProgramsRecycler()
+//        showDaysRecycler()
+    }
+
+     override fun populateRecyclers() {
+         presenter.loadGroupsFromDb()
+         groupId?.let { presenter.loadChannelsByGroupIdFromDb(it) }
+         channelId?.let { presenter.loadProgramsByChannelIdFromDb(it) }
+         presenter.loadDaysFromDb()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -217,8 +229,8 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             }
             //
 
-            presenter.loadGroupsFromDb()
             adapter = groupsAdapter
+//            presenter.loadGroupsFromDb()
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
@@ -239,10 +251,10 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             channelsAdapter.setOnTouch {
 
             }
-            adapter = channelsAdapter
             // TODO: 06.10.2020 add item highlighting
 
-            groupId?.let { presenter.loadChannelsByGroupIdFromDb(it) }
+//            groupId?.let { presenter.loadChannelsByGroupIdFromDb(it) }
+            adapter = channelsAdapter
 //           presenter.loadChannelsByGroupIdFromDb(channelId!!)
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
@@ -280,6 +292,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
+        Timber.d("showDaysRecycler accomplished")
     }
 
     //endregion

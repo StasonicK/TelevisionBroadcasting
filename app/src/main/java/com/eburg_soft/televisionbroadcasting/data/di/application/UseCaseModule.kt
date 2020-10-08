@@ -1,18 +1,18 @@
 package com.eburg_soft.televisionbroadcasting.data.di.application
 
 import com.eburg_soft.televisionbroadcasting.data.repository.TVRepository
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllDaysUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChannelIdUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllDaysFromDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsFromDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdFromDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChannelIdFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllChannelsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllDaysUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllProgramsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveChannelsFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveDaysFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveGroupsFromApiToDbReturnChannelIdsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.SaveProgramsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchChannelsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchDaysFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchGroupsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchProgramsFromApiToDbUseCase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -22,43 +22,43 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideGetAllGroupsUseCase(repository: TVRepository): GetAllGroupsUseCase = GetAllGroupsUseCase(repository)
+    fun provideGetAllGroupsFromDbUseCase(repository: TVRepository): GetAllGroupsFromDbUseCase = GetAllGroupsFromDbUseCase(repository)
 
     @Singleton
     @Provides
-    fun provideGetChannelsByGroupIdUseCase(repository: TVRepository): GetChannelsByGroupIdUseCase =
-        GetChannelsByGroupIdUseCase(repository)
+    fun provideGetChannelsByGroupIdFromDbUseCase(repository: TVRepository): GetChannelsByGroupIdFromDbUseCase =
+        GetChannelsByGroupIdFromDbUseCase(repository)
 
     @Singleton
     @Provides
-    fun provideGetProgramsByChannelIdUseCase(repository: TVRepository): GetProgramsByChannelIdUseCase =
-        GetProgramsByChannelIdUseCase(repository)
+    fun provideGetProgramsByChannelIdFromDbUseCase(repository: TVRepository): GetProgramsByChannelIdFromDbUseCase =
+        GetProgramsByChannelIdFromDbUseCase(repository)
 
 
     @Singleton
     @Provides
-    fun provideGetAllDaysUseCase(repository: TVRepository): GetAllDaysUseCase =
-        GetAllDaysUseCase(repository)
+    fun provideGetAllDaysFromDbUseCase(repository: TVRepository): GetAllDaysFromDbUseCase =
+        GetAllDaysFromDbUseCase(repository)
 
     @Singleton
     @Provides
-    fun provideSaveGroupsFromApiToDbReturnChannelIdsUseCase(repository: TVRepository): SaveGroupsFromApiToDbReturnChannelIdsUseCase =
-        SaveGroupsFromApiToDbReturnChannelIdsUseCase(repository)
+    fun provideFetchGroupsFromApiToDbUseCase(repository: TVRepository): FetchGroupsFromApiToDbUseCase =
+        FetchGroupsFromApiToDbUseCase(repository)
 
     @Singleton
     @Provides
-    fun provideSaveChannelsFromApiToDbUseCase(repository: TVRepository): SaveChannelsFromApiToDbUseCase =
-        SaveChannelsFromApiToDbUseCase(repository)
+    fun provideFetchChannelsFromApiToDbUseCase(repository: TVRepository): FetchChannelsFromApiToDbUseCase =
+        FetchChannelsFromApiToDbUseCase(repository)
 
     @Singleton
     @Provides
-    fun provideSaveProgramsFromApiToDbUseCase(repository: TVRepository): SaveProgramsFromApiToDbUseCase =
-        SaveProgramsFromApiToDbUseCase(repository)
+    fun provideFetchProgramsFromApiToDbUseCase(repository: TVRepository): FetchProgramsFromApiToDbUseCase =
+        FetchProgramsFromApiToDbUseCase(repository)
 
     @Singleton
     @Provides
-    fun provideSaveDaysFromApiToDbUseCase(repository: TVRepository): SaveDaysFromApiToDbUseCase =
-        SaveDaysFromApiToDbUseCase(repository)
+    fun provideFetchDaysFromApiToDbUseCase(repository: TVRepository): FetchDaysFromApiToDbUseCase =
+        FetchDaysFromApiToDbUseCase(repository)
 
     @Singleton
     @Provides

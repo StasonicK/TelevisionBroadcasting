@@ -5,7 +5,7 @@ import com.eburg_soft.televisionbroadcasting.data.repository.TVRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
-class SaveChannelsFromApiToDbUseCase @Inject constructor(private val repository: TVRepository) {
+class FetchChannelsFromApiToDbUseCase @Inject constructor(private val repository: TVRepository) {
 
-    fun execute(set: Set<ChannelEntity>): Single<List<String>> = repository.saveChannelsFromApiToDb(set)
+    fun execute(set: Set<ChannelEntity>): Single<List<String>> = repository.fetchChannelsFromApiToDb(set)
 }
