@@ -7,7 +7,6 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.Group
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ProgramDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.TVApi
-import com.eburg_soft.televisionbroadcasting.data.datasource.network.networkdatasource.TVNetworkDataSourceImpl
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.GroupMapper
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.ProgramMapper
 import eburg_soft.televisionbroadcasting.utils.TestUtil
@@ -51,11 +50,10 @@ class TVRepositoryTest {
         channelDao = spyk()
         programDao = spyk()
         tvApi = spyk()
-        mTvNetworkDataSource = TVNetworkDataSourceImpl(tvApi)
         programMapper = spyk()
         mockkObject(GroupMapper)
         repository =
-            TVRepositoryImpl(groupDao, channelDao, programDao, mTvNetworkDataSource, programMapper)
+            TVRepositoryImpl(groupDao, channelDao, programDao, tvApi, programMapper)
     }
 
     @After

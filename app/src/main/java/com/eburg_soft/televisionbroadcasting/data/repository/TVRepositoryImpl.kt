@@ -1,9 +1,12 @@
 package com.eburg_soft.televisionbroadcasting.data.repository
 
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.TestDataDb
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ChannelDao
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.DayDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.GroupDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.daos.ProgramDao
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.network.TVApi
@@ -20,6 +23,7 @@ class TVRepositoryImpl @Inject constructor(
     private val groupDao: GroupDao,
     private val channelDao: ChannelDao,
     private val programDao: ProgramDao,
+    private val dayDao: DayDao,
     private val tvApi: TVApi,
     private val programMapper: ProgramMapper
 ) : TVRepository {
@@ -95,8 +99,18 @@ class TVRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
+    override fun saveDaysFromApiToDb(): Completable {
+        return Single.fromCallable { TestDataDb.generateDayEntities("01.06.2020", "14.06.2020")}
+            .flatMapCompletable { days->
+                Timber.d("saveDaysFromApiToDb accomplished")
+                //  insert
+                dayDao.insertDays(days)
+            }
+    }
+
     override fun getAllGroups(): Flowable<List<GroupEntity>> {
         return groupDao.getAllGroups()
+//        return groupDao.getFirstGroup()
             .subscribeOn(Schedulers.io())
     }
 
@@ -107,6 +121,11 @@ class TVRepositoryImpl @Inject constructor(
 
     override fun getProgramsByChannelId(channelId: String): Flowable<List<ProgramEntity>> {
         return programDao.getProgramsByChannelId(channelId)
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun getAllDays(): Flowable<List<DayEntity>> {
+        return dayDao.getAllDays()
             .subscribeOn(Schedulers.io())
     }
 
@@ -123,5 +142,9 @@ class TVRepositoryImpl @Inject constructor(
     override fun removeAllPrograms(): Completable {
         return programDao.deleteAllPrograms()
             .subscribeOn(Schedulers.io())
+    }
+
+    override fun removeAllDays(): Completable {
+        return dayDao.deleteAllDays()
     }
 }

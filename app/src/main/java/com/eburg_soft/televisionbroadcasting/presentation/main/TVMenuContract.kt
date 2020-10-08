@@ -18,8 +18,8 @@ interface TVMenuContract {
         fun submitProgramList(list: List<ProgramEntity>)
         fun submitDaysList(list: List<DayEntity>)
 
-        fun submitDefaultGroupId(groupId: String)
-        fun submitDefaultChannelId(channelId: String)
+        fun submitDefaultGroupId(defaultGroupId: String)
+        fun submitDefaultChannelId(defaultChannelId: String)
 
         fun showNetworkErrorMessage(message: String)
 
@@ -37,6 +37,7 @@ interface TVMenuContract {
         abstract fun loadChannelsByGroupIdFromDb(groupId: String)
         abstract fun loadProgramsByChannelIdFromDb(channelId: String)
         abstract fun loadDaysFromDb()
+
         abstract fun removeAllGroups()
     }
 }

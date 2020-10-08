@@ -15,7 +15,7 @@ interface DayDao {
     fun getAllDays(): Flowable<List<DayEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertDays(groups: List<DayEntity>): Completable
+    fun insertDays(days: List<DayEntity>): Completable
 
     @Query("DELETE FROM ${DayEntity.TABLE_NAME}")
     fun deleteAllDays(): Completable

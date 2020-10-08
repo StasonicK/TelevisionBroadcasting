@@ -70,32 +70,55 @@ class TVMenuPresenterTest {
     }
 
     /*
-        sync data
+        save All Data From Api To Db
      */
     @Test
     @Throws(Exception::class)
-    fun syncData() {
+    fun saveAllDataFromApiToDb() {
         //    Arrange
         val groupResponses = TestUtil.TEST_GROUP_RESPONSES
         val map = GroupMapper.map(groupResponses)
         val groupEntities = map.keys.toList().sortedBy { it.id }
-        val channels = mutableListOf<ChannelEntity>()
-        map.values.forEach { list1 -> channels.addAll(list1.sortedBy { it.id }) }
-        val ids: ArrayList<String> = ArrayList()
-        channels.forEach { channelEntity ->
-            ids.add(channelEntity.id.substringAfterLast("-"))
+
+        val channelMutableSet = mutableSetOf<ChannelEntity>()
+        map.values.forEach {
+            channelMutableSet.addAll(it)
         }
-        every { getAllGroupsUseCase.execute() } returns Flowable.just(groupEntities)
-        every { saveGroupsFromApiToDbReturnChannelIdsUseCase.execute() } returns Single.just(ids)
+
+        val channelSet: Set<ChannelEntity> = HashSet(channelMutableSet)
+        val channelIdMutableList = mutableListOf<String>()
+        channelMutableSet.forEach {
+            channelIdMutableList.add(it.id)
+        }
+        channelIdMutableList.sortWith { p0, p1 -> // pattern: "channel-id-x-x"
+            val cuttingPart = "channel-id-"
+            val p01 = p0!!.substringAfter(cuttingPart)
+            val p11 = p1!!.substringAfter(cuttingPart)
+            val digits0 = p01.split("-")
+            val digits1 = p11.split("-")
+            when {
+                digits0[0].toInt() > digits1[0].toInt() -> 1
+                digits0[0].toInt() == digits1[0].toInt() -> when {
+                    digits0[1].toInt() > digits1[1].toInt() -> 1
+                    digits0[1].toInt() == digits1[1].toInt() -> 1
+                    else -> -1
+                }
+                else -> -1
+            }
+        }
+        val channelIdList: List<String> = ArrayList<String>(channelIdMutableList)
+
+        every { saveGroupsFromApiToDbReturnChannelIdsUseCase.execute() } returns Single.just(channelSet)
+        every { saveChannelsFromApiToDbUseCase.execute(any()) } returns Single.just(channelIdList)
         every { saveProgramsFromApiToDbUseCase.execute(any(), any()) } returns Completable.complete()
 
         //  Act
-        presenter.syncData()
+        presenter.saveAllDataFromApiToDb()
 
         //  Assert
-        verify(exactly = 1) { getAllGroupsUseCase.execute() }
         verify(exactly = 1) { saveGroupsFromApiToDbReturnChannelIdsUseCase.execute() }
-        verify(exactly = 25) { saveProgramsFromApiToDbUseCase.execute(any(), any()) }
+//        verify(exactly = 1) { saveChannelsFromApiToDbUseCase.execute(any()) }
+//        verify(exactly = 25) { saveProgramsFromApiToDbUseCase.execute(any(), any()) }
     }
 
     /*

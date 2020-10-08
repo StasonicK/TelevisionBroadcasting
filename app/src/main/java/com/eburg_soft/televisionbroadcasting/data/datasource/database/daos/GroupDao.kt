@@ -14,6 +14,9 @@ interface GroupDao {
     @Query("SELECT * from `groups`")
     fun getAllGroups(): Flowable<List<GroupEntity>>
 
+    @Query("SELECT * from `groups` LIMIT 1")
+    fun getFirstGroup(): Flowable<List<GroupEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGroups(groups: List<GroupEntity>): Completable
 
