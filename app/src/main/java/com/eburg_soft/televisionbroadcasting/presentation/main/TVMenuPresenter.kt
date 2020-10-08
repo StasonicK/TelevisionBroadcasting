@@ -43,7 +43,7 @@ class TVMenuPresenter @Inject constructor(
         if (isDbEmpty()) {
             fetchAllDataFromApiToDb()
         }
-        view?.populateRecyclers()
+//        view?.populateRecyclers()
     }
 
 //    override fun fetchGroupsWithChannelsFromApiIntoDb() {
