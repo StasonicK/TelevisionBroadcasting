@@ -96,7 +96,7 @@ object TestUtil {
     //  test group entities
     val TEST_GROUP_ENTITY_1 = GroupEntity("group_id_1", "group_name_1")
     val TEST_GROUP_ENTITY_2 = GroupEntity("group_id_2", "group_name_2")
-    val TEST_GROUP_ENTITY_3 = GroupEntity("group_id_3", "group_name_3")
+    val TEST_GROUP_ENTITY_3 = GroupEntity("group_id_3", "group_name_3", isSelected = true)
     val TEST_GROUP_ENTITY_4 = GroupEntity("group_id_4", "group_name_4")
     val TEST_GROUP_ENTITY_5 = GroupEntity("group_id_5", "group_name_5")
     val TEST_GROUP_ENTITIES = arrayListOf(
@@ -109,7 +109,8 @@ object TestUtil {
 
     //  test channel entities
     //  for channel_1:
-    val TEST_CHANNEL_ENTITY_1_1 = ChannelEntity("channel-id-1-1", "group_id_1", "channel_name_1_1", "logo_url_11")
+    val TEST_CHANNEL_ENTITY_1_1 =
+        ChannelEntity("channel-id-1-1", "group_id_1", "channel_name_1_1", "logo_url_11", isSelected = true)
 
     //  for channel_2:
     val TEST_CHANNEL_ENTITY_2_1 = ChannelEntity("channel-id-2-1", "group_id_2", "channel_name_2_1", "logo_url_21")

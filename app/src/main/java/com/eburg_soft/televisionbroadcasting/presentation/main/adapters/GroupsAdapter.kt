@@ -2,7 +2,6 @@ package com.eburg_soft.televisionbroadcasting.presentation.main.adapters
 
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
@@ -19,8 +18,6 @@ class GroupsAdapter : BaseAdapter<GroupEntity, GroupViewHolder>(GroupsDiffCallba
         }
         return GroupViewHolder(view)
     }
-
-
 
     class GroupViewHolder(view: View) : BaseViewHolder(view) {
         init {
@@ -39,7 +36,6 @@ class GroupsAdapter : BaseAdapter<GroupEntity, GroupViewHolder>(GroupsDiffCallba
 //                }
 //            }
         }
-
 
         override fun onBind(item: Any) {
             (item as? GroupEntity)?.let {

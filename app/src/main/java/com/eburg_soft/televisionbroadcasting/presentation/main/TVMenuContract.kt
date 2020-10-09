@@ -13,13 +13,18 @@ interface TVMenuContract {
 
         fun hideLoading()
 
-        fun submitGroupList(list: List<GroupEntity>)
-        fun submitChannelList(list: List<ChannelEntity>)
-        fun submitProgramList(list: List<ProgramEntity>)
+        fun submitGroupsList(list: List<GroupEntity>)
+        fun submitChannelsList(list: List<ChannelEntity>)
+        fun submitProgramsList(list: List<ProgramEntity>)
         fun submitDaysList(list: List<DayEntity>)
 
-        fun submitDefaultGroupId(defaultGroupId: String)
-        fun submitDefaultChannelId(defaultChannelId: String)
+        fun saveSelectedGroupId(groupId: String)
+
+        fun saveSelectedChannelId(channelId: String)
+
+        fun saveSelectedProgramId(channelId: String)
+
+        fun saveSelectedDayId(dayId: String)
 
         fun showNetworkErrorMessage(message: String)
 
@@ -38,13 +43,14 @@ interface TVMenuContract {
 //        abstract fun fetchProgramsByChannelIdFromApiIntoDb(channelIdList: List<String>)
 //        abstract fun fetchDaysFromApiIntoDb()
 
-        abstract fun loadAllData()
-        abstract fun loadGroupsFromDb()
+        abstract fun loadDefaultData()
+        abstract fun loadGroupsFromDb():String
         abstract fun loadChannelsByGroupIdFromDb(groupId: String)
         abstract fun loadProgramsByChannelIdFromDb(channelId: String)
         abstract fun loadDaysFromDb()
+        abstract fun getChannelsListOfSelectedGroupFromDb(savedGroupId: String?):String
+        abstract fun getProgramsListOfSelectedChannelFromDb(savedGroupId: String, savedChannelId: String?)
 
         abstract fun removeAllGroups()
-
     }
 }

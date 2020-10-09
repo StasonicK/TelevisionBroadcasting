@@ -3,13 +3,15 @@ package com.eburg_soft.televisionbroadcasting.presentation.presenters
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.GroupMapper
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchChannelsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchDaysFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchGroupsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchProgramsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllDaysFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChannelIdFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchChannelsFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchGroupsFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchProgramsFromApiToDbUseCase
 import com.eburg_soft.televisionbroadcasting.presentation.main.TVMenuPresenter
 import eburg_soft.televisionbroadcasting.utils.TestUtil
 import io.mockk.*
@@ -39,6 +41,9 @@ class TVMenuPresenterTest {
     private lateinit var mGetProgramsByChannelIdFromDbUseCase: GetProgramsByChannelIdFromDbUseCase
 
     @MockK
+    private lateinit var getAllDaysFromDbUseCase: GetAllDaysFromDbUseCase
+
+    @MockK
     private lateinit var mFetchGroupsFromApiToDbUseCase: FetchGroupsFromApiToDbUseCase
 
     @MockK
@@ -46,6 +51,9 @@ class TVMenuPresenterTest {
 
     @MockK
     private lateinit var mFetchChannelsFromApiToDbUseCase: FetchChannelsFromApiToDbUseCase
+
+    @MockK
+    private lateinit var fetchDaysFromApiToDbUseCase: FetchDaysFromApiToDbUseCase
 
     @MockK
     private lateinit var removeAllGroupsUseCase: RemoveAllGroupsUseCase
@@ -57,9 +65,11 @@ class TVMenuPresenterTest {
             mGetAllGroupsFromDbUseCase,
             mGetChannelsByGroupIdFromDbUseCase,
             mGetProgramsByChannelIdFromDbUseCase,
+            getAllDaysFromDbUseCase,
             mFetchGroupsFromApiToDbUseCase,
             mFetchChannelsFromApiToDbUseCase,
             mFetchProgramsFromApiToDbUseCase,
+            fetchDaysFromApiToDbUseCase,
             removeAllGroupsUseCase
         )
     }
@@ -113,7 +123,7 @@ class TVMenuPresenterTest {
         every { mFetchProgramsFromApiToDbUseCase.execute(any(), any()) } returns Completable.complete()
 
         //  Act
-        presenter.saveAllDataFromApiToDb()
+        presenter.fetchAllDataFromApiToDb()
 
         //  Assert
         verify(exactly = 1) { mFetchGroupsFromApiToDbUseCase.execute() }

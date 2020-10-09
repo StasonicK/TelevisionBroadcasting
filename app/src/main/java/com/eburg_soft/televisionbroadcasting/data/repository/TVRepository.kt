@@ -26,6 +26,25 @@ interface TVRepository {
 
     fun getAllDays(): Flowable<List<DayEntity>>
 
+    fun getSelectedGroupById(groupId: String): Flowable<String>
+//    Flowable<List<ChannelEntity>>
+
+    fun getSelectedChannelById(channelId: String): Flowable<String>
+
+//    fun getSelectedProgram(limit: Int, clicked: Boolean): Flowable<ProgramEntity>
+//    Flowable<List<ChannelEntity>>
+
+    fun getSelectedDay(limit: Int, clicked: Boolean): Flowable<DayEntity>
+//    Flowable<List<ChannelEntity>>
+
+//    fun updateGroups(groups: List<GroupEntity>): Completable
+//
+//    fun updateChannels(channels: List<ChannelEntity>): Completable
+//
+//    fun updatePrograms(programs: List<ProgramEntity>): Completable
+
+//    fun updateDays(days: List<DayEntity>): Completable
+
     fun removeAllGroups(): Completable
 
     fun removeAllChannels(): Completable

@@ -69,7 +69,7 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
                         // User moved outside bounds
                         isTouching = false
                         onTouch?.onTouch(isTouching)
-                    } else{
+                    } else {
                         isTouching = true
                         onTouch?.onTouch(isTouching)
                     }

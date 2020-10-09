@@ -11,15 +11,15 @@ import io.reactivex.Flowable
 @Dao
 interface GroupDao {
 
-    @Query("SELECT * from `groups`")
+    @Query("SELECT * FROM ${GroupEntity.TABLE_NAME}")
     fun getAllGroups(): Flowable<List<GroupEntity>>
 
-    @Query("SELECT * from `groups` LIMIT 1")
-    fun getFirstGroup(): Flowable<List<GroupEntity>>
+    @Query("SELECT ${GroupEntity.COLUMN_ID} FROM ${GroupEntity.TABLE_NAME} where ${GroupEntity.COLUMN_ID} = :groupId")
+    fun getSelectedGroupById(groupId: String): Flowable<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGroups(groups: List<GroupEntity>): Completable
 
-    @Query("DELETE FROM `groups`")
+    @Query("DELETE FROM ${GroupEntity.TABLE_NAME}")
     fun deleteAllGroups(): Completable
 }

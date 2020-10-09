@@ -189,4 +189,47 @@ class ChannelDaoTest : TVDatabaseTest() {
                 return@assertValue it.isEmpty()
             }
     }
+
+    /*
+        ChannelEntity
+        -
+     */
+    @Test
+    @Throws(Exception::class)
+    fun getChannelsListBySelectedGroup() {
+        val expectedChannels = TestUtil.TEST_CHANNEL_ENTITIES_3
+        val groupIds: ArrayList<String> = ArrayList()
+        expectedChannels.forEach {
+            groupIds.add(it.groupId)
+        }
+        val group = arrayListOf(TestUtil.TEST_GROUP_ENTITY_3)
+
+        // insert
+        getGroupDao()?.insertGroups(group)?.blockingAwait()
+        getChannelDao()?.insertChannels(expectedChannels)?.blockingGet()
+
+        // read
+//      val resultChannels =  getChannelDao()?.getChannelsListBySelectedGroup(true)
+//          ?.test()
+//          ?.assertValue { it->
+//              it == expectedChannels
+//          }
+
+        // delete
+        getGroupDao()?.deleteAllGroups()?.blockingAwait()
+
+        // confirm the database is empty
+        getChannelDao()?.getAllChannels()
+            ?.test()
+            ?.assertNoErrors()
+            ?.assertValue { it ->
+                return@assertValue it.isEmpty()
+            }
+        getGroupDao()?.getAllGroups()
+            ?.test()
+            ?.assertNoErrors()
+            ?.assertValue { it ->
+                return@assertValue it.isEmpty()
+            }
+    }
 }

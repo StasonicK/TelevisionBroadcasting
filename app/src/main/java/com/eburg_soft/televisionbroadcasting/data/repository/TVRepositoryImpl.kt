@@ -100,34 +100,55 @@ class TVRepositoryImpl @Inject constructor(
     }
 
     override fun fetchDaysFromApiToDb(): Completable {
-        return Single.fromCallable { TestDataDb.generateDayEntities("01.06.2020", "14.06.2020")}
-            .flatMapCompletable { days->
+        return Single.fromCallable { TestDataDb.generateDayEntities("01.06.2020", "14.06.2020") }
+            .flatMapCompletable { days ->
                 Timber.d("fetchDaysFromApiToDb accomplished")
                 //  insert
                 dayDao.insertDays(days)
             }
     }
 
-    override fun getAllGroups(): Flowable<List<GroupEntity>> {
-        return groupDao.getAllGroups()
-//        return groupDao.getFirstGroup()
-            .subscribeOn(Schedulers.io())
-    }
+    override fun getAllGroups(): Flowable<List<GroupEntity>> = groupDao.getAllGroups()
+        .subscribeOn(Schedulers.io())
 
-    override fun getChannelsByGroupId(groupId: String): Flowable<List<ChannelEntity>> {
-        return channelDao.getChannelsByGroupId(groupId)
+    override fun getChannelsByGroupId(groupId: String): Flowable<List<ChannelEntity>> =
+        channelDao.getChannelsByGroupId(groupId)
             .subscribeOn(Schedulers.io())
-    }
 
-    override fun getProgramsByChannelId(channelId: String): Flowable<List<ProgramEntity>> {
-        return programDao.getProgramsByChannelId(channelId)
+    override fun getProgramsByChannelId(channelId: String): Flowable<List<ProgramEntity>> =
+        programDao.getProgramsByChannelId(channelId)
             .subscribeOn(Schedulers.io())
-    }
 
-    override fun getAllDays(): Flowable<List<DayEntity>> {
-        return dayDao.getAllDays()
+    override fun getAllDays(): Flowable<List<DayEntity>> = dayDao.getAllDays()
+        .subscribeOn(Schedulers.io())
+
+    override fun getSelectedGroupById(groupId: String): Flowable<String> =
+        groupDao.getSelectedGroupById(groupId)
             .subscribeOn(Schedulers.io())
-    }
+
+    override fun getSelectedChannelById(channelId: String): Flowable<String> =
+        channelDao.getSelectedChannelById(channelId)
+            .subscribeOn(Schedulers.io())
+
+//    override fun getSelectedProgram(limit: Int, clicked: Boolean): Flowable<ProgramEntity> =
+//        programDao.getSelectedProgram(limit, clicked)
+//            .subscribeOn(Schedulers.io())
+
+    override fun getSelectedDay(limit: Int, clicked: Boolean): Flowable<DayEntity> =
+        dayDao.getSelectedDayId(limit, clicked)
+            .subscribeOn(Schedulers.io())
+
+//    override fun updateGroups(groups: List<GroupEntity>): Completable =
+//        groupDao.updateGroups(groups)
+
+//    override fun updateChannels(channels: List<ChannelEntity>): Completable =
+//        channelDao.updateChannels(channels)
+//
+//    override fun updatePrograms(programs: List<ProgramEntity>): Completable =
+//        programDao.updatePrograms(programs)
+//
+//    override fun updateDays(days: List<DayEntity>): Completable =
+//        dayDao.updateDays(days)
 
     override fun removeAllGroups(): Completable {
         return groupDao.deleteAllGroups()
