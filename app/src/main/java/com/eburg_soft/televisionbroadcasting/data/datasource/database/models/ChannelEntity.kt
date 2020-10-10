@@ -30,9 +30,7 @@ data class ChannelEntity(
     @ColumnInfo(name = COLUMN_NAME)
     val name: String = "",
     @ColumnInfo(name = COLUMN_LOGO_URL)
-    val logoUrl: String = "",
-    @ColumnInfo(name = COLUMN_IS_SELECTED)
-    val isSelected: Boolean = false
+    val logoUrl: String = ""
 ) : Parcelable {
 
     companion object {
@@ -42,6 +40,5 @@ data class ChannelEntity(
         const val COLUMN_GROUP_ID = "group_id"
         const val COLUMN_NAME = "channel_name"
         const val COLUMN_LOGO_URL = "channel_logo_url"
-        const val COLUMN_IS_SELECTED = "channel_is_selected"
     }
 }

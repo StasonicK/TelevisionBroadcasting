@@ -13,25 +13,22 @@ interface TVMenuContract {
 
         fun hideLoading()
 
+        fun initGroupsRecycler()
+        fun initChannelsRecycler()
+        fun initProgramsRecycler()
+        fun initDaysRecycler()
+
         fun submitGroupsList(list: List<GroupEntity>)
         fun submitChannelsList(list: List<ChannelEntity>)
         fun submitProgramsList(list: List<ProgramEntity>)
         fun submitDaysList(list: List<DayEntity>)
 
         fun saveSelectedGroupId(groupId: String)
-
         fun saveSelectedChannelId(channelId: String)
-
-        fun saveSelectedProgramId(channelId: String)
-
+        fun saveSelectedProgramId(programId: String)
         fun saveSelectedDayId(dayId: String)
 
         fun showNetworkErrorMessage(message: String)
-
-        fun initGroupsRecycler()
-        fun initChannelsRecycler()
-        fun initProgramsRecycler()
-        fun initDaysRecycler()
 
         fun populateGroupsRecycler()
         fun populateChannelsRecycler()
@@ -47,18 +44,20 @@ interface TVMenuContract {
         abstract fun fetchProgramsByChannelIdFromApiIntoDb(channelIdList: List<String>)
         abstract fun fetchDaysFromApiIntoDb()
 
-        abstract fun loadGroupsFromDb(savedGroupId: String)
-        abstract fun loadChannelsByGroupIdFromDb(savedGroupId: String, savedChannelId: String)
-        abstract fun loadProgramsByChannelIdFromDb(savedChannelId: String, savedProgramId: String)
+        abstract fun fetchGroupsFromDb(selectedGroupId: String?)
+        abstract fun fetchChannelsFromDb(selectedGroupId: String, selectedChannelId: String?)
+        abstract fun fetchProgramsFromDb(selectedChannelId: String, selectedProgramId: String?)
+        abstract fun fetchDayFromDb(selectedDayId: String?)
+
+        abstract fun loadGroupsFromDb()
+        abstract fun loadChannelsByGroupIdFromDb(savedGroupId: String)
+        abstract fun loadProgramsByChannelIdFromDb(savedChannelId: String)
         abstract fun loadDaysFromDb()
 
-        abstract fun getRandomGroupId()
-        abstract fun getRandomChannelIdByGroupId(groupId: String)
-        abstract fun getRandomProgramIdByGroupId(channelId: String)
+        abstract fun getRandomGroupIdAndLoadGroupsFromDb()
+        abstract fun getRandomChannelIdAndLoadChannelsByGroupId(groupId: String)
+        abstract fun getRandomProgramIdByChannelIdAndLoadProgramsByChannelId(channelId: String)
         abstract fun getRandomDayId()
-
-//        abstract fun getChannelsListOfSelectedGroupFromDb(savedGroupId: String): String
-//        abstract fun getProgramsListOfSelectedChannelFromDb(savedGroupId: String, savedChannelId: String)
 
         abstract fun removeAllGroups()
     }

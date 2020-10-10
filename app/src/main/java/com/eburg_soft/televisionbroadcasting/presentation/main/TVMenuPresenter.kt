@@ -147,7 +147,39 @@ class TVMenuPresenter @Inject constructor(
         )
     }
 
-    override fun loadGroupsFromDb(savedGroupId: String) {
+    override fun fetchGroupsFromDb(selectedGroupId: String?) {
+        if (selectedGroupId.isNullOrBlank()) {
+            getRandomGroupIdAndLoadGroupsFromDb()
+        } else {
+            loadGroupsFromDb()
+        }
+    }
+
+    override fun fetchChannelsFromDb(selectedGroupId: String, selectedChannelId: String?) {
+        if (selectedChannelId.isNullOrBlank()) {
+            getRandomChannelIdAndLoadChannelsByGroupId(selectedGroupId)
+        } else {
+            loadChannelsByGroupIdFromDb(selectedGroupId)
+        }
+    }
+
+    override fun fetchProgramsFromDb(selectedChannelId: String, selectedProgramId: String?) {
+        if (selectedProgramId.isNullOrBlank()) {
+            getRandomProgramIdByChannelIdAndLoadProgramsByChannelId(selectedChannelId)
+        } else {
+            loadProgramsByChannelIdFromDb(selectedChannelId)
+        }
+    }
+
+    override fun fetchDayFromDb(selectedDayId: String?) {
+        if (selectedDayId.isNullOrBlank()) {
+            getRandomDayId()
+        } else {
+            loadDaysFromDb()
+        }
+    }
+
+    override fun loadGroupsFromDb() {
         view?.showLoading()
         subscribe(
             getAllGroupsFromDbUseCase
@@ -155,11 +187,13 @@ class TVMenuPresenter @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ groupsList ->
+
+                    view?.initGroupsRecycler()
+                    Timber.d("initGroupsRecycler accomplished")
+
                     view?.submitGroupsList(groupsList)
                     Timber.d("submitGroupsList accomplished")
 
-                    view?.populateChannelsRecycler()
-                    Timber.d("populateChannelsRecycler accomplished")
 
                     Timber.d("loadGroupsFromDb accomplished")
                     view?.hideLoading()
@@ -171,19 +205,20 @@ class TVMenuPresenter @Inject constructor(
         )
     }
 
-    override fun loadChannelsByGroupIdFromDb(savedGroupId: String, savedChannelId: String) {
+    override fun loadChannelsByGroupIdFromDb(savedGroupId: String) {
         view?.showLoading()
         subscribe(
             getChannelsByGroupIdFromDbUseCase
-                .execute(savedChannelId)
+                .execute(savedGroupId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ channelsList ->
+
+                    view?.initChannelsRecycler()
+                    Timber.d("initChannelsRecycler accomplished")
+
                     view?.submitChannelsList(channelsList)
                     Timber.d("submitChannelsList accomplished")
-
-                    view?.populateProgramsRecycler()
-                    Timber.d("populateProgramsRecycler accomplished")
 
                     Timber.d("loadChannelsByGroupIdFromDb accomplished")
                     view?.hideLoading()
@@ -195,19 +230,20 @@ class TVMenuPresenter @Inject constructor(
         )
     }
 
-    override fun loadProgramsByChannelIdFromDb(savedChannelId: String, savedProgramId: String) {
+    override fun loadProgramsByChannelIdFromDb(savedChannelId: String) {
         view?.showLoading()
         subscribe(
             getProgramsByChannelIdFromDbUseCase
-                .execute(savedProgramId)
+                .execute(savedChannelId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ programsList ->
+
+                    view?.initProgramsRecycler()
+                    Timber.d("initProgramsRecycler accomplished")
+
                     view?.submitProgramsList(programsList)
                     Timber.d("submitProgramsList accomplished")
-
-                    view?.populateDaysRecycler()
-                    Timber.d("populateDaysRecycler accomplished")
 
                     Timber.d("loadProgramsByChannelIdFromDb accomplished")
                     view?.hideLoading()
@@ -226,6 +262,10 @@ class TVMenuPresenter @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ daysList ->
+
+                    view?.initDaysRecycler()
+                    Timber.d("initDaysRecycler accomplished")
+
                     view?.submitDaysList(daysList)
                     Timber.d("submitDaysList")
 
@@ -274,49 +314,7 @@ class TVMenuPresenter @Inject constructor(
         return list.isEmpty()
     }
 
-//    override fun getChannelsListOfSelectedGroupFromDb(savedGroupId: String): String {
-//        view?.showLoading()
-//
-//        subscribe(
-//            getChannelsByGroupIdFromDbUseCase.execute(savedGroupId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({ channelsList ->
-//                    view?.submitChannelsList(channelsList)
-//                    view?.saveSelectedGroupId(savedGroupId)
-//                    view?.hideLoading()
-//                    Timber.d("getChannelsListOfSelectedGroupFromDb accomplished")
-//
-//                }, { error ->
-//                    error.printStackTrace()
-//                    Timber.d("getChannelsListOfSelectedGroupFromDb error: ${error.message}")
-//                    view?.hideLoading()
-//                })
-//        )
-//        return ""
-//    }
-//
-//    override fun getProgramsListOfSelectedChannelFromDb(savedGroupId: String, savedChannelId: String) {
-//        view?.showLoading()
-//        subscribe(
-//            getChannelsByGroupIdFromDbUseCase.execute(savedChannelId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({ channelsList ->
-//                    view?.submitChannelsList(channelsList)
-//                    view?.saveSelectedChannelId(savedChannelId)
-//                    Timber.d("getProgramsListOfSelectedChannelFromDb accomplished")
-//                    view?.hideLoading()
-//                }, { error ->
-//                    error.printStackTrace()
-//                    Timber.d("getProgramsListOfSelectedChannelFromDb error: ${error.message}")
-//                    view?.hideLoading()
-//                }
-//                )
-//        )
-//    }
-
-    override fun getRandomGroupId() {
+    override fun getRandomGroupIdAndLoadGroupsFromDb() {
         subscribe(
             getAllGroupsFromDbUseCase.execute()
                 .subscribeOn(Schedulers.io())
@@ -330,6 +328,12 @@ class TVMenuPresenter @Inject constructor(
                     view?.saveSelectedGroupId(groupId)
                     Timber.d("saveSelectedGroupId accomplished")
 
+                    view?.initGroupsRecycler()
+                    Timber.d("initGroupsRecycler accomplished")
+
+                    view?.submitGroupsList(groupsList)
+                    Timber.d("submitGroupsList")
+
                     Timber.d("getRandomGroupId accomplished")
                 }, {
                     it.printStackTrace()
@@ -339,7 +343,7 @@ class TVMenuPresenter @Inject constructor(
         )
     }
 
-    override fun getRandomChannelIdByGroupId(groupId: String) {
+    override fun getRandomChannelIdAndLoadChannelsByGroupId(groupId: String) {
         subscribe(
             getChannelsByGroupIdFromDbUseCase.execute(groupId)
                 .subscribeOn(Schedulers.io())
@@ -353,6 +357,12 @@ class TVMenuPresenter @Inject constructor(
                     view?.saveSelectedChannelId(channelId)
                     Timber.d("saveSelectedChannelId accomplished")
 
+                    view?.initChannelsRecycler()
+                    Timber.d("initChannelsRecycler accomplished")
+
+                    view?.submitChannelsList(channelsList)
+                    Timber.d("submitChannelsList")
+
                     Timber.d("getRandomChannelIdByGroupId accomplished")
                 }, {
                     it.printStackTrace()
@@ -362,7 +372,7 @@ class TVMenuPresenter @Inject constructor(
         )
     }
 
-    override fun getRandomProgramIdByGroupId(channelId: String) {
+    override fun getRandomProgramIdByChannelIdAndLoadProgramsByChannelId(channelId: String) {
         subscribe(
             getProgramsByChannelIdFromDbUseCase.execute(channelId)
                 .subscribeOn(Schedulers.io())
@@ -375,6 +385,12 @@ class TVMenuPresenter @Inject constructor(
                     val programId = getRandomElementFromList(programIdsList)
                     view?.saveSelectedProgramId(programId)
                     Timber.d("saveSelectedProgramId accomplished")
+
+                    view?.initProgramsRecycler()
+                    Timber.d("initProgramsRecycler accomplished")
+
+                    view?.submitProgramsList(programsList)
+                    Timber.d("submitProgramsList")
 
                     Timber.d("getRandomProgramIdByGroupId accomplished")
                 }, {
@@ -398,6 +414,12 @@ class TVMenuPresenter @Inject constructor(
                     val dayId = getRandomElementFromList(dayIdsList)
                     view?.saveSelectedDayId(dayId)
                     Timber.d("saveSelectedDayId accomplished")
+
+                    view?.initDaysRecycler()
+                    Timber.d("initDaysRecycler accomplished")
+
+                    view?.submitDaysList(daysList)
+                    Timber.d("submitDaysList")
 
                     Timber.d("getRandomDayId accomplished")
                 }, {

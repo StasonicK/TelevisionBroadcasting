@@ -14,9 +14,7 @@ data class DayEntity(
     @ColumnInfo(name = COLUMN_ID, index = true)
     val id: String = "",
     @ColumnInfo(name = COLUMN_NAME)
-    val date: String = "",
-    @ColumnInfo(name = COLUMN_IS_SELECTED)
-    val isSelected: Boolean = false
+    val date: String = ""
 ) : Parcelable {
 
     companion object {
@@ -24,6 +22,5 @@ data class DayEntity(
         const val TABLE_NAME = "days"
         const val COLUMN_ID = "day_id"
         const val COLUMN_NAME = "day_date"
-        const val COLUMN_IS_SELECTED = "day_is_selected"
     }
 }

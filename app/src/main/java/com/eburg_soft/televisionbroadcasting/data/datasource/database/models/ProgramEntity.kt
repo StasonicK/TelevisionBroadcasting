@@ -28,9 +28,7 @@ data class ProgramEntity(
     @ColumnInfo(name = COLUMN_CHANNEL_ID, index = true)
     val channelId: String = "",
     @ColumnInfo(name = COLUMN_NAME)
-    val name: String = "",
-    @ColumnInfo(name = COLUMN_IS_SELECTED)
-    val isSelected: Boolean = false
+    val name: String = ""
 ) : Parcelable {
 
     companion object {
@@ -39,6 +37,5 @@ data class ProgramEntity(
         const val COLUMN_ID = "program_id"
         const val COLUMN_CHANNEL_ID = "channel_id"
         const val COLUMN_NAME = "program_name"
-        const val COLUMN_IS_SELECTED = "program_is_selected"
     }
 }
