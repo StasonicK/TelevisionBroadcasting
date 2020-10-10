@@ -28,28 +28,37 @@ interface TVMenuContract {
 
         fun showNetworkErrorMessage(message: String)
 
-        fun showGroupsRecycler()
-        fun showChannelsRecycler()
-        fun showProgramsRecycler()
-        fun showDaysRecycler()
+        fun initGroupsRecycler()
+        fun initChannelsRecycler()
+        fun initProgramsRecycler()
+        fun initDaysRecycler()
 
-        fun populateRecyclers()
+        fun populateGroupsRecycler()
+        fun populateChannelsRecycler()
+        fun populateProgramsRecycler()
+        fun populateDaysRecycler()
     }
 
     abstract class Presenter : BaseContract.Presenter<View>() {
 
         abstract fun syncData()
-//        abstract fun fetchGroupsWithChannelsFromApiIntoDb()
-//        abstract fun fetchProgramsByChannelIdFromApiIntoDb(channelIdList: List<String>)
-//        abstract fun fetchDaysFromApiIntoDb()
+        abstract fun fetchGroupsFromApiIntoDb()
+        abstract fun fetchChannelsByChannelSetFromApiIntoDb(channelSet: Set<ChannelEntity>)
+        abstract fun fetchProgramsByChannelIdFromApiIntoDb(channelIdList: List<String>)
+        abstract fun fetchDaysFromApiIntoDb()
 
-        abstract fun loadDefaultData()
-        abstract fun loadGroupsFromDb():String
-        abstract fun loadChannelsByGroupIdFromDb(groupId: String)
-        abstract fun loadProgramsByChannelIdFromDb(channelId: String)
+        abstract fun loadGroupsFromDb(savedGroupId: String)
+        abstract fun loadChannelsByGroupIdFromDb(savedGroupId: String, savedChannelId: String)
+        abstract fun loadProgramsByChannelIdFromDb(savedChannelId: String, savedProgramId: String)
         abstract fun loadDaysFromDb()
-        abstract fun getChannelsListOfSelectedGroupFromDb(savedGroupId: String?):String
-        abstract fun getProgramsListOfSelectedChannelFromDb(savedGroupId: String, savedChannelId: String?)
+
+        abstract fun getRandomGroupId()
+        abstract fun getRandomChannelIdByGroupId(groupId: String)
+        abstract fun getRandomProgramIdByGroupId(channelId: String)
+        abstract fun getRandomDayId()
+
+//        abstract fun getChannelsListOfSelectedGroupFromDb(savedGroupId: String): String
+//        abstract fun getProgramsListOfSelectedChannelFromDb(savedGroupId: String, savedChannelId: String)
 
         abstract fun removeAllGroups()
     }

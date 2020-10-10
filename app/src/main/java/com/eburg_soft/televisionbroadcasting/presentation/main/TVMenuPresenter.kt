@@ -1,6 +1,7 @@
 package com.eburg_soft.televisionbroadcasting.presentation.main
 
 import android.accounts.NetworkErrorException
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchChannelsFromApiToDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchDaysFromApiToDbUseCase
@@ -10,63 +11,143 @@ import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllDaysFromDbUse
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChannelIdFromDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetSelectedChannelIdUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetSelectedDayUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetSelectedGroupIdUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetSelectedProgramUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.UpdateChannelsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.UpdateDaysUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.UpdateGroupsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.UpdateProgramsUseCase
-import com.eburg_soft.televisionbroadcasting.presentation.main.TVMenuContract.View
+import com.eburg_soft.televisionbroadcasting.presentation.utils.getRandomElementFromList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.net.UnknownHostException
 import javax.inject.Inject
-import kotlin.random.Random
 
 class TVMenuPresenter @Inject constructor(
     private val getAllGroupsFromDbUseCase: GetAllGroupsFromDbUseCase,
     private val getChannelsByGroupIdFromDbUseCase: GetChannelsByGroupIdFromDbUseCase,
     private val getProgramsByChannelIdFromDbUseCase: GetProgramsByChannelIdFromDbUseCase,
     private val getDaysFromDbFromDbUseCase: GetAllDaysFromDbUseCase,
-    private val getSelectedGroupIdUseCase: GetSelectedGroupIdUseCase,
-    private val getSelectedChannelIdUseCase: GetSelectedChannelIdUseCase,
-    private val getSelectedProgramUseCase: GetSelectedProgramUseCase,
-    private val getSelectedDayUseCase: GetSelectedDayUseCase,
     private val fetchGroupsFromApiToDbUseCase: FetchGroupsFromApiToDbUseCase,
     private val fetchChannelsFromApiToDbUseCase: FetchChannelsFromApiToDbUseCase,
     private val fetchProgramsFromApiToDbUseCase: FetchProgramsFromApiToDbUseCase,
     private val fetchDaysFromApiToDbUseCase: FetchDaysFromApiToDbUseCase,
-    private val updateGroupsUseCase: UpdateGroupsUseCase,
-    private val updateChannelsUseCase: UpdateChannelsUseCase,
-    private val updateProgramsUseCase: UpdateProgramsUseCase,
-    private val updateDaysUseCase: UpdateDaysUseCase,
     private val removeAllGroupsUseCase: RemoveAllGroupsUseCase
 ) : TVMenuContract.Presenter() {
 
-    override fun attach(view: View) {
-        super.attach(view)
-    }
-
     override fun syncData() {
         if (isDbEmpty()) {
-            fetchAllDataFromApiToDb()
+            fetchGroupsFromApiIntoDb()
         }
     }
 
-    override fun loadDefaultData() {
+    override fun fetchGroupsFromApiIntoDb() {
         view?.showLoading()
-
-        val groupId = loadGroupsFromDb()
-        val channelId = getChannelsListOfSelectedGroupFromDb(groupId)
-        getProgramsListOfSelectedChannelFromDb(groupId, channelId)
-        loadDaysFromDb()
+        subscribe(fetchGroupsFromApiToDbUseCase.execute()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Timber.d("fetchGroupsFromApiToDbUseCase accomplished")
+                fetchChannelsByChannelSetFromApiIntoDb(it)
+            }, { error ->
+                when (error) {
+                    is NetworkErrorException, is UnknownHostException -> {
+                        view?.showNetworkErrorMessage("Error")
+                        Timber.d("fetchGroupsFromApiToDbUseCase network error")
+                        view?.hideLoading()
+                    }
+                    else -> {
+                        error.printStackTrace()
+                        Timber.d("fetchGroupsFromApiToDbUseCase error: ${error.message}")
+                        view?.hideLoading()
+                    }
+                }
+            }
+            )
+        )
     }
 
-    override fun loadGroupsFromDb(): String {
+    override fun fetchChannelsByChannelSetFromApiIntoDb(channelSet: Set<ChannelEntity>) {
+        view?.showLoading()
+        subscribe(fetchChannelsFromApiToDbUseCase.execute(channelSet)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Timber.d("fetchChannelsByChannelSetFromApiIntoDb accomplished")
+                fetchProgramsByChannelIdFromApiIntoDb(it)
+            }, { error ->
+                when (error) {
+                    is NetworkErrorException, is UnknownHostException -> {
+                        view?.showNetworkErrorMessage("Error")
+                        Timber.d("fetchGroupsFromApiToDbUseCase network error")
+                        view?.hideLoading()
+                    }
+                    else -> {
+                        error.printStackTrace()
+                        Timber.d("fetchGroupsFromApiToDbUseCase error: ${error.message}")
+                        view?.hideLoading()
+                    }
+                }
+            }
+            )
+        )
+    }
+
+    override fun fetchProgramsByChannelIdFromApiIntoDb(channelIdList: List<String>) {
+        view?.showLoading()
+        subscribe(fetchProgramsFromApiToDbUseCase.execute("1", channelIdList)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Timber.d("fetchProgramsFromApiToDbUseCase")
+                fetchDaysFromApiIntoDb()
+            }, { error ->
+                when (error) {
+                    is NetworkErrorException, is UnknownHostException -> {
+                        view?.showNetworkErrorMessage("Error")
+                        Timber.d("fetchProgramsFromApiToDbUseCase network error")
+                        view?.hideLoading()
+                    }
+                    else -> {
+                        error.printStackTrace()
+                        Timber.d("fetchProgramsFromApiToDbUseCase error: ${error.message}")
+                        view?.hideLoading()
+                    }
+                }
+            }
+            )
+        )
+    }
+
+    override fun fetchDaysFromApiIntoDb() {
+        view?.showLoading()
+        subscribe(
+            fetchDaysFromApiToDbUseCase.execute()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ daysList ->
+                    view?.submitDaysList(daysList)
+                    Timber.d("submitDaysList accomplished")
+
+                    view?.populateGroupsRecycler()
+                    Timber.d("populateGroupsRecycler accomplished")
+
+                    Timber.d("fetchDaysFromApiIntoDb accomplished")
+                }, { error ->
+                    when (error) {
+                        is NetworkErrorException, is UnknownHostException -> {
+                            view?.showNetworkErrorMessage("Error")
+                            Timber.d("fetchDaysFromApiIntoDb network error")
+                            view?.hideLoading()
+                        }
+                        else -> {
+                            error.printStackTrace()
+                            Timber.d("fetchDaysFromApiIntoDb error: ${error.message}")
+                            view?.hideLoading()
+                        }
+                    }
+                }
+                )
+        )
+    }
+
+    override fun loadGroupsFromDb(savedGroupId: String) {
         view?.showLoading()
         subscribe(
             getAllGroupsFromDbUseCase
@@ -75,50 +156,64 @@ class TVMenuPresenter @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ groupsList ->
                     view?.submitGroupsList(groupsList)
-                    Timber.d("getAllGroupsUseCase accomplished")
+                    Timber.d("submitGroupsList accomplished")
+
+                    view?.populateChannelsRecycler()
+                    Timber.d("populateChannelsRecycler accomplished")
+
+                    Timber.d("loadGroupsFromDb accomplished")
                     view?.hideLoading()
                 }, {
                     it.printStackTrace()
-                    Timber.d("getAllGroupsUseCase error")
+                    Timber.d("loadGroupsFromDb error: ${it.message}")
                     view?.hideLoading()
                 })
         )
-        return ""
     }
 
-    override fun loadChannelsByGroupIdFromDb(groupId: String) {
+    override fun loadChannelsByGroupIdFromDb(savedGroupId: String, savedChannelId: String) {
         view?.showLoading()
         subscribe(
             getChannelsByGroupIdFromDbUseCase
-                .execute(groupId)
+                .execute(savedChannelId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ channelsList ->
                     view?.submitChannelsList(channelsList)
-                    Timber.d("getChannelsByGroupIdUseCase accomplished")
+                    Timber.d("submitChannelsList accomplished")
+
+                    view?.populateProgramsRecycler()
+                    Timber.d("populateProgramsRecycler accomplished")
+
+                    Timber.d("loadChannelsByGroupIdFromDb accomplished")
                     view?.hideLoading()
                 }, {
                     it.printStackTrace()
-                    Timber.d("getChannelsByGroupIdUseCase error")
+                    Timber.d("loadChannelsByGroupIdFromDb error: ${it.message}")
                     view?.hideLoading()
                 })
         )
     }
 
-    override fun loadProgramsByChannelIdFromDb(channelId: String) {
+    override fun loadProgramsByChannelIdFromDb(savedChannelId: String, savedProgramId: String) {
         view?.showLoading()
         subscribe(
             getProgramsByChannelIdFromDbUseCase
-                .execute(channelId)
+                .execute(savedProgramId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ programsList ->
                     view?.submitProgramsList(programsList)
-                    Timber.d("getProgramsByChannelIdUseCase accomplished")
+                    Timber.d("submitProgramsList accomplished")
+
+                    view?.populateDaysRecycler()
+                    Timber.d("populateDaysRecycler accomplished")
+
+                    Timber.d("loadProgramsByChannelIdFromDb accomplished")
                     view?.hideLoading()
                 }, {
                     it.printStackTrace()
-                    Timber.d("getProgramsByChannelIdUseCase error")
+                    Timber.d("loadProgramsByChannelIdFromDb error: ${it.message}")
                     view?.hideLoading()
                 })
         )
@@ -132,8 +227,10 @@ class TVMenuPresenter @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ daysList ->
                     view?.submitDaysList(daysList)
-                    Timber.d("loadDaysFromDb accomplished")
+                    Timber.d("submitDaysList")
+
                     view?.hideLoading()
+                    Timber.d("loadDaysFromDb accomplished")
                 }, {
                     it.printStackTrace()
                     Timber.d("loadDaysFromDb error")
@@ -151,10 +248,10 @@ class TVMenuPresenter @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe({
-                    Timber.d("removeAllGroupsUseCase accomplished")
                     view?.hideLoading()
+                    Timber.d("removeAllGroups accomplished")
                 }, {
-                    Timber.d("removeAllGroupsUseCase error")
+                    Timber.d("removeAllGroups error")
                     view?.hideLoading()
                 })
         )
@@ -166,183 +263,148 @@ class TVMenuPresenter @Inject constructor(
             getAllGroupsFromDbUseCase.execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe { list.addAll(it) }
+                .subscribe({
+                    list.addAll(it)
+                    Timber.d("isDbEmpty accomplished")
+                }, {
+                    Timber.d("isDbEmpty error")
+                    view?.hideLoading()
+                })
         )
         return list.isEmpty()
     }
 
-    fun fetchAllDataFromApiToDb() {
-        view?.showLoading()
-        subscribe(fetchGroupsFromApiToDbUseCase.execute()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ channelSet ->
-                fetchChannelsFromApiToDbUseCase.execute(channelSet)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        fetchProgramsFromApiToDbUseCase.execute("1", it)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
+//    override fun getChannelsListOfSelectedGroupFromDb(savedGroupId: String): String {
+//        view?.showLoading()
+//
+//        subscribe(
+//            getChannelsByGroupIdFromDbUseCase.execute(savedGroupId)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({ channelsList ->
+//                    view?.submitChannelsList(channelsList)
+//                    view?.saveSelectedGroupId(savedGroupId)
+//                    view?.hideLoading()
+//                    Timber.d("getChannelsListOfSelectedGroupFromDb accomplished")
+//
+//                }, { error ->
+//                    error.printStackTrace()
+//                    Timber.d("getChannelsListOfSelectedGroupFromDb error: ${error.message}")
+//                    view?.hideLoading()
+//                })
+//        )
+//        return ""
+//    }
+//
+//    override fun getProgramsListOfSelectedChannelFromDb(savedGroupId: String, savedChannelId: String) {
+//        view?.showLoading()
+//        subscribe(
+//            getChannelsByGroupIdFromDbUseCase.execute(savedChannelId)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({ channelsList ->
+//                    view?.submitChannelsList(channelsList)
+//                    view?.saveSelectedChannelId(savedChannelId)
+//                    Timber.d("getProgramsListOfSelectedChannelFromDb accomplished")
+//                    view?.hideLoading()
+//                }, { error ->
+//                    error.printStackTrace()
+//                    Timber.d("getProgramsListOfSelectedChannelFromDb error: ${error.message}")
+//                    view?.hideLoading()
+//                }
+//                )
+//        )
+//    }
 
-                                Timber.d("fetchProgramsFromApiToDbUseCase accomplished")
-                            }, { error ->
-                                when (error) {
-                                    is NetworkErrorException, is UnknownHostException -> {
-                                        view?.showNetworkErrorMessage("Error")
-                                        Timber.d("fetchProgramsFromApiToDbUseCase network error")
-                                        view?.hideLoading()
-                                    }
-                                    else -> {
-                                        error.printStackTrace()
-                                        Timber.d("fetchProgramsFromApiToDbUseCase error: ${error.message}")
-                                        view?.hideLoading()
-                                    }
-                                }
-                            })
-
-                        Timber.d("fetchChannelsFromApiToDbUseCase accomplished")
-                    }, { error ->
-                        when (error) {
-                            is NetworkErrorException, is UnknownHostException -> {
-                                view?.showNetworkErrorMessage("Error")
-                                Timber.d("fetchChannelsFromApiToDbUseCase network error")
-                                view?.hideLoading()
-                            }
-                            else -> {
-                                error.printStackTrace()
-                                Timber.d("fetchGroupsFromApiToDbReturnChannelChannelIdsUseCase error: ${error.message}")
-                                view?.hideLoading()
-                            }
-                        }
-                    })
-
-                Timber.d("fetchGroupsFromApiToDbUseCase accomplished")
-            }, { error ->
-                when (error) {
-                    is NetworkErrorException, is UnknownHostException -> {
-                        view?.showNetworkErrorMessage("Error")
-                        Timber.d("fetchGroupsFromApiToDbReturnChannelChannelIdsUseCase network error")
-                        view?.hideLoading()
-                    }
-                    else -> {
-                        error.printStackTrace()
-                        Timber.d("fetchGroupsFromApiToDbReturnChannelChannelIdsUseCase error: ${error.message}")
-                        view?.hideLoading()
-                    }
-                }
-            }
-            )
-        )
-
-        subscribe(
-            fetchDaysFromApiToDbUseCase.execute()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ dayList ->
-                    view?.submitDaysList(dayList)
-                    Timber.d("fetchDaysFromApiToDbUseCase accomplished")
-                }, { error ->
-                    when (error) {
-                        is NetworkErrorException, is UnknownHostException -> {
-                            view?.showNetworkErrorMessage("Error")
-                            Timber.d("fetchDaysFromApiToDbUseCase network error")
-                            view?.hideLoading()
-                        }
-                        else -> {
-                            error.printStackTrace()
-                            Timber.d("fetchDaysFromApiToDbUseCase error: ${error.message}")
-                            view?.hideLoading()
-                        }
-                    }
-                })
-        )
-    }
-
-    override fun getChannelsListOfSelectedGroupFromDb(savedGroupId: String?): String {
-        view?.showLoading()
-        var groupId = savedGroupId
-        if (groupId.isNullOrBlank()) {
-            groupId = getRandomGroupId()
-        }
-
-        subscribe(
-            getChannelsByGroupIdFromDbUseCase.execute(groupId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ channelsList ->
-                    view?.submitChannelsList(channelsList)
-                    view?.saveSelectedGroupId(groupId)
-                    view?.hideLoading()
-                    Timber.d("getChannelsListOfSelectedGroupFromDb accomplished")
-
-                }, { error ->
-                    error.printStackTrace()
-                    Timber.d("getChannelsListOfSelectedGroupFromDb error: ${error.message}")
-                    view?.hideLoading()
-                })
-        )
-        return ""
-    }
-
-    override fun getProgramsListOfSelectedChannelFromDb(savedGroupId: String, savedChannelId: String?) {
-        view?.showLoading()
-        var channelId = savedChannelId
-        if (channelId.isNullOrBlank()) {
-            channelId = getRandomChannelIdByGroupId(savedGroupId)
-        }
-        subscribe(
-            getChannelsByGroupIdFromDbUseCase.execute(channelId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ channelsList ->
-                    view?.submitChannelsList(channelsList)
-                    view?.saveSelectedChannelId(channelId)
-                    Timber.d("getProgramsListOfSelectedChannelFromDb accomplished")
-                    view?.hideLoading()
-                }, { error ->
-                    error.printStackTrace()
-                    Timber.d("getProgramsListOfSelectedChannelFromDb error: ${error.message}")
-                    view?.hideLoading()
-                }
-                )
-        )
-    }
-
-    private fun getRandomGroupId(): String {
-        val groupIdList: MutableSet<String> = HashSet()
+    override fun getRandomGroupId() {
         subscribe(
             getAllGroupsFromDbUseCase.execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ groupList ->
-                    groupList.forEach {
-                        groupIdList.add(it.id)
+                .subscribe({ groupsList ->
+                    val groupIdsList: MutableList<String> = ArrayList()
+                    groupsList.forEach {
+                        groupIdsList.add(it.id)
                     }
-                }, {
+                    val groupId = getRandomElementFromList(groupIdsList)
+                    view?.saveSelectedGroupId(groupId)
+                    Timber.d("saveSelectedGroupId accomplished")
 
+                    Timber.d("getRandomGroupId accomplished")
+                }, {
+                    it.printStackTrace()
+                    Timber.d("getRandomGroupId error: ${it.message}")
+                    view?.hideLoading()
                 })
         )
-        val randomValue = Random.nextInt(groupIdList.size)
-        return groupIdList.elementAt(randomValue)
     }
 
-    private fun getRandomChannelIdByGroupId(groupId: String): String {
-        val channelIdList: MutableSet<String> = HashSet()
+    override fun getRandomChannelIdByGroupId(groupId: String) {
         subscribe(
             getChannelsByGroupIdFromDbUseCase.execute(groupId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ channelList ->
-                    channelList.forEach {
-                        channelIdList.add(it.id)
+                .subscribe({ channelsList ->
+                    val channelIdsList: MutableList<String> = ArrayList()
+                    channelsList.forEach {
+                        channelIdsList.add(it.id)
                     }
-                }, {
+                    val channelId = getRandomElementFromList(channelIdsList)
+                    view?.saveSelectedChannelId(channelId)
+                    Timber.d("saveSelectedChannelId accomplished")
 
+                    Timber.d("getRandomChannelIdByGroupId accomplished")
+                }, {
+                    it.printStackTrace()
+                    Timber.d("getRandomChannelIdByGroupId error: ${it.message}")
+                    view?.hideLoading()
                 })
         )
-        val randomValue = Random.nextInt(channelIdList.size)
-        return channelIdList.elementAt(randomValue)
+    }
+
+    override fun getRandomProgramIdByGroupId(channelId: String) {
+        subscribe(
+            getProgramsByChannelIdFromDbUseCase.execute(channelId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ programsList ->
+                    val programIdsList: MutableList<String> = ArrayList()
+                    programsList.forEach {
+                        programIdsList.add(it.id)
+                    }
+                    val programId = getRandomElementFromList(programIdsList)
+                    view?.saveSelectedProgramId(programId)
+                    Timber.d("saveSelectedProgramId accomplished")
+
+                    Timber.d("getRandomProgramIdByGroupId accomplished")
+                }, {
+                    it.printStackTrace()
+                    Timber.d("getRandomProgramIdByGroupId error: ${it.message}")
+                    view?.hideLoading()
+                })
+        )
+    }
+
+    override fun getRandomDayId() {
+        subscribe(
+            getDaysFromDbFromDbUseCase.execute()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ daysList ->
+                    val dayIdsList: MutableList<String> = ArrayList()
+                    daysList.forEach {
+                        dayIdsList.add(it.id)
+                    }
+                    val dayId = getRandomElementFromList(dayIdsList)
+                    view?.saveSelectedDayId(dayId)
+                    Timber.d("saveSelectedDayId accomplished")
+
+                    Timber.d("getRandomDayId accomplished")
+                }, {
+                    it.printStackTrace()
+                    Timber.d("getRandomDayId error: ${it.message}")
+                    view?.hideLoading()
+                })
+        )
     }
 }

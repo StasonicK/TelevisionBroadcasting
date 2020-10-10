@@ -101,20 +101,28 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             presenter.syncData()
         }
 
-        Timber.d("groupId in onActivityCreated: $selectedGroupId")
-        showGroupsRecycler()
-        showChannelsRecycler()
-        showProgramsRecycler()
-        showDaysRecycler()
-
-//        populateRecyclers()
-        presenter.loadDefaultData()
+        initGroupsRecycler()
+        initChannelsRecycler()
+        initProgramsRecycler()
+        initDaysRecycler()
     }
 
-    override fun populateRecyclers() {
-        presenter.loadGroupsFromDb()
-        selectedGroupId?.let { presenter.getChannelsListOfSelectedGroupFromDb(it) }
-        selectedChannelId?.let { presenter.getProgramsListOfSelectedChannelFromDb(selectedGroupId!!, it) }
+    override fun populateGroupsRecycler() {
+        if (selectedGroupId.isNullOrBlank()) presenter.getRandomGroupId()
+        presenter.loadGroupsFromDb(selectedGroupId!!)
+    }
+
+    override fun populateChannelsRecycler() {
+        if (selectedChannelId.isNullOrBlank()) presenter.getRandomChannelIdByGroupId(selectedGroupId!!)
+        presenter.loadChannelsByGroupIdFromDb(selectedGroupId!!, selectedChannelId!!)
+    }
+
+    override fun populateProgramsRecycler() {
+        if (selectedProgramId.isNullOrBlank()) presenter.getRandomProgramIdByGroupId(selectedChannelId!!)
+        presenter.loadProgramsByChannelIdFromDb(selectedChannelId!!, selectedProgramId!!)
+    }
+
+    override fun populateDaysRecycler() {
         presenter.loadDaysFromDb()
     }
 
@@ -209,12 +217,12 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         Timber.d(message)
     }
 
-    override fun showGroupsRecycler() {
+    override fun initGroupsRecycler() {
         recycler_group_list.apply {
             groupsAdapter.apply {
                 setOnClick { any, view ->
                     (any as GroupEntity).let {
-                        presenter.loadChannelsByGroupIdFromDb(it.id)
+                        presenter.loadChannelsByGroupIdFromDb(selectedGroupId!!, it.id)
                         selectedGroupId = it.id
                     }
 
@@ -244,12 +252,12 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         Timber.d("showGroupsRecycler accomplished")
     }
 
-    override fun showChannelsRecycler() {
+    override fun initChannelsRecycler() {
         recycler_channel_list.apply {
             channelsAdapter.setOnClick { any, view ->
-                (any as GroupEntity).let {
-                    presenter.loadProgramsByChannelIdFromDb(any.id)
-                    selectedChannelId = any.id
+                (any as ChannelEntity).let {
+                    presenter.loadProgramsByChannelIdFromDb(selectedChannelId!!, it.id)
+                    selectedChannelId = it.id
                 }
                 view.isFocusable = true
             }
@@ -266,7 +274,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         Timber.d("showChannelsRecycler accomplished")
     }
 
-    override fun showProgramsRecycler() {
+    override fun initProgramsRecycler() {
         recycler_programs_list.apply {
             programsAdapter.setOnClick { any, view ->
                 (any as ProgramEntity).let {
@@ -283,7 +291,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         Timber.d("showProgramsRecycler accomplished")
     }
 
-    override fun showDaysRecycler() {
+    override fun initDaysRecycler() {
         recycler_days_list.apply {
             daysAdapter.setOnClick { any, view ->
                 (any as DayEntity).let {

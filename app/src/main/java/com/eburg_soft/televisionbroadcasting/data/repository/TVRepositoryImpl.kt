@@ -134,9 +134,9 @@ class TVRepositoryImpl @Inject constructor(
 //        programDao.getSelectedProgram(limit, clicked)
 //            .subscribeOn(Schedulers.io())
 
-    override fun getSelectedDay(limit: Int, clicked: Boolean): Flowable<DayEntity> =
-        dayDao.getSelectedDayId(limit, clicked)
-            .subscribeOn(Schedulers.io())
+//    override fun getSelectedDay(limit: Int, clicked: Boolean): Flowable<DayEntity> =
+//        dayDao.getSelectedDayId(limit, clicked)
+//            .subscribeOn(Schedulers.io())
 
 //    override fun updateGroups(groups: List<GroupEntity>): Completable =
 //        groupDao.updateGroups(groups)

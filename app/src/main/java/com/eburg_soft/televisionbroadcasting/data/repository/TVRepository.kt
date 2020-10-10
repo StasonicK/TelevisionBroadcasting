@@ -34,7 +34,7 @@ interface TVRepository {
 //    fun getSelectedProgram(limit: Int, clicked: Boolean): Flowable<ProgramEntity>
 //    Flowable<List<ChannelEntity>>
 
-    fun getSelectedDay(limit: Int, clicked: Boolean): Flowable<DayEntity>
+//    fun getSelectedDay(limit: Int, clicked: Boolean): Flowable<DayEntity>
 //    Flowable<List<ChannelEntity>>
 
 //    fun updateGroups(groups: List<GroupEntity>): Completable
