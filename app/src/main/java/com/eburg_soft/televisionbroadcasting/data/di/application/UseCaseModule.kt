@@ -1,10 +1,10 @@
 package com.eburg_soft.televisionbroadcasting.data.di.application
 
 import com.eburg_soft.televisionbroadcasting.data.repository.TVRepository
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchChannelsFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchDaysFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchGroupsFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchProgramsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchChannelsFromApiIntoDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchDaysFromApiIntoDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchGroupsFromApiIntoDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchProgramsFromApiIntoDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllDaysFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdFromDbUseCase
@@ -70,23 +70,23 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideFetchGroupsFromApiToDbUseCase(repository: TVRepository): FetchGroupsFromApiToDbUseCase =
-        FetchGroupsFromApiToDbUseCase(repository)
+    fun provideFetchGroupsFromApiToDbUseCase(repository: TVRepository): FetchGroupsFromApiIntoDbUseCase =
+        FetchGroupsFromApiIntoDbUseCase(repository)
 
     @Singleton
     @Provides
-    fun provideFetchChannelsFromApiToDbUseCase(repository: TVRepository): FetchChannelsFromApiToDbUseCase =
-        FetchChannelsFromApiToDbUseCase(repository)
+    fun provideFetchChannelsFromApiToDbUseCase(repository: TVRepository): FetchChannelsFromApiIntoDbUseCase =
+        FetchChannelsFromApiIntoDbUseCase(repository)
 
     @Singleton
     @Provides
-    fun provideFetchProgramsFromApiToDbUseCase(repository: TVRepository): FetchProgramsFromApiToDbUseCase =
-        FetchProgramsFromApiToDbUseCase(repository)
+    fun provideFetchProgramsFromApiToDbUseCase(repository: TVRepository): FetchProgramsFromApiIntoDbUseCase =
+        FetchProgramsFromApiIntoDbUseCase(repository)
 
     @Singleton
     @Provides
-    fun provideFetchDaysFromApiToDbUseCase(repository: TVRepository): FetchDaysFromApiToDbUseCase =
-        FetchDaysFromApiToDbUseCase(repository)
+    fun provideFetchDaysFromApiToDbUseCase(repository: TVRepository): FetchDaysFromApiIntoDbUseCase =
+        FetchDaysFromApiIntoDbUseCase(repository)
 
     @Singleton
     @Provides

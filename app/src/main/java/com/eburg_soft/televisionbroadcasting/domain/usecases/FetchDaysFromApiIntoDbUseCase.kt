@@ -1,11 +1,10 @@
 package com.eburg_soft.televisionbroadcasting.domain.usecases
 
-import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.repository.TVRepository
-import io.reactivex.Flowable
+import io.reactivex.Completable
 import javax.inject.Inject
 
-class FetchDaysFromApiToDbUseCase @Inject constructor(private val repository: TVRepository) {
+class FetchDaysFromApiIntoDbUseCase @Inject constructor(private val repository: TVRepository) {
 
-    fun execute(): Flowable<List<DayEntity>> = repository.getAllDays()
+    fun execute(): Completable = repository.fetchDaysFromApiIntoDb()
 }

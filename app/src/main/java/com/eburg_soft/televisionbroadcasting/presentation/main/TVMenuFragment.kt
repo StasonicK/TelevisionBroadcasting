@@ -289,22 +289,22 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     }
 
     override fun populateGroupsRecycler() {
-        presenter.fetchGroupsFromDb(selectedGroupId)
+        presenter.verifySelectedIdAndLoadGroupsFromDb(selectedGroupId)
         Timber.d("populateGroupsRecycler accomplished")
     }
 
     override fun populateChannelsRecycler() {
-        presenter.fetchChannelsFromDb(selectedGroupId!!, selectedChannelId)
+        presenter.verifySelectedIdAndLoadChannelsFromDb(selectedGroupId!!, selectedChannelId)
         Timber.d("populateChannelsRecycler accomplished")
     }
 
     override fun populateProgramsRecycler() {
-        presenter.fetchProgramsFromDb(selectedChannelId!!, selectedProgramId)
+        presenter.verifySelectedIdAndLoadProgramsFromDb(selectedChannelId!!, selectedProgramId)
         Timber.d("populateProgramsRecycler accomplished")
     }
 
     override fun populateDaysRecycler() {
-        presenter.fetchDayFromDb(selectedDayId)
+        presenter.verifySelectedIdAndLoadDaysFromDb(selectedDayId)
         Timber.d("populateDaysRecycler accomplished")
     }
 

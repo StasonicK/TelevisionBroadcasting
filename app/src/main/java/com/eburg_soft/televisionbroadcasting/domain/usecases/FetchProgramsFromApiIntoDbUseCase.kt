@@ -4,8 +4,8 @@ import com.eburg_soft.televisionbroadcasting.data.repository.TVRepository
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class FetchProgramsFromApiToDbUseCase @Inject constructor(private val repository: TVRepository) {
+class FetchProgramsFromApiIntoDbUseCase @Inject constructor(private val repository: TVRepository) {
 
     fun execute(id: String, channelIdList: List<String>): Completable =
-        repository.fetchProgramsFromApiToDb(id, channelIdList)
+        repository.fetchProgramsFromApiIntoDb(id, channelIdList)
 }

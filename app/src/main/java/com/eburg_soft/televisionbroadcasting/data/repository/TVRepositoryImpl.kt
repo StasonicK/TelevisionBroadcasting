@@ -31,7 +31,7 @@ class TVRepositoryImpl @Inject constructor(
     private val emptySet: Set<ChannelEntity> = mutableSetOf()
     private val emptyList: List<String> = mutableListOf()
 
-    override fun fetchGroupsFromApiToDbReturnChannelIds():
+    override fun fetchGroupsFromApiIntoDbReturnChannelIds():
             Single<Set<ChannelEntity>> {
         return tvApi.getGroupsFromApi()
             .flatMap { list ->
@@ -49,7 +49,7 @@ class TVRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun fetchChannelsFromApiToDb(set: Set<ChannelEntity>): Single<List<String>> {
+    override fun fetchChannelsFromApiIntoDb(set: Set<ChannelEntity>): Single<List<String>> {
         return Single.fromCallable { set }
             .flatMap { set1 ->
                 val channels = mutableListOf<ChannelEntity>()
@@ -83,7 +83,7 @@ class TVRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun fetchProgramsFromApiToDb(id: String, channelIdList: List<String>): Completable {
+    override fun fetchProgramsFromApiIntoDb(id: String, channelIdList: List<String>): Completable {
         return tvApi.getProgramsFromApi(id)
             .flatMapCompletable { list ->
                 val allProgramEntities = mutableListOf<ProgramEntity>()
@@ -99,7 +99,7 @@ class TVRepositoryImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun fetchDaysFromApiToDb(): Completable {
+    override fun fetchDaysFromApiIntoDb(): Completable {
         return Single.fromCallable { TestDataDb.generateDayEntities("01.06.2020", "14.06.2020") }
             .flatMapCompletable { days ->
                 Timber.d("fetchDaysFromApiToDb accomplished")

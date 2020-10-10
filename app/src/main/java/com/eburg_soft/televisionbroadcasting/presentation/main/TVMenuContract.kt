@@ -44,15 +44,15 @@ interface TVMenuContract {
         abstract fun fetchProgramsByChannelIdFromApiIntoDb(channelIdList: List<String>)
         abstract fun fetchDaysFromApiIntoDb()
 
-        abstract fun fetchGroupsFromDb(selectedGroupId: String?)
-        abstract fun fetchChannelsFromDb(selectedGroupId: String, selectedChannelId: String?)
-        abstract fun fetchProgramsFromDb(selectedChannelId: String, selectedProgramId: String?)
-        abstract fun fetchDayFromDb(selectedDayId: String?)
+        abstract fun verifySelectedIdAndLoadGroupsFromDb(selectedGroupId: String?)
+        abstract fun verifySelectedIdAndLoadChannelsFromDb(selectedGroupId: String, selectedChannelId: String?)
+        abstract fun verifySelectedIdAndLoadProgramsFromDb(selectedChannelId: String, selectedProgramId: String?)
+        abstract fun verifySelectedIdAndLoadDaysFromDb(selectedDayId: String?)
 
         abstract fun loadGroupsFromDb()
         abstract fun loadChannelsByGroupIdFromDb(savedGroupId: String)
         abstract fun loadProgramsByChannelIdFromDb(savedChannelId: String)
-        abstract fun loadDaysFromDb()
+        abstract fun loadDaysFromDb(selectedDayId: String)
 
         abstract fun getRandomGroupIdAndLoadGroupsFromDb()
         abstract fun getRandomChannelIdAndLoadChannelsByGroupId(groupId: String)

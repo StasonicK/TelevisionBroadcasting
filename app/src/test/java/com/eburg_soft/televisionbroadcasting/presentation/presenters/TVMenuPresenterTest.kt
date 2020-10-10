@@ -3,10 +3,10 @@ package com.eburg_soft.televisionbroadcasting.presentation.presenters
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.repository.mappers.GroupMapper
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchChannelsFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchDaysFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchGroupsFromApiToDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchProgramsFromApiToDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchChannelsFromApiIntoDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchDaysFromApiIntoDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchGroupsFromApiIntoDbUseCase
+import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchProgramsFromApiIntoDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllDaysFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdFromDbUseCase
@@ -44,16 +44,16 @@ class TVMenuPresenterTest {
     private lateinit var getAllDaysFromDbUseCase: GetAllDaysFromDbUseCase
 
     @MockK
-    private lateinit var mFetchGroupsFromApiToDbUseCase: FetchGroupsFromApiToDbUseCase
+    private lateinit var mFetchGroupsFromApiIntoDbUseCase: FetchGroupsFromApiIntoDbUseCase
 
     @MockK
-    private lateinit var mFetchProgramsFromApiToDbUseCase: FetchProgramsFromApiToDbUseCase
+    private lateinit var mFetchProgramsFromApiIntoDbUseCase: FetchProgramsFromApiIntoDbUseCase
 
     @MockK
-    private lateinit var mFetchChannelsFromApiToDbUseCase: FetchChannelsFromApiToDbUseCase
+    private lateinit var mFetchChannelsFromApiIntoDbUseCase: FetchChannelsFromApiIntoDbUseCase
 
     @MockK
-    private lateinit var fetchDaysFromApiToDbUseCase: FetchDaysFromApiToDbUseCase
+    private lateinit var mFetchDaysFromApiIntoDbUseCase: FetchDaysFromApiIntoDbUseCase
 
     @MockK
     private lateinit var removeAllGroupsUseCase: RemoveAllGroupsUseCase
@@ -66,10 +66,10 @@ class TVMenuPresenterTest {
             mGetChannelsByGroupIdFromDbUseCase,
             mGetProgramsByChannelIdFromDbUseCase,
             getAllDaysFromDbUseCase,
-            mFetchGroupsFromApiToDbUseCase,
-            mFetchChannelsFromApiToDbUseCase,
-            mFetchProgramsFromApiToDbUseCase,
-            fetchDaysFromApiToDbUseCase,
+            mFetchGroupsFromApiIntoDbUseCase,
+            mFetchChannelsFromApiIntoDbUseCase,
+            mFetchProgramsFromApiIntoDbUseCase,
+            mFetchDaysFromApiIntoDbUseCase,
             removeAllGroupsUseCase
         )
     }
@@ -118,15 +118,15 @@ class TVMenuPresenterTest {
         }
         val channelIdList: List<String> = ArrayList<String>(channelIdMutableList)
 
-        every { mFetchGroupsFromApiToDbUseCase.execute() } returns Single.just(channelSet)
-        every { mFetchChannelsFromApiToDbUseCase.execute(any()) } returns Single.just(channelIdList)
-        every { mFetchProgramsFromApiToDbUseCase.execute(any(), any()) } returns Completable.complete()
+        every { mFetchGroupsFromApiIntoDbUseCase.execute() } returns Single.just(channelSet)
+        every { mFetchChannelsFromApiIntoDbUseCase.execute(any()) } returns Single.just(channelIdList)
+        every { mFetchProgramsFromApiIntoDbUseCase.execute(any(), any()) } returns Completable.complete()
 
         //  Act
         presenter.fetchAllDataFromApiToDb()
 
         //  Assert
-        verify(exactly = 1) { mFetchGroupsFromApiToDbUseCase.execute() }
+        verify(exactly = 1) { mFetchGroupsFromApiIntoDbUseCase.execute() }
 //        verify(exactly = 1) { saveChannelsFromApiToDbUseCase.execute(any()) }
 //        verify(exactly = 25) { saveProgramsFromApiToDbUseCase.execute(any(), any()) }
     }
