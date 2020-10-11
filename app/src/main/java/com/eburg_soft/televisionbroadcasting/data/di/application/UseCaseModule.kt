@@ -9,18 +9,10 @@ import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllDaysFromDbUse
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetAllGroupsFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetChannelsByGroupIdFromDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.GetProgramsByChannelIdFromDbUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetSelectedChannelIdUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetSelectedDayUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetSelectedGroupIdUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.GetSelectedProgramUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllChannelsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllDaysUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllGroupsUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.RemoveAllProgramsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.UpdateChannelsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.UpdateDaysUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.UpdateGroupsUseCase
-import com.eburg_soft.televisionbroadcasting.domain.usecases.UpdateProgramsUseCase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -50,26 +42,6 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideGetSelectedIdGroupUseCase(repository: TVRepository): GetSelectedGroupIdUseCase =
-        GetSelectedGroupIdUseCase(repository)
-
-    @Singleton
-    @Provides
-    fun provideGetSelectedIdChannelUseCase(repository: TVRepository): GetSelectedChannelIdUseCase =
-        GetSelectedChannelIdUseCase(repository)
-
-    @Singleton
-    @Provides
-    fun provideGetSelectedProgramUseCase(repository: TVRepository): GetSelectedProgramUseCase =
-        GetSelectedProgramUseCase(repository)
-
-    @Singleton
-    @Provides
-    fun provideGetSelectedDayUseCase(repository: TVRepository): GetSelectedDayUseCase =
-        GetSelectedDayUseCase(repository)
-
-    @Singleton
-    @Provides
     fun provideFetchGroupsFromApiToDbUseCase(repository: TVRepository): FetchGroupsFromApiIntoDbUseCase =
         FetchGroupsFromApiIntoDbUseCase(repository)
 
@@ -87,26 +59,6 @@ class UseCaseModule {
     @Provides
     fun provideFetchDaysFromApiToDbUseCase(repository: TVRepository): FetchDaysFromApiIntoDbUseCase =
         FetchDaysFromApiIntoDbUseCase(repository)
-
-    @Singleton
-    @Provides
-    fun provideUpdateGroupsUseCase(repository: TVRepository): UpdateGroupsUseCase =
-        UpdateGroupsUseCase(repository)
-
-    @Singleton
-    @Provides
-    fun provideUpdateChannelsUseCase(repository: TVRepository): UpdateChannelsUseCase =
-        UpdateChannelsUseCase(repository)
-
-    @Singleton
-    @Provides
-    fun provideUpdateProgramsUseCase(repository: TVRepository): UpdateProgramsUseCase =
-        UpdateProgramsUseCase(repository)
-
-    @Singleton
-    @Provides
-    fun provideUpdateDaysUseCase(repository: TVRepository): UpdateDaysUseCase =
-        UpdateDaysUseCase(repository)
 
     @Singleton
     @Provides

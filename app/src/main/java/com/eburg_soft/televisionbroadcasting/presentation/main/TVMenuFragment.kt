@@ -79,16 +79,12 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
 
         savedInstanceState?.let {
             //  get ids
             selectedGroupId = it.getString(GROUP_ID)
-            this.selectedChannelId = it.getString(CHANNEL_ID)
-            this.selectedProgramId = it.getString(PROGRAM_ID)
+            selectedChannelId = it.getString(CHANNEL_ID)
+            selectedProgramId = it.getString(PROGRAM_ID)
             selectedDayId = it.getString(DAY_ID)
 
             //  get touch statuses
@@ -205,18 +201,19 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                     (any as GroupEntity).let {
                         presenter.loadChannelsByGroupIdFromDb(it.id)
                         selectedGroupId = it.id
-                        showNetworkErrorMessage("Clicked on $selectedGroupId")
+//                        showNetworkErrorMessage("Clicked on $selectedGroupId")
                     }
                     view.changeBackgroundColor(R.color.blue)
                 }
                 setOnTouch {
                     groupRecyclerTouchStatus = it
+                    Timber.d("Group $it touched")
                 }
             }
 
             // TODO: 08.10.2020 create listener
-            groupRecyclerTouchStatus?.let {
-                if (it) {
+            groupRecyclerTouchStatus.apply {
+                if (groupRecyclerTouchStatus) {
                     changeBackgroundColor(R.color.white_transparent)
                     elevateOnTouch()
                 } else {
@@ -235,17 +232,30 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
 
     override fun initChannelsRecycler() {
         recycler_channel_list.apply {
-            channelsAdapter.setOnClick { any, view ->
-                (any as ChannelEntity).let {
-                    presenter.loadProgramsByChannelIdFromDb(it.id)
-                    selectedChannelId = it.id
-                    showNetworkErrorMessage("Clicked on $selectedChannelId")
+            channelsAdapter.apply {
+                setOnClick { any, view ->
+                    (any as ChannelEntity).let {
+                        presenter.loadProgramsByChannelIdFromDb(it.id)
+                        selectedChannelId = it.id
+                        showNetworkErrorMessage("Clicked on $selectedChannelId")
+                    }
+                    setOnTouch {
+                        channelRecyclerTouchStatus = it
+                        Timber.d("Channel $it touched")
+                    }
+                }
+            }
+            // TODO: 08.10.2020 create listener
+            channelRecyclerTouchStatus.apply {
+                if (channelRecyclerTouchStatus) {
+                    changeBackgroundColor(R.color.white_transparent)
+                    elevateOnTouch()
+                } else {
+                    changeBackgroundColor(R.color.black)
+                    elevateBackOutOfTouch()
                 }
             }
 
-            channelsAdapter.setOnTouch {
-
-            }
             // TODO: 06.10.2020 add item highlighting
 
             adapter = channelsAdapter
@@ -257,12 +267,29 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
 
     override fun initProgramsRecycler() {
         recycler_programs_list.apply {
-            programsAdapter.setOnClick { any, view ->
-                (any as ProgramEntity).let {
-                    selectedProgramId = it.id
-                    showNetworkErrorMessage("Clicked on $selectedProgramId")
+            programsAdapter.apply {
+                setOnClick { any, view ->
+                    (any as ProgramEntity).let {
+                        selectedProgramId = it.id
+                        showNetworkErrorMessage("Clicked on $selectedProgramId")
+                    }
+                    view.isFocusable = true
                 }
-                view.isFocusable = true
+                setOnTouch {
+                    programRecyclerTouchStatus = it
+                    Timber.d("Program $it touched")
+                }
+            }
+
+            // TODO: 08.10.2020 create listener
+            programRecyclerTouchStatus.apply {
+                if (channelRecyclerTouchStatus) {
+                    changeBackgroundColor(R.color.white_transparent)
+                    elevateOnTouch()
+                } else {
+                    changeBackgroundColor(R.color.black)
+                    elevateBackOutOfTouch()
+                }
             }
             adapter = programsAdapter
             // TODO: 06.10.2020 add item highlighting
@@ -275,10 +302,27 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
 
     override fun initDaysRecycler() {
         recycler_days_list.apply {
-            daysAdapter.setOnClick { any, view ->
-                (any as DayEntity).let {
-                    selectedDayId = it.id
-                    showNetworkErrorMessage("Clicked on $selectedDayId")
+            daysAdapter.apply {
+                setOnClick { any, view ->
+                    (any as DayEntity).let {
+                        selectedDayId = it.id
+                        showNetworkErrorMessage("Clicked on $selectedDayId")
+                    }
+                }
+                setOnTouch {
+                    dayRecyclerTouchStatus = it
+                    Timber.d("Day $it touched")
+                }
+            }
+
+            // TODO: 08.10.2020 create listener
+            dayRecyclerTouchStatus.apply {
+                if (dayRecyclerTouchStatus) {
+                    changeBackgroundColor(R.color.white_transparent)
+                    elevateOnTouch()
+                } else {
+                    changeBackgroundColor(R.color.black)
+                    elevateBackOutOfTouch()
                 }
             }
             adapter = daysAdapter

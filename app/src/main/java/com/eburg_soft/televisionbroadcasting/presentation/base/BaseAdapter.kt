@@ -12,8 +12,7 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
 
     private var onClick: OnClick? = null
 
-    private
-    var onTouch: OnTouch? = null
+    private var onTouch: OnTouch? = null
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.bind(getItem(position))
@@ -45,7 +44,7 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
 
     interface OnTouch {
 
-        fun onTouch(isTouched: Boolean)
+        fun onTouch(isTouching: Boolean)
     }
 
     abstract class BaseViewHolder(protected val view: View) : RecyclerView.ViewHolder(view) {
@@ -62,9 +61,11 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
             }
 
             view.setOnTouchListener { v, event ->
-                if (event.action === MotionEvent.ACTION_DOWN) {
+                if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_MOVE || event.action == MotionEvent.ACTION_UP) {
                     // Construct a rect of the view's bounds
                     rect = Rect(v.left, v.top, v.right, v.bottom)
+//                    rect = Rect()
+
                     if (!rect?.contains(v.left + event.x.toInt(), v.top + event.y.toInt())!!) {
                         // User moved outside bounds
                         isTouching = false

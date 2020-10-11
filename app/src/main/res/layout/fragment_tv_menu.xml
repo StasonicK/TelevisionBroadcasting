@@ -5,7 +5,6 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
@@ -26,12 +25,10 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_program_item"
             android:layout_marginTop="@dimen/margin_vertical_very_small"
-            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recycler_days_list"
-            tools:listitem="@layout/item_programs_recycler"
-            tools:visibility="visible" />
+            tools:listitem="@layout/item_programs_recycler" />
 
         <FrameLayout
             android:id="@+id/frame_channel_list"
@@ -53,13 +50,11 @@
                 android:id="@+id/recycler_channel_list"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_channel_item"
-                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/recycler_group_list"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_blue_lint"
-                tools:listitem="@layout/item_channels_recycler"
-                tools:visibility="visible" />
+                tools:listitem="@layout/item_channels_recycler" />
 
         </FrameLayout>
 
@@ -68,8 +63,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
             android:layout_marginBottom="@dimen/margin_vertical_small"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             app:layout_constraintBottom_toTopOf="@+id/img_bear"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

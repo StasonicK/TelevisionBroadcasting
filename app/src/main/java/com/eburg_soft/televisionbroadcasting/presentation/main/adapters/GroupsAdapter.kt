@@ -13,9 +13,6 @@ class GroupsAdapter : BaseAdapter<GroupEntity, GroupViewHolder>(GroupsDiffCallba
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val view = parent.inflate(R.layout.item_groups_recycler)
-        if (parent.isFocusable) {
-
-        }
         return GroupViewHolder(view)
     }
 
