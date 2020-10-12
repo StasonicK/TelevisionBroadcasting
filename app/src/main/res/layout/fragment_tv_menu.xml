@@ -16,6 +16,7 @@
             android:id="@+id/recycler_days_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
+            android:background="@color/black"
             android:layout_marginTop="@dimen/margin_vertical_small"
             app:layout_constraintBottom_toTopOf="@+id/recycler_programs_list"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +28,7 @@
             android:id="@+id/recycler_programs_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_program_item"
+            android:background="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/frame_channel_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +50,7 @@
                 android:layout_width="@dimen/width_line_over_channel_items"
                 android:layout_height="@dimen/height_line_over_channel_items"
                 android:layout_gravity="center_horizontal"
-                android:background="@color/blue_light" />
+                android:background="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,6 +77,7 @@
             android:id="@+id/recycler_group_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
+            android:background="@color/black"
             app:layout_constraintBottom_toTopOf="@id/const_lay_buttons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

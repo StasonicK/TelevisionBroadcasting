@@ -55,24 +55,24 @@ class TVRepositoryImpl @Inject constructor(
                 val channels = mutableListOf<ChannelEntity>()
                 channels.addAll(set1)
                 val channelIdMutableList = mutableListOf<String>()
-                channels.forEach {
-                    channelIdMutableList.add(it.id)
-                }
-                channelIdMutableList.sortWith { p0, p1 -> // pattern: "channel-id-x-x"
+                channels.sortWith { p0, p1 ->   // pattern: "channel-id-x-x"
                     val cuttingPart = "channel-id-"
-                    val p01 = p0!!.substringAfter(cuttingPart)
-                    val p11 = p1!!.substringAfter(cuttingPart)
+                    val p01 = p0!!.id.substringAfter(cuttingPart)
+                    val p11 = p1!!.id.substringAfter(cuttingPart)
                     val digits0 = p01.split("-")
                     val digits1 = p11.split("-")
                     when {
                         digits0[0].toInt() > digits1[0].toInt() -> 1
                         digits0[0].toInt() == digits1[0].toInt() -> when {
                             digits0[1].toInt() > digits1[1].toInt() -> 1
-                            digits0[1].toInt() == digits1[1].toInt() -> 1
+                            digits0[1].toInt() == digits1[1].toInt() -> 0
                             else -> -1
                         }
                         else -> -1
                     }
+                }
+                channels.forEach {
+                    channelIdMutableList.add(it.id)
                 }
                 val channelIdList: List<String> = ArrayList<String>(channelIdMutableList)
                 Timber.d("fetchChannelsFromApiToDb accomplished")
