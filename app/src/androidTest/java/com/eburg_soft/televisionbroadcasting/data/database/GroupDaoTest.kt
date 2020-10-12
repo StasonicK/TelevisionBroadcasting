@@ -65,34 +65,4 @@ class GroupDaoTest : TVDatabaseTest() {
                 return@assertValue it.isEmpty()
             }
     }
-
-    /*
-        ChannelEntity
-        -   insert,
-        -   read,
-        -   delete
-     */
-    @Test
-    @Throws(Exception::class)
-    fun insertReadDeleteChannel() {
-        val resultChannels = TestUtil.TEST_CHANNEL_ENTITIES_2
-
-        // insert
-//        getGroupDao()?.insertChannels(resultChannels)?.blockingGet()
-
-        // read
-//        var insertedChannels = getGroupDao()?.getAllChannels()?.blockingFirst ()
-//        assertNotNull(insertedChannels)
-//        assertEquals(resultChannels, insertedChannels)
-//        println(insertedChannels)
-        println(resultChannels)
-
-        // delete
-//        getGroupDao()?.deleteAllChannels()?.blockingGet()
-
-        // confirm the database is empty
-//        insertedChannels = getGroupDao()?.getAllChannels()?.blockingFirst()
-//        assertEquals(0, insertedChannels?.size)
-//        println(insertedChannels)
-    }
 }

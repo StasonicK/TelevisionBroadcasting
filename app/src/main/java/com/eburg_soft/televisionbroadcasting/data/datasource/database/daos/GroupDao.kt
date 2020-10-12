@@ -11,30 +11,15 @@ import io.reactivex.Flowable
 @Dao
 interface GroupDao {
 
-//    @Transaction
-//    @Query("SELECT * from `groups`")
-//    fun getAllGroups(): Flowable<List<GroupWithChannels>>
-//    fun getGroupWithChannels(): Flowable<List<GroupWithChannels>>
-
-    @Query("SELECT * from `groups`")
+    @Query("SELECT * FROM ${GroupEntity.TABLE_NAME}")
     fun getAllGroups(): Flowable<List<GroupEntity>>
 
-//    @Query("SELECT * from ${ChannelEntity.TABLE_NAME}")
-//    fun getAllChannels(): Flowable<List<ChannelEntity>>
-
-//    @Query("SELECT * from `channels` WHERE ${ChannelEntity.COLUMN_GROUP_ID}=:groupId")
-//    fun getChannelByGroupId(groupId: String): Single<List<GroupWithChannels>>
-//    fun getChannelByGroupId(groupId: String): Flowable<List<ChannelEntity>>
+    @Query("SELECT ${GroupEntity.COLUMN_ID} FROM ${GroupEntity.TABLE_NAME} where ${GroupEntity.COLUMN_ID} = :groupId")
+    fun getSelectedGroupById(groupId: String): Flowable<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGroups(groups: List<GroupEntity>): Completable
 
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun insertChannels(channels: List<ChannelEntity>): Completable
-
-    @Query("DELETE FROM `groups`")
+    @Query("DELETE FROM ${GroupEntity.TABLE_NAME}")
     fun deleteAllGroups(): Completable
-
-//    @Query("DELETE FROM ${ChannelEntity.TABLE_NAME}")
-//    fun deleteAllChannels(): Completable
 }

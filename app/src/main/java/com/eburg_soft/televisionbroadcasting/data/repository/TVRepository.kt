@@ -1,6 +1,7 @@
 package com.eburg_soft.televisionbroadcasting.data.repository
 
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import io.reactivex.Completable
@@ -9,9 +10,13 @@ import io.reactivex.Single
 
 interface TVRepository {
 
-    fun saveGroupsAndChannelsFromApiToDbReturnIds(): Single<ArrayList<String>>
+    fun fetchGroupsFromApiIntoDbReturnChannelIds(): Single<Set<ChannelEntity>>
 
-    fun saveProgramsFromApiToDb(id: String, channelId: String): Completable
+    fun fetchChannelsFromApiIntoDb(set: Set<ChannelEntity>): Single<List<String>>
+
+    fun fetchProgramsFromApiIntoDb(id: String, channelIdList: List<String>): Completable
+
+    fun fetchDaysFromApiIntoDb(): Completable
 
     fun getAllGroups(): Flowable<List<GroupEntity>>
 
@@ -19,9 +24,32 @@ interface TVRepository {
 
     fun getProgramsByChannelId(channelId: String): Flowable<List<ProgramEntity>>
 
+    fun getAllDays(): Flowable<List<DayEntity>>
+
+    fun getSelectedGroupById(groupId: String): Flowable<String>
+//    Flowable<List<ChannelEntity>>
+
+    fun getSelectedChannelById(channelId: String): Flowable<String>
+
+//    fun getSelectedProgram(limit: Int, clicked: Boolean): Flowable<ProgramEntity>
+//    Flowable<List<ChannelEntity>>
+
+//    fun getSelectedDay(limit: Int, clicked: Boolean): Flowable<DayEntity>
+//    Flowable<List<ChannelEntity>>
+
+//    fun updateGroups(groups: List<GroupEntity>): Completable
+//
+//    fun updateChannels(channels: List<ChannelEntity>): Completable
+//
+//    fun updatePrograms(programs: List<ProgramEntity>): Completable
+
+//    fun updateDays(days: List<DayEntity>): Completable
+
     fun removeAllGroups(): Completable
 
     fun removeAllChannels(): Completable
 
     fun removeAllPrograms(): Completable
+
+    fun removeAllDays(): Completable
 }

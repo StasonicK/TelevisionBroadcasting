@@ -17,7 +17,13 @@ class ProgramMapper @Inject constructor() : BaseMapper<List<ProgramResponse>, Li
         val programEntities = mutableListOf<ProgramEntity>()
         type?.let { list ->
             list.forEach { programResponse ->
-                programEntities.add(ProgramEntity(programResponse.id, channelId, programResponse.name))
+                programEntities.add(
+                    ProgramEntity(
+                        programResponse.id + ", " + channelId,
+                        channelId,
+                        programResponse.name
+                    )
+                )
             }
         }
         return programEntities
