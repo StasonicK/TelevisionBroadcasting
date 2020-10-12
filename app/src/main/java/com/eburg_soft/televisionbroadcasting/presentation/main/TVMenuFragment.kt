@@ -203,20 +203,18 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                 }
                 setOnTouch {
                     groupRecyclerTouchStatus = it
+//                    if (groupRecyclerTouchStatus) {
+//                        changeBackgroundColor(R.color.white_transparent)
+//                        elevateOnTouch()
+//                    } else {
+//                        changeBackgroundColor(R.color.black)
+//                        elevateBackOutOfTouch()
+//                    }
                     Timber.d("Group $it touched")
                 }
             }
 
             // TODO: 08.10.2020 create listener
-            groupRecyclerTouchStatus.apply {
-                if (groupRecyclerTouchStatus) {
-                    changeBackgroundColor(R.color.white_transparent)
-                    elevateOnTouch()
-                } else {
-                    changeBackgroundColor(R.color.black)
-                    elevateBackOutOfTouch()
-                }
-            }
 
             adapter = groupsAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

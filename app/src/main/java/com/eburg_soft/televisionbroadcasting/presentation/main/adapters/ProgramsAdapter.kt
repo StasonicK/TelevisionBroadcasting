@@ -30,5 +30,9 @@ class ProgramsAdapter : BaseAdapter<ProgramEntity, ProgramViewHolder>(ProgramsDi
                 }
             }
         }
+
+//        override fun changeSelectedView(isSelected: Boolean) {
+//            TODO("Not yet implemented")
+//        }
     }
 }

@@ -4,6 +4,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
+import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
+import com.eburg_soft.televisionbroadcasting.extensions.elevateBackOutOfTouch
+import com.eburg_soft.televisionbroadcasting.extensions.elevateOnTouch
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter.GroupViewHolder
@@ -41,5 +44,15 @@ class GroupsAdapter : BaseAdapter<GroupEntity, GroupViewHolder>(GroupsDiffCallba
                 }
             }
         }
+
+//        override fun changeSelectedView(isSelected: Boolean) {
+//            if (isSelected) {
+//                changeBackgroundColor(R.color.white_transparent)
+//                elevateOnTouch()
+//            } else {
+//                changeBackgroundColor(R.color.black)
+//                elevateBackOutOfTouch()
+//            }
+//        }
     }
 }

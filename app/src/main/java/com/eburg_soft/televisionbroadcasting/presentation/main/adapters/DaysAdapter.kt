@@ -30,5 +30,9 @@ class DaysAdapter : BaseAdapter<DayEntity, DayViewHolder>(DaysDiffCallback()) {
                 }
             }
         }
+
+//        override fun changeSelectedView(isSelected: Boolean) {
+//            TODO("Not yet implemented")
+//        }
     }
 }

@@ -40,5 +40,11 @@ class ChannelsAdapter : BaseAdapter<ChannelEntity, ChannelViewHolder>(ChannelsDi
                 }
             }
         }
+
+//        override fun changeSelectedView(isSelected: Boolean) {
+//            itemView.apply {
+//
+//            }
+//        }
     }
 }
