@@ -1,10 +1,14 @@
 package com.eburg_soft.televisionbroadcasting.presentation.main
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import androidx.recyclerview.widget.RecyclerView.State
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.core.TelevisionBroadcastingApp
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
@@ -118,11 +122,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         outState.putBoolean(DAY_RECYCLER_TOUCH_STATUS, dayRecyclerTouchStatus)
     }
 
-    override fun onStart() {
-        super.onStart()
-//        presenter.attach(this)
-    }
-
     override fun onStop() {
         super.onStop()
         presenter.detach()
@@ -201,7 +200,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                     (any as GroupEntity).let {
                         presenter.loadChannelsByGroupIdFromDb(it.id)
                         selectedGroupId = it.id
-//                        showNetworkErrorMessage("Clicked on $selectedGroupId")
+                        showNetworkErrorMessage("Clicked on $selectedGroupId")
                     }
                     view.changeBackgroundColor(R.color.blue)
                 }
@@ -262,6 +261,31 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
+        //This is used to center first and last item on screen
+        recycler_channel_list.addItemDecoration(
+            object : ItemDecoration() {
+                override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: State) {
+                    super.getItemOffsets(outRect, view, parent, state)
+                    val viewHolderWidth = parent.width
+                    val itemWidth = resources.getDimension(R.dimen.width_channel_item).toInt()
+                    val realWidth = state.itemCount * itemWidth
+                    if (realWidth < viewHolderWidth) {
+                        val position = parent.getChildViewHolder(view).adapterPosition
+                        if (position == 0 || position == state.itemCount - 1) {
+                            val padding: Int = (viewHolderWidth - realWidth) / 2
+                            when (position) {
+                                0 -> {
+                                    outRect.left = padding
+                                }
+                                state.itemCount - 1 -> {
+                                    outRect.right = padding
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        )
         Timber.d("initChannelsRecycler accomplished")
     }
 
@@ -352,5 +376,5 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         Timber.d("populateDaysRecycler accomplished")
     }
 
-    //endregion
+//endregion
 }

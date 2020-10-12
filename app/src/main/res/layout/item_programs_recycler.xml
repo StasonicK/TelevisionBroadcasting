@@ -38,7 +38,7 @@
                 android:layout_marginTop="@dimen/margin_vertical_very_small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view"
-                app:srcCompat="@drawable/outline_restore_white_18"
+                app:srcCompat="@drawable/outline_restore_white_16"
                 tools:ignore="ContentDescription" />
 
             <TextView

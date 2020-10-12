@@ -16,7 +16,7 @@
     <dimen name="height_text_list">24dp</dimen>
     <dimen name="height_program_item">204dp</dimen>
     <dimen name="height_img_program_item">104dp</dimen>
-    <dimen name="height_channel_item">75dp</dimen>
+    <dimen name="height_channel_item">68dp</dimen>
     <dimen name="height_line_on_top_of_program">2dp</dimen>
     <dimen name="height_line_over_channel_items">4dp</dimen>
 
@@ -24,8 +24,9 @@
     <dimen name="width_program_item">168dp</dimen>
     <dimen name="width_channel_item">80dp</dimen>
     <dimen name="width_line_over_channel_items">400dp</dimen>
+    <dimen name="width_recycler">600dp</dimen>
 
-    <dimen name="icon_size">14dp</dimen>
+    <dimen name="icon_size">16dp</dimen>
 
     <!-- text size -->
     <dimen name="text_size_normal">10sp</dimen>
