@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/width_channel_item"
     android:layout_height="@dimen/height_channel_item"
-    android:background="@color/black"
     android:orientation="vertical">
 
     <TextView
@@ -13,15 +12,17 @@
         android:layout_gravity="center"
         android:text="@string/holder_channel"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_header_1" />
+        android:textSize="@dimen/text_size_header_1"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/img_channel_icon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@color/blue"
-        android:src="@drawable/outline_mail_white_24"
+        android:background="@color/black"
+        android:padding="@dimen/padding_normal"
+        android:src="@drawable/old_tv_white_32"
         tools:ignore="ContentDescription" />
 
 </LinearLayout>
