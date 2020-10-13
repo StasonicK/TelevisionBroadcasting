@@ -5,10 +5,11 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="black">#000000</color>
+    <color name="black_transparent">#80000000</color>
     <color name="white">#FFFFFF</color>
     <color name="white_transparent">#39FFFFFF</color>
-    <color name="blue">#0D8EC8</color>
-    <color name="blue_light">#B433CFE3</color>
+    <color name="blue">#27B6C8</color>
+    <color name="blue_light">#76D3DF</color>
     <color name="grey_light">#A8B0B5</color>
     <color name="grey_dark">#82858F</color>
 

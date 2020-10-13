@@ -21,9 +21,9 @@ class ChannelsAdapter : BaseAdapter<ChannelEntity, ChannelViewHolder>(ChannelsDi
 
     class ChannelViewHolder(view: View) : BaseViewHolder(view) {
         init {
-            itemView.setOnClickListener {
-                onClick?.onClick(item, it)
-            }
+//            itemView.setOnClickListener {
+//                onClick?.onClick(item, it)
+//            }
         }
 
         override fun onBind(item: Any) {
@@ -41,10 +41,19 @@ class ChannelsAdapter : BaseAdapter<ChannelEntity, ChannelViewHolder>(ChannelsDi
             }
         }
 
-//        override fun changeSelectedView(isSelected: Boolean) {
-//            itemView.apply {
-//
-//            }
-//        }
+        override fun changeSelectedView(isSelected: Boolean) {
+            if (isSelected) {
+                itemView.apply {
+                    tv_channel_name.visibility = View.VISIBLE
+                    img_channel_icon.setBackgroundColor(resources.getColor(R.color.blue_light))
+                }
+            } else {
+                itemView.apply {
+                    tv_channel_name.visibility = View.INVISIBLE
+
+                    img_channel_icon.setBackgroundColor(resources.getColor(R.color.black))
+                }
+            }
+        }
     }
 }

@@ -10,11 +10,8 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
     diff: BaseDiffCallback<Item>
 ) : ListAdapter<Item, VH>(diff) {
 
-    companion object {
-
-        private var selectedItem = -1
-        private var itemPosition = -1
-    }
+     var selectedItemPosition = -1
+     var itemPosition = -1
 
     private var onClick: OnClick? = null
 
@@ -26,20 +23,24 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
         holder.onClick = onClick
         holder.onTouch = onTouch
 
-//        if (selectedItem == position) holder.changeSelectedView(true) else holder.changeSelectedView(false)
+//        if (selectedItemPosition == position) holder.changeSelectedView(true) else holder.changeSelectedView(false)
 
-        holder.itemView.apply {
-            setOnClickListener {
-                val previousItem = selectedItem
-                selectedItem = position
+//        holder.itemView.apply {
+//            setOnClickListener {
+//                val previousItemPosition = selectedItemPosition
+//                selectedItemPosition = position
+//
+//                val list = currentList
+//                list.add(previousItemPosition, getItem(previousItemPosition))
+//                list.add(selectedItemPosition, getItem(selectedItemPosition))
+//                list.add(holder.adapterPosition, getItem(holder.adapterPosition))
+//                submitList(list)
+//                notifyItemChanged(previousItemPosition)
+//                notifyItemChanged(position)
+//            }
+//        }
 
-                notifyItemChanged(previousItem)
-                notifyItemChanged(position)
-            }
-        }
-
-
-        itemPosition = position
+//        itemPosition = position
     }
 
     fun setOnClick(click: (Any?, View) -> Unit) {
@@ -79,9 +80,8 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
         init {
             view.setOnClickListener {
                 onClick?.onClick(item, it)
-                position
 
-
+//                if (selectedItemPosition == position) holder.changeSelectedView(true) else holder.changeSelectedView(false)
             }
 
             view.setOnTouchListener { v, event ->
@@ -104,7 +104,7 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
 
         protected abstract fun onBind(item: Any)
 
-//        abstract fun changeSelectedView(isSelected: Boolean)
+        abstract fun changeSelectedView(isSelected: Boolean)
 
         fun bind(item: Any) {
             this.item = item

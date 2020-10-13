@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
+import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdapter.DayViewHolder
@@ -18,9 +19,9 @@ class DaysAdapter : BaseAdapter<DayEntity, DayViewHolder>(DaysDiffCallback()) {
 
     class DayViewHolder(view: View) : BaseViewHolder(view) {
         init {
-            itemView.setOnClickListener {
-                onClick?.onClick(item, it)
-            }
+//            itemView.setOnClickListener {
+//                onClick?.onClick(item, it)
+//            }
         }
 
         override fun onBind(item: Any) {
@@ -31,8 +32,18 @@ class DaysAdapter : BaseAdapter<DayEntity, DayViewHolder>(DaysDiffCallback()) {
             }
         }
 
-//        override fun changeSelectedView(isSelected: Boolean) {
-//            TODO("Not yet implemented")
-//        }
+        override fun changeSelectedView(isSelected: Boolean) {
+            if (isSelected) {
+                itemView.apply {
+                    tv_day_date.setTextColor(resources.getColor(R.color.white))
+                    changeBackgroundColor(R.color.blue)
+                }
+            } else {
+                itemView.apply {
+                    tv_day_date.setTextColor(resources.getColor(R.color.grey_light))
+                    changeBackgroundColor(R.color.black)
+                }
+            }
+        }
     }
 }
