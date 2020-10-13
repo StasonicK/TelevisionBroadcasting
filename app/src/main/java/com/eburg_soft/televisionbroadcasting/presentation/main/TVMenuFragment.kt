@@ -97,10 +97,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             presenter.syncData()
         }
 
-//        initGroupsRecycler()
-//        initChannelsRecycler()
-//        initProgramsRecycler()
-//        initDaysRecycler()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
