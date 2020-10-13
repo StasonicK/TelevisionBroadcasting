@@ -35,7 +35,8 @@ interface TVMenuContract {
         fun populateProgramsRecycler()
         fun populateDaysRecycler()
 
-
+        fun showRecyclers()
+        fun hideRecyclers()
     }
 
     abstract class Presenter : BaseContract.Presenter<View>() {
@@ -62,5 +63,7 @@ interface TVMenuContract {
         abstract fun getRandomDayId()
 
         abstract fun removeAllGroups()
+
+        abstract fun showRecyclers()
     }
 }

@@ -21,11 +21,16 @@ import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdap
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsAdapter
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_tv_menu.frame_channel_list
 import kotlinx.android.synthetic.main.fragment_tv_menu.pb_tv_menu
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_channel_list
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_days_list
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_group_list
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_programs_list
+import kotlinx.android.synthetic.main.fragment_tv_menu.tv_favorites
+import kotlinx.android.synthetic.main.fragment_tv_menu.tv_search
+import kotlinx.android.synthetic.main.fragment_tv_menu.tv_showcase
+import kotlinx.android.synthetic.main.fragment_tv_menu.tv_television
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -96,11 +101,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         if (savedInstanceState == null) {
             presenter.syncData()
         }
-
-//        initGroupsRecycler()
-//        initChannelsRecycler()
-//        initProgramsRecycler()
-//        initDaysRecycler()
+        initUI()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -126,6 +127,21 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun onDestroy() {
         super.onDestroy()
         presenter.removeAllGroups()
+    }
+
+    private fun initUI() {
+        tv_television.setOnClickListener {
+            presenter.showRecyclers()
+        }
+        tv_showcase.setOnClickListener {
+            hideRecyclers()
+        }
+        tv_search.setOnClickListener {
+            hideRecyclers()
+        }
+        tv_favorites.setOnClickListener {
+            hideRecyclers()
+        }
     }
 
     //region ====================== Contract implementation ======================
@@ -163,25 +179,25 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun saveSelectedGroupId(groupId: String) {
         selectedGroupId = groupId
         Timber.d("submitDefaultGroupId: $groupId")
-        showNetworkErrorMessage("groupId: $selectedGroupId")
+//        showNetworkErrorMessage("groupId: $selectedGroupId")
     }
 
     override fun saveSelectedChannelId(channelId: String) {
         this.selectedChannelId = channelId
         Timber.d("submitDefaultChannelId: $channelId")
-        showNetworkErrorMessage("channelId: ${this.selectedChannelId}")
+//        showNetworkErrorMessage("channelId: ${this.selectedChannelId}")
     }
 
     override fun saveSelectedProgramId(programId: String) {
         this.selectedProgramId = programId
         Timber.d("submitDefaultChannelId: $programId")
-        showNetworkErrorMessage("channelId: ${this.selectedProgramId}")
+//        showNetworkErrorMessage("channelId: ${this.selectedProgramId}")
     }
 
     override fun saveSelectedDayId(dayId: String) {
         selectedDayId = dayId
         Timber.d("submitDefaultChannelId: $dayId")
-        showNetworkErrorMessage("channelId: $selectedDayId")
+//        showNetworkErrorMessage("channelId: $selectedDayId")
     }
 
     override fun showNetworkErrorMessage(message: String) {
@@ -354,6 +370,20 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun populateDaysRecycler() {
         presenter.verifySelectedIdAndLoadDaysFromDb(selectedDayId)
         Timber.d("populateDaysRecycler accomplished")
+    }
+
+    override fun showRecyclers() {
+        recycler_group_list.visibility = View.VISIBLE
+        frame_channel_list.visibility = View.VISIBLE
+        recycler_programs_list.visibility = View.VISIBLE
+        recycler_days_list.visibility = View.VISIBLE
+    }
+
+    override fun hideRecyclers() {
+        recycler_group_list.visibility = View.INVISIBLE
+        frame_channel_list.visibility = View.INVISIBLE
+        recycler_programs_list.visibility = View.INVISIBLE
+        recycler_days_list.visibility = View.INVISIBLE
     }
 
 //endregion
