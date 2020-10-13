@@ -8,11 +8,11 @@ import retrofit2.http.Path
 
 interface TVApi {
 
-    //    @GET("/tv/group/")
-    @GET("json/group.json")
+    @GET("/tv/group/")
+//    @GET("json/group.json") // testing with json data at my github page
     fun getGroupsFromApi(): Single<List<GroupResponse>>
 
-    //    @GET("/tv/program/{channelId}")
-    @GET("json/program_{channelId}.json")
+    @GET("/tv/program/{channelId}")
+//    @GET("json/program_{channelId}.json") // testing with json data at my github page
     fun getProgramsFromApi(@Path("channelId") channelId: String): Single<List<ProgramResponse>>
 }

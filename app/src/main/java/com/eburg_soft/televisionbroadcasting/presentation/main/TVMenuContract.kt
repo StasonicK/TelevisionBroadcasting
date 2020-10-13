@@ -34,6 +34,8 @@ interface TVMenuContract {
         fun populateChannelsRecycler()
         fun populateProgramsRecycler()
         fun populateDaysRecycler()
+
+
     }
 
     abstract class Presenter : BaseContract.Presenter<View>() {
