@@ -4,9 +4,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
+import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
+import com.eburg_soft.televisionbroadcasting.extensions.elevate
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsAdapter.ProgramViewHolder
+import kotlinx.android.synthetic.main.item_days_recycler.view.tv_day_date
+import kotlinx.android.synthetic.main.item_programs_recycler.view.card_program
+import kotlinx.android.synthetic.main.item_programs_recycler.view.linear_program_description
+import kotlinx.android.synthetic.main.item_programs_recycler.view.tv_country_and_year_of_production
+import kotlinx.android.synthetic.main.item_programs_recycler.view.tv_genre
 import kotlinx.android.synthetic.main.item_programs_recycler.view.tv_program_name
 
 class ProgramsAdapter : BaseAdapter<ProgramEntity, ProgramViewHolder>(ProgramsDiffCallback()) {
@@ -19,7 +26,7 @@ class ProgramsAdapter : BaseAdapter<ProgramEntity, ProgramViewHolder>(ProgramsDi
     class ProgramViewHolder(view: View) : BaseViewHolder(view) {
         init {
             itemView.setOnClickListener {
-                onClick?.onClick(item, it)
+//                onClick?.onClick(item, it)
             }
         }
 
@@ -31,8 +38,26 @@ class ProgramsAdapter : BaseAdapter<ProgramEntity, ProgramViewHolder>(ProgramsDi
             }
         }
 
-//        override fun changeSelectedView(isSelected: Boolean) {
-//            TODO("Not yet implemented")
-//        }
+        override fun changeSelectedView(isSelected: Boolean) {
+            if (isSelected) {
+                itemView.apply {
+                    linear_program_description.apply {
+                        changeBackgroundColor(R.color.blue)
+                    }
+                    tv_country_and_year_of_production.setTextColor(resources.getColor(R.color.blue_light))
+                    tv_genre.setTextColor(resources.getColor(R.color.blue_light))
+                    elevate(true)
+                }
+            } else {
+                itemView.apply {
+                    linear_program_description.apply {
+                        changeBackgroundColor(R.color.black)
+                    }
+                    tv_country_and_year_of_production.setTextColor(resources.getColor(R.color.grey_light))
+                    tv_genre.setTextColor(resources.getColor(R.color.grey_light))
+                    elevate(false)
+                }
+            }
+        }
     }
 }

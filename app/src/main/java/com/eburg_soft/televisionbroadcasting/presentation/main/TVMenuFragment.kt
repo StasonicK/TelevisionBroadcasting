@@ -15,8 +15,7 @@ import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
 import com.eburg_soft.televisionbroadcasting.extensions.centerItemsInLinearLayout
 import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
-import com.eburg_soft.televisionbroadcasting.extensions.elevateBackOutOfTouch
-import com.eburg_soft.televisionbroadcasting.extensions.elevateOnTouch
+import com.eburg_soft.televisionbroadcasting.extensions.elevate
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter
@@ -245,10 +244,10 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             channelRecyclerTouchStatus.apply {
                 if (channelRecyclerTouchStatus) {
                     changeBackgroundColor(R.color.white_transparent)
-                    elevateOnTouch()
+                    elevate(true)
                 } else {
                     changeBackgroundColor(R.color.black)
-                    elevateBackOutOfTouch()
+                    elevate(false)
                 }
             }
 
@@ -284,10 +283,10 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             programRecyclerTouchStatus.apply {
                 if (channelRecyclerTouchStatus) {
                     changeBackgroundColor(R.color.white_transparent)
-                    elevateOnTouch()
+                    elevate(true)
                 } else {
                     changeBackgroundColor(R.color.black)
-                    elevateBackOutOfTouch()
+                    elevate(false)
                 }
             }
             adapter = programsAdapter
@@ -321,10 +320,10 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             dayRecyclerTouchStatus.apply {
                 if (dayRecyclerTouchStatus) {
                     changeBackgroundColor(R.color.white_transparent)
-                    elevateOnTouch()
+                    elevate(true)
                 } else {
                     changeBackgroundColor(R.color.black)
-                    elevateBackOutOfTouch()
+                    elevate(false)
                 }
             }
             adapter = daysAdapter
