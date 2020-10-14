@@ -62,25 +62,25 @@ interface TVMenuContract {
         abstract fun removeAllGroups()
         abstract fun setSelectedGroupView(
             previousPosition: Pair<Int, GroupEntity?>,
-            selectedPosition: Pair<Int, GroupEntity>,
+            selectedPosition: Pair<Int, GroupEntity?>,
             currentList: List<GroupEntity>
         )
 
         abstract fun setSelectedChannelView(
             previousPosition: Pair<Int, ChannelEntity?>,
-            selectedPosition: Pair<Int, ChannelEntity>,
+            selectedPosition: Pair<Int, ChannelEntity?>,
             currentList: List<ChannelEntity>
         )
 
         abstract fun setSelectedProgramView(
             previousPosition: Pair<Int, ProgramEntity?>,
-            selectedPosition: Pair<Int, ProgramEntity>,
+            selectedPosition: Pair<Int, ProgramEntity?>,
             currentList: List<ProgramEntity>
         )
 
         abstract fun setSelectedDayView(
             previousPosition: Pair<Int, DayEntity?>,
-            selectedPosition: Pair<Int, DayEntity>,
+            selectedPosition: Pair<Int, DayEntity?>,
             currentList: List<DayEntity>
         )
     }
