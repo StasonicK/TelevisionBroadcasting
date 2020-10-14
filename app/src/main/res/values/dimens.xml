@@ -19,6 +19,7 @@
     <dimen name="height_channel_item">68dp</dimen>
     <dimen name="height_line_on_top_of_program">2dp</dimen>
     <dimen name="height_line_over_channel_items">4dp</dimen>
+    <dimen name="height_channels_and_programs_recyclers">280dp</dimen>
 
     <!-- width -->
     <dimen name="width_day_item">60dp</dimen>

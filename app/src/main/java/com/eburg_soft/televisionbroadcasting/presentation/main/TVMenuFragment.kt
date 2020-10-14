@@ -246,11 +246,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         currentList
                     )
                 }
-                presenter.setSelectedGroupView(
-                    previousGroupItemPosition to currentList[previousGroupItemPosition],
-                    selectedGroupItemPosition to currentList[selectedGroupItemPosition],
-                    currentList
-                )
+//                presenter.setSelectedGroupView(
+//                    previousGroupItemPosition to currentList[previousGroupItemPosition],
+//                    selectedGroupItemPosition to currentList[selectedGroupItemPosition],
+//                    currentList
+//                )
                 setOnTouch {
                     groupRecyclerTouchStatus = it
 //                    if (groupRecyclerTouchStatus) {
@@ -291,11 +291,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         selectedChannelItemPosition to item1,
                         currentList
                     )
-                    presenter.setSelectedChannelView(
-                        previousChannelItemPosition to currentList[previousChannelItemPosition],
-                        selectedChannelItemPosition to currentList[selectedChannelItemPosition],
-                        currentList
-                    )
+//                    presenter.setSelectedChannelView(
+//                        previousChannelItemPosition to currentList[previousChannelItemPosition],
+//                        selectedChannelItemPosition to currentList[selectedChannelItemPosition],
+//                        currentList
+//                    )
                     setOnTouch {
                         channelRecyclerTouchStatus = it
                         Timber.d("Channel $it touched")
@@ -339,11 +339,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         currentList
                     )
                 }
-                presenter.setSelectedProgramView(
-                    previousProgramItemPosition to currentList[previousProgramItemPosition],
-                    selectedProgramItemPosition to currentList[selectedProgramItemPosition],
-                    currentList
-                )
+//                presenter.setSelectedProgramView(
+//                    previousProgramItemPosition to currentList[previousProgramItemPosition],
+//                    selectedProgramItemPosition to currentList[selectedProgramItemPosition],
+//                    currentList
+//                )
                 setOnTouch {
                     programRecyclerTouchStatus = it
                     Timber.d("Program $it touched")
@@ -386,11 +386,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         currentList
                     )
                 }
-                presenter.setSelectedDayView(
-                    previousDayItemPosition to currentList[previousDayItemPosition],
-                    selectedDayItemPosition to currentList[selectedDayItemPosition],
-                    currentList
-                )
+//                presenter.setSelectedDayView(
+//                    previousDayItemPosition to currentList[previousDayItemPosition],
+//                    selectedDayItemPosition to currentList[selectedDayItemPosition],
+//                    currentList
+//                )
                 setOnTouch {
                     dayRecyclerTouchStatus = it
                     Timber.d("Day $it touched")
