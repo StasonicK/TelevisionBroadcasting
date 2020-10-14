@@ -49,6 +49,15 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     private var programRecyclerTouchStatus: Boolean = false
     private var dayRecyclerTouchStatus: Boolean = false
 
+    private var selectedGroupItemPosition = -1
+    private var previousGroupItemPosition = -1
+    private var selectedChannelItemPosition = -1
+    private var previousChannelItemPosition = -1
+    private var selectedProgramItemPosition = -1
+    private var previousProgramItemPosition = -1
+    private var selectedDayItemPosition = -1
+    private var previousDayItemPosition = -1
+
     companion object {
 
         const val GROUP_ID = "group id"
@@ -96,7 +105,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         if (savedInstanceState == null) {
             presenter.syncData()
         }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -136,22 +144,22 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         Timber.d("hideLoading")
     }
 
-    override fun submitGroupsList(list: List<GroupEntity>) {
+    override fun submitGroupsList(list: List<GroupEntity>?) {
         groupsAdapter.submitList(list)
         Timber.d("submitGroupList")
     }
 
-    override fun submitChannelsList(list: List<ChannelEntity>) {
+    override fun submitChannelsList(list: List<ChannelEntity>?) {
         channelsAdapter.submitList(list)
         Timber.d("submitChannelList")
     }
 
-    override fun submitProgramsList(list: List<ProgramEntity>) {
+    override fun submitProgramsList(list: List<ProgramEntity>?) {
         programsAdapter.submitList(list)
         Timber.d("submitProgramList")
     }
 
-    override fun submitDaysList(list: List<DayEntity>) {
+    override fun submitDaysList(list: List<DayEntity>?) {
         daysAdapter.submitList(list)
         Timber.d("submitDaysList")
     }
@@ -188,13 +196,22 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initGroupsRecycler() {
         recycler_group_list.apply {
             groupsAdapter.apply {
-                setOnClick { any, view ->
-                    (any as GroupEntity).let {
+//                setOnClick { any, view ->
+                setOnClick { item0, positionItem0, item1, positionItem1 ->
+                    (item1 as GroupEntity).let {
                         presenter.loadChannelsByGroupIdFromDb(it.id)
                         selectedGroupId = it.id
-                        showNetworkErrorMessage("Clicked on $selectedGroupId")
+//                        showNetworkErrorMessage("Clicked on $selectedGroupId")
                     }
-                    view.changeBackgroundColor(R.color.blue)
+                    (item0 as GroupEntity?).let {
+                    }
+                    previousGroupItemPosition = positionItem0
+                    selectedGroupItemPosition = positionItem1
+                    presenter.setSelectedGroupView(
+                        previousGroupItemPosition to item0,
+                        selectedGroupItemPosition to item1,
+                        currentList
+                    )
                 }
                 setOnTouch {
                     groupRecyclerTouchStatus = it
@@ -208,9 +225,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                     Timber.d("Group $it touched")
                 }
             }
-
-            // TODO: 08.10.2020 create listener
-
             adapter = groupsAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
@@ -224,19 +238,28 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initChannelsRecycler() {
         recycler_channel_list.apply {
             channelsAdapter.apply {
-                setOnClick { any, view ->
-                    (any as ChannelEntity).let {
+//                setOnClick { any, view ->
+                setOnClick { item0, positionItem0, item1, positionItem1 ->
+                    (item1 as ChannelEntity).let {
                         presenter.loadProgramsByChannelIdFromDb(it.id)
                         selectedChannelId = it.id
-                        showNetworkErrorMessage("Clicked on $selectedChannelId")
+//                        showNetworkErrorMessage("Clicked on $selectedChannelId")
                     }
+                    (item0 as ChannelEntity?).let {
+                    }
+                    previousChannelItemPosition = positionItem0
+                    selectedChannelItemPosition = positionItem1
+                    presenter.setSelectedChannelView(
+                        previousChannelItemPosition to item0,
+                        selectedChannelItemPosition to item1,
+                        currentList
+                    )
                     setOnTouch {
                         channelRecyclerTouchStatus = it
                         Timber.d("Channel $it touched")
                     }
                 }
             }
-            // TODO: 08.10.2020 create listener
             channelRecyclerTouchStatus.apply {
                 if (channelRecyclerTouchStatus) {
                     changeBackgroundColor(R.color.white_transparent)
@@ -246,9 +269,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                     elevate(false)
                 }
             }
-
-            // TODO: 06.10.2020 add item highlighting
-
             adapter = channelsAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
@@ -262,20 +282,27 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initProgramsRecycler() {
         recycler_programs_list.apply {
             programsAdapter.apply {
-                setOnClick { any, view ->
-                    (any as ProgramEntity).let {
+//                setOnClick { any, view ->
+                setOnClick { item0, positionItem0, item1, positionItem1 ->
+                    (item1 as ProgramEntity).let {
                         selectedProgramId = it.id
-                        showNetworkErrorMessage("Clicked on $selectedProgramId")
+//                        showNetworkErrorMessage("Clicked on $selectedProgramId")
                     }
-                    view.isFocusable = true
+                    (item0 as ProgramEntity?).let {
+                    }
+                    previousProgramItemPosition = positionItem0
+                    selectedProgramItemPosition = positionItem1
+                    presenter.setSelectedProgramView(
+                        previousProgramItemPosition to item0,
+                        selectedProgramItemPosition to item1,
+                        currentList
+                    )
                 }
                 setOnTouch {
                     programRecyclerTouchStatus = it
                     Timber.d("Program $it touched")
                 }
             }
-
-            // TODO: 08.10.2020 create listener
             programRecyclerTouchStatus.apply {
                 if (channelRecyclerTouchStatus) {
                     changeBackgroundColor(R.color.white_transparent)
@@ -286,8 +313,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                 }
             }
             adapter = programsAdapter
-            // TODO: 06.10.2020 add item highlighting
-
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
@@ -300,19 +325,27 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initDaysRecycler() {
         recycler_days_list.apply {
             daysAdapter.apply {
-                setOnClick { any, view ->
-                    (any as DayEntity).let {
+//                setOnClick { any, view ->
+                setOnClick { item0, positionItem0, item1, positionItem1 ->
+                    (item1 as DayEntity).let {
                         selectedDayId = it.id
-                        showNetworkErrorMessage("Clicked on $selectedDayId")
+//                        showNetworkErrorMessage("Clicked on $selectedDayId")
                     }
+                    (item0 as DayEntity?).let {
+                    }
+                    previousDayItemPosition = positionItem0
+                    selectedDayItemPosition = positionItem1
+                    presenter.setSelectedDayView(
+                        previousDayItemPosition to item0,
+                        selectedDayItemPosition to item1,
+                        currentList
+                    )
                 }
                 setOnTouch {
                     dayRecyclerTouchStatus = it
                     Timber.d("Day $it touched")
                 }
             }
-
-            // TODO: 08.10.2020 create listener
             dayRecyclerTouchStatus.apply {
                 if (dayRecyclerTouchStatus) {
                     changeBackgroundColor(R.color.white_transparent)
@@ -327,7 +360,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             setHasFixedSize(true)
         }
         //This is used to center first and last item on screen
-//        recycler_days_list.centerItemsInLinearLayout(R.dimen.width_day_item, R.dimen.margin_horizontal_small)
+        recycler_days_list.centerItemsInLinearLayout(R.dimen.width_day_item, R.dimen.margin_horizontal_small)
 
         Timber.d("initDaysRecycler accomplished")
     }
