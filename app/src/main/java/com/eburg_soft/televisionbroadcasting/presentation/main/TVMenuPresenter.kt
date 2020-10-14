@@ -2,7 +2,9 @@ package com.eburg_soft.televisionbroadcasting.presentation.main
 
 import android.accounts.NetworkErrorException
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchChannelsFromApiIntoDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchDaysFromApiIntoDbUseCase
 import com.eburg_soft.televisionbroadcasting.domain.usecases.FetchGroupsFromApiIntoDbUseCase
@@ -446,4 +448,78 @@ class TVMenuPresenter @Inject constructor(
         )
         return list.isEmpty()
     }
+
+    //region ====================== select views ======================
+    override fun setSelectedGroupView(
+        previousPosition: Pair<Int, GroupEntity?>,
+        selectedPosition: Pair<Int, GroupEntity>,
+        currentList: List<GroupEntity>
+    ) {
+        val newList: MutableList<GroupEntity> = ArrayList(currentList)
+        //  replace
+        newList.removeAt(selectedPosition.first)
+        newList.add(selectedPosition.first, selectedPosition.second)
+        previousPosition.second?.let {
+            newList.removeAt(previousPosition.first)
+            newList.add(previousPosition.first, previousPosition.second!!)
+        }
+        //  delete previous list in adapter and insert new one
+        view?.submitGroupsList(null)
+        view?.submitGroupsList(newList)
+    }
+
+    override fun setSelectedChannelView(
+        previousPosition: Pair<Int, ChannelEntity?>,
+        selectedPosition: Pair<Int, ChannelEntity>,
+        currentList: List<ChannelEntity>
+    ) {
+        val newList: MutableList<ChannelEntity> = ArrayList(currentList)
+        //  replace
+        newList.removeAt(selectedPosition.first)
+        newList.add(selectedPosition.first, selectedPosition.second)
+        previousPosition.second?.let {
+            newList.removeAt(previousPosition.first)
+            newList.add(previousPosition.first, previousPosition.second!!)
+        }
+        //  delete previous list in adapter and insert new one
+        view?.submitChannelsList(null)
+        view?.submitChannelsList(newList)
+    }
+
+    override fun setSelectedProgramView(
+        previousPosition: Pair<Int, ProgramEntity?>,
+        selectedPosition: Pair<Int, ProgramEntity>,
+        currentList: List<ProgramEntity>
+    ) {
+        val newList: MutableList<ProgramEntity> = ArrayList(currentList)
+        //  replace
+        newList.removeAt(selectedPosition.first)
+        newList.add(selectedPosition.first, selectedPosition.second)
+        previousPosition.second?.let {
+            newList.removeAt(previousPosition.first)
+            newList.add(previousPosition.first, previousPosition.second!!)
+        }
+        //  delete previous list in adapter and insert new one
+        view?.submitProgramsList(null)
+        view?.submitProgramsList(newList)
+    }
+
+    override fun setSelectedDayView(
+        previousPosition: Pair<Int, DayEntity?>,
+        selectedPosition: Pair<Int, DayEntity>,
+        currentList: List<DayEntity>
+    ) {
+        val newList: MutableList<DayEntity> = ArrayList(currentList)
+        //  replace
+        newList.removeAt(selectedPosition.first)
+        newList.add(selectedPosition.first, selectedPosition.second)
+        previousPosition.second?.let {
+            newList.removeAt(previousPosition.first)
+            newList.add(previousPosition.first, previousPosition.second!!)
+        }
+        //  delete previous list in adapter and insert new one
+        view?.submitDaysList(null)
+        view?.submitDaysList(newList)
+    }
+    //endregion
 }

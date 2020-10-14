@@ -10,8 +10,8 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
     diff: BaseDiffCallback<Item>
 ) : ListAdapter<Item, VH>(diff) {
 
-     var selectedItemPosition = -1
-     var itemPosition = -1
+    private var selectedItemPosition = -1
+    private var itemPosition = -1
 
     private var onClick: OnClick? = null
 
@@ -23,30 +23,35 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
         holder.onClick = onClick
         holder.onTouch = onTouch
 
-//        if (selectedItemPosition == position) holder.changeSelectedView(true) else holder.changeSelectedView(false)
+        if (selectedItemPosition == position) holder.changeSelectedView(true) else holder.changeSelectedView(false)
 
-//        holder.itemView.apply {
-//            setOnClickListener {
-//                val previousItemPosition = selectedItemPosition
-//                selectedItemPosition = position
-//
-//                val list = currentList
-//                list.add(previousItemPosition, getItem(previousItemPosition))
-//                list.add(selectedItemPosition, getItem(selectedItemPosition))
-//                list.add(holder.adapterPosition, getItem(holder.adapterPosition))
-//                submitList(list)
+        holder.itemView.apply {
+            setOnClickListener {
+                val previousItemPosition = selectedItemPosition
+                selectedItemPosition = position
+                val selectedItem = getItem(selectedItemPosition)
+                val previousItem = if (previousItemPosition != -1) getItem(previousItemPosition) else null
+                onClick?.onClick(
+                    previousItem,
+                    previousItemPosition,
+                    selectedItem,
+                    selectedItemPosition
+                )
+
 //                notifyItemChanged(previousItemPosition)
 //                notifyItemChanged(position)
-//            }
-//        }
-
+            }
+        }
 //        itemPosition = position
     }
 
-    fun setOnClick(click: (Any?, View) -> Unit) {
+    //    fun setOnClick(click: (Any?, View) -> Unit) {
+    fun setOnClick(click: (Any?, Int, Any?, Int) -> Unit) {
         onClick = object : OnClick {
-            override fun onClick(item: Any?, view: View) {
-                click(item, view)
+            //            override fun onClick(item: Any?, view: View) {
+//                click(item, view)
+            override fun onClick(item0: Any?, positionItem0: Int, item1: Any?, positionItem1: Int) {
+                click(item0, positionItem0, item1, positionItem1)
             }
         }
     }
@@ -61,7 +66,7 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
 
     interface OnClick {
 
-        fun onClick(item: Any?, view: View)
+        fun onClick(item0: Any?, positionItem0: Int, item1: Any?, positionItem1: Int)
     }
 
     interface OnTouch {
@@ -78,12 +83,6 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
         private var isTouching: Boolean = false
 
         init {
-            view.setOnClickListener {
-                onClick?.onClick(item, it)
-
-//                if (selectedItemPosition == position) holder.changeSelectedView(true) else holder.changeSelectedView(false)
-            }
-
             view.setOnTouchListener { v, event ->
                 if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_MOVE || event.action == MotionEvent.ACTION_UP) {
                     // Construct a rect of the view's bounds

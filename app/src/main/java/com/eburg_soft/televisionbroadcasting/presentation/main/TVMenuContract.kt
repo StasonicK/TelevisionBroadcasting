@@ -18,10 +18,10 @@ interface TVMenuContract {
         fun initProgramsRecycler()
         fun initDaysRecycler()
 
-        fun submitGroupsList(list: List<GroupEntity>)
-        fun submitChannelsList(list: List<ChannelEntity>)
-        fun submitProgramsList(list: List<ProgramEntity>)
-        fun submitDaysList(list: List<DayEntity>)
+        fun submitGroupsList(list: List<GroupEntity>?)
+        fun submitChannelsList(list: List<ChannelEntity>?)
+        fun submitProgramsList(list: List<ProgramEntity>?)
+        fun submitDaysList(list: List<DayEntity>?)
 
         fun saveSelectedGroupId(groupId: String)
         fun saveSelectedChannelId(channelId: String)
@@ -34,8 +34,6 @@ interface TVMenuContract {
         fun populateChannelsRecycler()
         fun populateProgramsRecycler()
         fun populateDaysRecycler()
-
-
     }
 
     abstract class Presenter : BaseContract.Presenter<View>() {
@@ -62,5 +60,28 @@ interface TVMenuContract {
         abstract fun getRandomDayId()
 
         abstract fun removeAllGroups()
+        abstract fun setSelectedGroupView(
+            previousPosition: Pair<Int, GroupEntity?>,
+            selectedPosition: Pair<Int, GroupEntity>,
+            currentList: List<GroupEntity>
+        )
+
+        abstract fun setSelectedChannelView(
+            previousPosition: Pair<Int, ChannelEntity?>,
+            selectedPosition: Pair<Int, ChannelEntity>,
+            currentList: List<ChannelEntity>
+        )
+
+        abstract fun setSelectedProgramView(
+            previousPosition: Pair<Int, ProgramEntity?>,
+            selectedPosition: Pair<Int, ProgramEntity>,
+            currentList: List<ProgramEntity>
+        )
+
+        abstract fun setSelectedDayView(
+            previousPosition: Pair<Int, DayEntity?>,
+            selectedPosition: Pair<Int, DayEntity>,
+            currentList: List<DayEntity>
+        )
     }
 }
