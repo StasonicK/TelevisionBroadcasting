@@ -21,9 +21,6 @@ class ChannelsAdapter : BaseAdapter<ChannelEntity, ChannelViewHolder>(ChannelsDi
 
     class ChannelViewHolder(view: View) : BaseViewHolder(view) {
         init {
-//            itemView.setOnClickListener {
-//                onClick?.onClick(item, it)
-//            }
         }
 
         override fun onBind(item: Any) {

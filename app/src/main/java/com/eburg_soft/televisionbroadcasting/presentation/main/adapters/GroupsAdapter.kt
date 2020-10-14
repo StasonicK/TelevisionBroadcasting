@@ -12,36 +12,13 @@ import kotlinx.android.synthetic.main.item_groups_recycler.view.tv_group_name
 
 class GroupsAdapter : BaseAdapter<GroupEntity, GroupViewHolder>(GroupsDiffCallback()) {
 
-//    companion object {
-//
-//        var selectedItemPosition = -1
-//        var itemPosition = -1
-//    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val view = parent.inflate(R.layout.item_groups_recycler)
         return GroupViewHolder(view)
     }
 
     class GroupViewHolder(view: View) : BaseViewHolder(view) {
-
         init {
-//            if (selectedItemPosition == position) this.changeSelectedView(true) else this.changeSelectedView(false)
-
-//            itemView.setOnClickListener {
-//                onClick?.onClick(item, it)
-//
-//                val previousItemPosition = selectedItemPosition
-//                selectedItemPosition = position
-//
-//                val list = currentList
-//                list.add(previousItemPosition, getItem(previousItemPosition))
-//                list.add(selectedItemPosition, getItem(selectedItemPosition))
-//                list.add(holder.adapterPosition, getItem(holder.adapterPosition))
-//                submitList(list)
-//
-//                itemPosition = position
-//            }
         }
 
         override fun onBind(item: Any) {

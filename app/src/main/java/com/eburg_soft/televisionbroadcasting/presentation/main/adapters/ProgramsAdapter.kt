@@ -9,8 +9,6 @@ import com.eburg_soft.televisionbroadcasting.extensions.elevate
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsAdapter.ProgramViewHolder
-import kotlinx.android.synthetic.main.item_days_recycler.view.tv_day_date
-import kotlinx.android.synthetic.main.item_programs_recycler.view.card_program
 import kotlinx.android.synthetic.main.item_programs_recycler.view.linear_program_description
 import kotlinx.android.synthetic.main.item_programs_recycler.view.tv_country_and_year_of_production
 import kotlinx.android.synthetic.main.item_programs_recycler.view.tv_genre
@@ -25,9 +23,6 @@ class ProgramsAdapter : BaseAdapter<ProgramEntity, ProgramViewHolder>(ProgramsDi
 
     class ProgramViewHolder(view: View) : BaseViewHolder(view) {
         init {
-            itemView.setOnClickListener {
-//                onClick?.onClick(item, it)
-            }
         }
 
         override fun onBind(item: Any) {

@@ -19,9 +19,6 @@ class DaysAdapter : BaseAdapter<DayEntity, DayViewHolder>(DaysDiffCallback()) {
 
     class DayViewHolder(view: View) : BaseViewHolder(view) {
         init {
-//            itemView.setOnClickListener {
-//                onClick?.onClick(item, it)
-//            }
         }
 
         override fun onBind(item: Any) {

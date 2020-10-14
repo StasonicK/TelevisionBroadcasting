@@ -37,19 +37,13 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
                     selectedItem,
                     selectedItemPosition
                 )
-
-//                notifyItemChanged(previousItemPosition)
-//                notifyItemChanged(position)
             }
         }
-//        itemPosition = position
     }
 
     //    fun setOnClick(click: (Any?, View) -> Unit) {
     fun setOnClick(click: (Any?, Int, Any?, Int) -> Unit) {
         onClick = object : OnClick {
-            //            override fun onClick(item: Any?, view: View) {
-//                click(item, view)
             override fun onClick(item0: Any?, positionItem0: Int, item1: Any?, positionItem1: Int) {
                 click(item0, positionItem0, item1, positionItem1)
             }

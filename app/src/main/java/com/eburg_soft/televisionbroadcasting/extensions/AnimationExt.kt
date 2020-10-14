@@ -7,7 +7,7 @@ import android.animation.PropertyValuesHolder
 import android.view.View
 import android.view.ViewGroup
 
-fun ViewGroup.elevate(isUp:Boolean) {
+fun ViewGroup.elevate(isUp: Boolean) {
     if (isUp) {
         scaleTo(1.2f) {
         }
@@ -31,7 +31,7 @@ private fun ViewGroup.getScaleObjectAnimator(x: Float, y: Float): ObjectAnimator
     return ObjectAnimator.ofPropertyValuesHolder(this, scaleX1, scaleY1)
 }
 
-fun View.elevate(isUp:Boolean) {
+fun View.elevate(isUp: Boolean) {
     if (isUp) {
         scaleTo(1.2f) {
         }

@@ -146,10 +146,8 @@ class TVMenuPresenter @Inject constructor(
                 .subscribe({
                     view?.initDaysRecycler()
                     Timber.d("initDaysRecycler accomplished")
-
                     view?.populateDaysRecycler()
                     Timber.d("populateDaysRecycler accomplished")
-
                     Timber.d("fetchDaysFromApiIntoDb accomplished")
                     view?.hideLoading()
                 }, { error ->
@@ -223,10 +221,8 @@ class TVMenuPresenter @Inject constructor(
                     val groupId = getRandomElementFromList(groupIdsList)
                     view?.saveSelectedGroupId(groupId)
                     Timber.d("saveSelectedGroupId accomplished")
-
                     view?.submitGroupsList(groupsList)
                     Timber.d("submitGroupsList")
-
                     Timber.d("getRandomGroupId accomplished")
                     view?.hideLoading()
                 }, {
@@ -251,10 +247,8 @@ class TVMenuPresenter @Inject constructor(
                     val channelId = getRandomElementFromList(channelIdsList)
                     view?.saveSelectedChannelId(channelId)
                     Timber.d("saveSelectedChannelId accomplished")
-
                     view?.submitChannelsList(channelsList)
                     Timber.d("submitChannelsList")
-
                     Timber.d("getRandomChannelIdByGroupId accomplished")
                     view?.hideLoading()
                 }, {
@@ -279,10 +273,8 @@ class TVMenuPresenter @Inject constructor(
                     val programId = getRandomElementFromList(programIdsList)
                     view?.saveSelectedProgramId(programId)
                     Timber.d("saveSelectedProgramId accomplished")
-
                     view?.submitProgramsList(programsList)
                     Timber.d("submitProgramsList")
-
                     Timber.d("getRandomProgramIdByGroupId accomplished")
                     view?.hideLoading()
                 }, {
@@ -307,10 +299,8 @@ class TVMenuPresenter @Inject constructor(
                     val dayId = getRandomElementFromList(dayIdsList)
                     view?.saveSelectedDayId(dayId)
                     Timber.d("saveSelectedDayId accomplished")
-
                     view?.submitDaysList(daysList)
                     Timber.d("submitDaysList")
-
                     Timber.d("getRandomDayId accomplished")
                     view?.hideLoading()
                 }, {
@@ -335,7 +325,6 @@ class TVMenuPresenter @Inject constructor(
                 .subscribe({ groupsList ->
                     view?.submitGroupsList(groupsList)
                     Timber.d("submitGroupsList accomplished")
-
                     Timber.d("loadGroupsFromDb accomplished")
                     view?.hideLoading()
                 }, {
@@ -356,7 +345,6 @@ class TVMenuPresenter @Inject constructor(
                 .subscribe({ channelsList ->
                     view?.submitChannelsList(channelsList)
                     Timber.d("submitChannelsList accomplished")
-
                     Timber.d("loadChannelsByGroupIdFromDb accomplished")
                     view?.hideLoading()
                 }, {
@@ -377,7 +365,6 @@ class TVMenuPresenter @Inject constructor(
                 .subscribe({ programsList ->
                     view?.submitProgramsList(programsList)
                     Timber.d("submitProgramsList accomplished")
-
                     Timber.d("loadProgramsByChannelIdFromDb accomplished")
                     view?.hideLoading()
                 }, {
@@ -397,7 +384,6 @@ class TVMenuPresenter @Inject constructor(
                 .subscribe({ daysList ->
                     view?.submitDaysList(daysList)
                     Timber.d("submitDaysList")
-
                     Timber.d("loadDaysFromDb accomplished")
                     view?.hideLoading()
                 }, {
@@ -411,7 +397,7 @@ class TVMenuPresenter @Inject constructor(
 
     //endregion
 
-    //region ====================== remove all data ======================
+    //region ====================== remove data ======================
 
     override fun removeAllGroups() {
         view?.showLoading()

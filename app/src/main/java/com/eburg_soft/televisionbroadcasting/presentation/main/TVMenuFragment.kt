@@ -246,11 +246,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         currentList
                     )
                 }
-                presenter.setSelectedGroupView(
-                    previousGroupItemPosition to currentList[previousGroupItemPosition],
-                    selectedGroupItemPosition to currentList[selectedGroupItemPosition],
-                    currentList
-                )
+//                presenter.setSelectedGroupView(
+//                    previousGroupItemPosition to currentList[previousGroupItemPosition],
+//                    selectedGroupItemPosition to currentList[selectedGroupItemPosition],
+//                    currentList
+//                )
                 setOnTouch {
                     groupRecyclerTouchStatus = it
 //                    if (groupRecyclerTouchStatus) {
@@ -291,11 +291,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         selectedChannelItemPosition to item1,
                         currentList
                     )
-                    presenter.setSelectedChannelView(
-                        previousChannelItemPosition to currentList[previousChannelItemPosition],
-                        selectedChannelItemPosition to currentList[selectedChannelItemPosition],
-                        currentList
-                    )
+//                    presenter.setSelectedChannelView(
+//                        previousChannelItemPosition to currentList[previousChannelItemPosition],
+//                        selectedChannelItemPosition to currentList[selectedChannelItemPosition],
+//                        currentList
+//                    )
                     setOnTouch {
                         channelRecyclerTouchStatus = it
                         Timber.d("Channel $it touched")
@@ -339,11 +339,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         currentList
                     )
                 }
-                presenter.setSelectedProgramView(
-                    previousProgramItemPosition to currentList[previousProgramItemPosition],
-                    selectedProgramItemPosition to currentList[selectedProgramItemPosition],
-                    currentList
-                )
+//                presenter.setSelectedProgramView(
+//                    previousProgramItemPosition to currentList[previousProgramItemPosition],
+//                    selectedProgramItemPosition to currentList[selectedProgramItemPosition],
+//                    currentList
+//                )
                 setOnTouch {
                     programRecyclerTouchStatus = it
                     Timber.d("Program $it touched")
@@ -374,7 +374,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as DayEntity).let {
                         selectedDayId = it.id
-//                        showNetworkErrorMessage("Clicked on $selectedDayId")
+                        showNetworkErrorMessage("Clicked on $selectedDayId")
                     }
                     (item0 as DayEntity?).let {
                     }
@@ -386,24 +386,24 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         currentList
                     )
                 }
-                presenter.setSelectedDayView(
-                    previousDayItemPosition to currentList[previousDayItemPosition],
-                    selectedDayItemPosition to currentList[selectedDayItemPosition],
-                    currentList
-                )
+//                presenter.setSelectedDayView(
+//                    previousDayItemPosition to currentList[previousDayItemPosition],
+//                    selectedDayItemPosition to currentList[selectedDayItemPosition],
+//                    currentList
+//                )
                 setOnTouch {
                     dayRecyclerTouchStatus = it
                     Timber.d("Day $it touched")
                 }
             }
             dayRecyclerTouchStatus.apply {
-                if (dayRecyclerTouchStatus) {
-                    changeBackgroundColor(R.color.white_transparent)
-                    elevate(true)
-                } else {
-                    changeBackgroundColor(R.color.black)
-                    elevate(false)
-                }
+//                if (dayRecyclerTouchStatus) {
+//                    changeBackgroundColor(R.color.white_transparent)
+//                    elevate(true)
+//                } else {
+//                    changeBackgroundColor(R.color.black)
+//                    elevate(false)
+//                }
             }
             adapter = daysAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

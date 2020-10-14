@@ -16,7 +16,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_header_1"
         android:visibility="invisible"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/img_channel_icon"

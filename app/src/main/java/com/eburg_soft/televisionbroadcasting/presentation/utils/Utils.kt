@@ -1,6 +1,5 @@
 package com.eburg_soft.televisionbroadcasting.presentation.utils
 
-import com.eburg_soft.televisionbroadcasting.R
 import kotlin.random.Random
 
 fun <T> getRandomElementFromList(list: List<T>): T {
