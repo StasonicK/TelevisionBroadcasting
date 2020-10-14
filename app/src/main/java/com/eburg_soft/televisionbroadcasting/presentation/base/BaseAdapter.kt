@@ -29,7 +29,7 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
             setOnClickListener {
                 val previousItemPosition = selectedItemPosition
                 selectedItemPosition = position
-                val selectedItem = getItem(selectedItemPosition)
+                val selectedItem = if (selectedItemPosition != -1) getItem(selectedItemPosition) else null
                 val previousItem = if (previousItemPosition != -1) getItem(previousItemPosition) else null
                 onClick?.onClick(
                     previousItem,

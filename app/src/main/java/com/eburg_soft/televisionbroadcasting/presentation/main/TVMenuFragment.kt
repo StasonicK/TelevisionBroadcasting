@@ -70,6 +70,15 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         const val PROGRAM_RECYCLER_TOUCH_STATUS = "program recycler touch status"
         const val DAY_RECYCLER_TOUCH_STATUS = "day recycler touch status"
 
+        const val SELECTED_GROUP_ITEM_POSITION = "selected group item position"
+        const val PREVIOUS_GROUP_ITEM_POSITION = "previous group item position"
+        const val SELECTED_CHANNEL_ITEM_POSITION = "selected channel item position"
+        const val PREVIOUS_CHANNEL_ITEM_POSITION = "previous channel item position"
+        const val SELECTED_PROGRAM_ITEM_POSITION = "selected program item position"
+        const val PREVIOUS_PROGRAM_ITEM_POSITION = "previous program item position"
+        const val SELECTED_DAY_ITEM_POSITION = "selected day item position"
+        const val PREVIOUS_DAY_ITEM_POSITION = "previous day item position"
+
         @JvmStatic
         fun getNewInstance(): TVMenuFragment = TVMenuFragment()
     }
@@ -101,7 +110,20 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             channelRecyclerTouchStatus = it.getBoolean(CHANNEL_RECYCLER_TOUCH_STATUS)
             programRecyclerTouchStatus = it.getBoolean(PROGRAM_RECYCLER_TOUCH_STATUS)
             dayRecyclerTouchStatus = it.getBoolean(DAY_RECYCLER_TOUCH_STATUS)
+
+            //  get selected item positions
+            selectedGroupItemPosition = it.getInt(SELECTED_GROUP_ITEM_POSITION)
+            selectedChannelItemPosition = it.getInt(SELECTED_CHANNEL_ITEM_POSITION)
+            selectedProgramItemPosition = it.getInt(SELECTED_PROGRAM_ITEM_POSITION)
+            selectedDayItemPosition = it.getInt(SELECTED_DAY_ITEM_POSITION)
+
+            //  get previous item positions
+            previousGroupItemPosition = it.getInt(PREVIOUS_GROUP_ITEM_POSITION)
+            previousChannelItemPosition = it.getInt(PREVIOUS_CHANNEL_ITEM_POSITION)
+            previousProgramItemPosition = it.getInt(PREVIOUS_PROGRAM_ITEM_POSITION)
+            previousDayItemPosition = it.getInt(PREVIOUS_DAY_ITEM_POSITION)
         }
+
         if (savedInstanceState == null) {
             presenter.syncData()
         }
@@ -120,6 +142,18 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         outState.putBoolean(CHANNEL_RECYCLER_TOUCH_STATUS, channelRecyclerTouchStatus)
         outState.putBoolean(PROGRAM_RECYCLER_TOUCH_STATUS, programRecyclerTouchStatus)
         outState.putBoolean(DAY_RECYCLER_TOUCH_STATUS, dayRecyclerTouchStatus)
+
+        //  save selected item positions
+        outState.putInt(SELECTED_GROUP_ITEM_POSITION, selectedGroupItemPosition)
+        outState.putInt(SELECTED_CHANNEL_ITEM_POSITION, selectedChannelItemPosition)
+        outState.putInt(SELECTED_PROGRAM_ITEM_POSITION, selectedProgramItemPosition)
+        outState.putInt(SELECTED_DAY_ITEM_POSITION, selectedDayItemPosition)
+
+        //  save previous item positions
+        outState.putInt(PREVIOUS_GROUP_ITEM_POSITION, previousGroupItemPosition)
+        outState.putInt(PREVIOUS_CHANNEL_ITEM_POSITION, previousChannelItemPosition)
+        outState.putInt(PREVIOUS_PROGRAM_ITEM_POSITION, previousProgramItemPosition)
+        outState.putInt(PREVIOUS_DAY_ITEM_POSITION, previousDayItemPosition)
     }
 
     override fun onStop() {
@@ -196,7 +230,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initGroupsRecycler() {
         recycler_group_list.apply {
             groupsAdapter.apply {
-//                setOnClick { any, view ->
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as GroupEntity).let {
                         presenter.loadChannelsByGroupIdFromDb(it.id)
@@ -213,6 +246,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         currentList
                     )
                 }
+                presenter.setSelectedGroupView(
+                    previousGroupItemPosition to currentList[previousGroupItemPosition],
+                    selectedGroupItemPosition to currentList[selectedGroupItemPosition],
+                    currentList
+                )
                 setOnTouch {
                     groupRecyclerTouchStatus = it
 //                    if (groupRecyclerTouchStatus) {
@@ -238,7 +276,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initChannelsRecycler() {
         recycler_channel_list.apply {
             channelsAdapter.apply {
-//                setOnClick { any, view ->
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as ChannelEntity).let {
                         presenter.loadProgramsByChannelIdFromDb(it.id)
@@ -252,6 +289,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                     presenter.setSelectedChannelView(
                         previousChannelItemPosition to item0,
                         selectedChannelItemPosition to item1,
+                        currentList
+                    )
+                    presenter.setSelectedChannelView(
+                        previousChannelItemPosition to currentList[previousChannelItemPosition],
+                        selectedChannelItemPosition to currentList[selectedChannelItemPosition],
                         currentList
                     )
                     setOnTouch {
@@ -282,7 +324,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initProgramsRecycler() {
         recycler_programs_list.apply {
             programsAdapter.apply {
-//                setOnClick { any, view ->
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as ProgramEntity).let {
                         selectedProgramId = it.id
@@ -298,6 +339,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         currentList
                     )
                 }
+                presenter.setSelectedProgramView(
+                    previousProgramItemPosition to currentList[previousProgramItemPosition],
+                    selectedProgramItemPosition to currentList[selectedProgramItemPosition],
+                    currentList
+                )
                 setOnTouch {
                     programRecyclerTouchStatus = it
                     Timber.d("Program $it touched")
@@ -325,7 +371,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initDaysRecycler() {
         recycler_days_list.apply {
             daysAdapter.apply {
-//                setOnClick { any, view ->
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as DayEntity).let {
                         selectedDayId = it.id
@@ -341,6 +386,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                         currentList
                     )
                 }
+                presenter.setSelectedDayView(
+                    previousDayItemPosition to currentList[previousDayItemPosition],
+                    selectedDayItemPosition to currentList[selectedDayItemPosition],
+                    currentList
+                )
                 setOnTouch {
                     dayRecyclerTouchStatus = it
                     Timber.d("Day $it touched")

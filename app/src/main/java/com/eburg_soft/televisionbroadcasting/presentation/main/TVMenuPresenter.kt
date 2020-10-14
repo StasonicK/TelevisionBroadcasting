@@ -450,18 +450,21 @@ class TVMenuPresenter @Inject constructor(
     }
 
     //region ====================== select views ======================
+
     override fun setSelectedGroupView(
         previousPosition: Pair<Int, GroupEntity?>,
-        selectedPosition: Pair<Int, GroupEntity>,
+        selectedPosition: Pair<Int, GroupEntity?>,
         currentList: List<GroupEntity>
     ) {
         val newList: MutableList<GroupEntity> = ArrayList(currentList)
         //  replace
-        newList.removeAt(selectedPosition.first)
-        newList.add(selectedPosition.first, selectedPosition.second)
+        selectedPosition.second?.let {
+            newList.removeAt(selectedPosition.first)
+            newList.add(selectedPosition.first, it)
+        }
         previousPosition.second?.let {
             newList.removeAt(previousPosition.first)
-            newList.add(previousPosition.first, previousPosition.second!!)
+            newList.add(previousPosition.first, it)
         }
         //  delete previous list in adapter and insert new one
         view?.submitGroupsList(null)
@@ -470,16 +473,19 @@ class TVMenuPresenter @Inject constructor(
 
     override fun setSelectedChannelView(
         previousPosition: Pair<Int, ChannelEntity?>,
-        selectedPosition: Pair<Int, ChannelEntity>,
+        selectedPosition: Pair<Int, ChannelEntity?>,
         currentList: List<ChannelEntity>
     ) {
         val newList: MutableList<ChannelEntity> = ArrayList(currentList)
         //  replace
         newList.removeAt(selectedPosition.first)
-        newList.add(selectedPosition.first, selectedPosition.second)
+        selectedPosition.second?.let {
+            newList.removeAt(selectedPosition.first)
+            newList.add(selectedPosition.first, it)
+        }
         previousPosition.second?.let {
             newList.removeAt(previousPosition.first)
-            newList.add(previousPosition.first, previousPosition.second!!)
+            newList.add(previousPosition.first, it)
         }
         //  delete previous list in adapter and insert new one
         view?.submitChannelsList(null)
@@ -488,16 +494,18 @@ class TVMenuPresenter @Inject constructor(
 
     override fun setSelectedProgramView(
         previousPosition: Pair<Int, ProgramEntity?>,
-        selectedPosition: Pair<Int, ProgramEntity>,
+        selectedPosition: Pair<Int, ProgramEntity?>,
         currentList: List<ProgramEntity>
     ) {
         val newList: MutableList<ProgramEntity> = ArrayList(currentList)
         //  replace
-        newList.removeAt(selectedPosition.first)
-        newList.add(selectedPosition.first, selectedPosition.second)
+        selectedPosition.second?.let {
+            newList.removeAt(selectedPosition.first)
+            newList.add(selectedPosition.first, it)
+        }
         previousPosition.second?.let {
             newList.removeAt(previousPosition.first)
-            newList.add(previousPosition.first, previousPosition.second!!)
+            newList.add(previousPosition.first, it)
         }
         //  delete previous list in adapter and insert new one
         view?.submitProgramsList(null)
@@ -506,20 +514,23 @@ class TVMenuPresenter @Inject constructor(
 
     override fun setSelectedDayView(
         previousPosition: Pair<Int, DayEntity?>,
-        selectedPosition: Pair<Int, DayEntity>,
+        selectedPosition: Pair<Int, DayEntity?>,
         currentList: List<DayEntity>
     ) {
         val newList: MutableList<DayEntity> = ArrayList(currentList)
         //  replace
-        newList.removeAt(selectedPosition.first)
-        newList.add(selectedPosition.first, selectedPosition.second)
+        selectedPosition.second?.let {
+            newList.removeAt(selectedPosition.first)
+            newList.add(selectedPosition.first, it)
+        }
         previousPosition.second?.let {
             newList.removeAt(previousPosition.first)
-            newList.add(previousPosition.first, previousPosition.second!!)
+            newList.add(previousPosition.first, it)
         }
         //  delete previous list in adapter and insert new one
         view?.submitDaysList(null)
         view?.submitDaysList(newList)
     }
+
     //endregion
 }
