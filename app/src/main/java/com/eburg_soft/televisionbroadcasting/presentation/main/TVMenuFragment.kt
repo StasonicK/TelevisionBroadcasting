@@ -196,7 +196,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initGroupsRecycler() {
         recycler_group_list.apply {
             groupsAdapter.apply {
-//                setOnClick { any, view ->
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as GroupEntity).let {
                         presenter.loadChannelsByGroupIdFromDb(it.id)
@@ -238,7 +237,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initChannelsRecycler() {
         recycler_channel_list.apply {
             channelsAdapter.apply {
-//                setOnClick { any, view ->
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as ChannelEntity).let {
                         presenter.loadProgramsByChannelIdFromDb(it.id)
@@ -282,7 +280,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initProgramsRecycler() {
         recycler_programs_list.apply {
             programsAdapter.apply {
-//                setOnClick { any, view ->
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as ProgramEntity).let {
                         selectedProgramId = it.id
@@ -325,7 +322,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     override fun initDaysRecycler() {
         recycler_days_list.apply {
             daysAdapter.apply {
-//                setOnClick { any, view ->
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as DayEntity).let {
                         selectedDayId = it.id
