@@ -200,25 +200,25 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
 
     override fun saveSelectedGroupId(groupId: String) {
         selectedGroupId = groupId
-        Timber.d("submitDefaultGroupId: $groupId")
+        Timber.d("submitDefaultGroupId: $selectedGroupId")
         showNetworkErrorMessage("groupId: $selectedGroupId")
     }
 
     override fun saveSelectedChannelId(channelId: String) {
-        this.selectedChannelId = channelId
-        Timber.d("submitDefaultChannelId: $channelId")
-        showNetworkErrorMessage("channelId: ${this.selectedChannelId}")
+        selectedChannelId = channelId
+        Timber.d("submitDefaultChannelId: $selectedChannelId")
+        showNetworkErrorMessage("channelId: $selectedChannelId")
     }
 
     override fun saveSelectedProgramId(programId: String) {
-        this.selectedProgramId = programId
-        Timber.d("submitDefaultChannelId: $programId")
-        showNetworkErrorMessage("channelId: ${this.selectedProgramId}")
+        selectedProgramId = programId
+        Timber.d("submitDefaultChannelId: $selectedProgramId")
+        showNetworkErrorMessage("channelId: $selectedProgramId")
     }
 
     override fun saveSelectedDayId(dayId: String) {
         selectedDayId = dayId
-        Timber.d("submitDefaultChannelId: $dayId")
+        Timber.d("submitDefaultChannelId: $selectedDayId")
         showNetworkErrorMessage("channelId: $selectedDayId")
     }
 
@@ -410,7 +410,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             setHasFixedSize(true)
         }
         //This is used to center first and last item on screen
-        recycler_days_list.centerItemsInLinearLayout(R.dimen.width_day_item, R.dimen.margin_horizontal_small)
+        recycler_days_list.centerItemsInLinearLayout(R.dimen.width_day_item)
 
         Timber.d("initDaysRecycler accomplished")
     }

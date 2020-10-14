@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white_transparent">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
+        android:background="@color/black_transparent"
         tools:context=".presentation.main.TVMenuFragment">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -17,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
             android:layout_marginTop="@dimen/margin_vertical_small"
+            android:layout_marginBottom="@dimen/margin_vertical_very_small"
             android:background="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/recycler_programs_list"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
             android:id="@+id/recycler_programs_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_program_item"
-            android:background="@color/black"
+            android:layout_marginBottom="@dimen/margin_vertical_very_small"
             app:layout_constraintBottom_toTopOf="@+id/frame_channel_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,8 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:paddingTop="@dimen/padding_small">
+                android:orientation="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_channel_list"
@@ -89,6 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_vertical_small"
+            android:background="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

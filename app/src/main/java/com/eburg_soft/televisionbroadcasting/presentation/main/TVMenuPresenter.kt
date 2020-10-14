@@ -464,7 +464,6 @@ class TVMenuPresenter @Inject constructor(
     ) {
         val newList: MutableList<ChannelEntity> = ArrayList(currentList)
         //  replace
-        newList.removeAt(selectedPosition.first)
         selectedPosition.second?.let {
             newList.removeAt(selectedPosition.first)
             newList.add(selectedPosition.first, it)
