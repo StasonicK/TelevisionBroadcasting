@@ -312,13 +312,13 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                 }
             }
             channelRecyclerTouchStatus.apply {
-                if (channelRecyclerTouchStatus) {
-                    changeBackgroundColor(R.color.white_transparent)
-                    elevate(true)
-                } else {
-                    changeBackgroundColor(R.color.black)
-                    elevate(false)
-                }
+//                if (channelRecyclerTouchStatus) {
+//                    changeBackgroundColor(R.color.white_transparent)
+//                    elevate(true)
+//                } else {
+//                    changeBackgroundColor(R.color.black)
+//                    elevate(false)
+//                }
             }
             adapter = channelsAdapter
             setHasFixedSize(true)
@@ -358,13 +358,13 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
                 }
             }
             programRecyclerTouchStatus.apply {
-                if (channelRecyclerTouchStatus) {
-                    changeBackgroundColor(R.color.white_transparent)
-                    elevate(true)
-                } else {
-                    changeBackgroundColor(R.color.black)
-                    elevate(false)
-                }
+//                if (channelRecyclerTouchStatus) {
+//                    changeBackgroundColor(R.color.white_transparent)
+//                    elevate(true)
+//                } else {
+//                    changeBackgroundColor(R.color.black)
+//                    elevate(false)
+//                }
             }
             adapter = programsAdapter
             setHasFixedSize(true)
