@@ -3,6 +3,7 @@
     <!-- margin -->
     <dimen name="margin_horizontal_normal">16dp</dimen>
     <dimen name="margin_horizontal_small">8dp</dimen>
+    <dimen name="margin_horizontal_very_small">4dp</dimen>
     <dimen name="margin_vertical_normal">16dp</dimen>
     <dimen name="margin_vertical_small">8dp</dimen>
     <dimen name="margin_vertical_very_small">4dp</dimen>
@@ -16,9 +17,9 @@
     <dimen name="padding_large">16dp</dimen>
 
     <!-- height -->
-    <dimen name="height_text_list">24dp</dimen>
-    <dimen name="height_program_item">190dp</dimen>
-    <dimen name="height_img_program_item">84dp</dimen>
+    <dimen name="height_text_list">20dp</dimen>
+    <dimen name="height_program_item">192dp</dimen>
+    <dimen name="height_img_program_item">88dp</dimen>
     <dimen name="height_channel_item">64dp</dimen>
     <dimen name="height_line_on_top_of_program">2dp</dimen>
     <dimen name="height_line_over_channel_items">4dp</dimen>

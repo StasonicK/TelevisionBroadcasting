@@ -35,7 +35,7 @@ class GroupsAdapter : BaseAdapter<GroupEntity, GroupViewHolder>(GroupsDiffCallba
                     tv_group_name.apply {
                         setTextColor(resources.getColor(R.color.white))
                     }
-                    changeBackgroundColor(R.color.black_transparent)
+                    changeBackgroundColor(R.color.black_light)
                 }
             } else {
                 itemView.apply {

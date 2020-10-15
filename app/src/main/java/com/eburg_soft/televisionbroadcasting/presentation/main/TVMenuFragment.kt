@@ -268,16 +268,16 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             setHasFixedSize(true)
         }
         //This is used to center first and last item on screen
-//        recycler_group_list.centerItemsInLinearLayout(R.dimen.width_group_item)
+        recycler_group_list.centerItemsInLinearLayout(R.dimen.width_group_item)
 
         // Attach OnScrollListener to your RecyclerView
-        recycler_group_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                recyclerView.post {
-                    recyclerView.selectMiddleItem(recyclerView, requireContext(), groupsAdapter)
-                }
-            }
-        })
+//        recycler_group_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                recyclerView.post {
+//                    recyclerView.selectMiddleItem(recyclerView, requireContext(), groupsAdapter)
+//                }
+//            }
+//        })
 
         Timber.d("initGroupsRecycler accomplished")
     }

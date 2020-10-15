@@ -9,10 +9,14 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 
 fun ViewGroup.elevate(isUp: Boolean) {
-    if (isUp) {
+    elevation = if (isUp) {
         scaleTo(1.1f)
+        clipToOutline = true
+        1.1f
     } else {
         scaleTo(1f)
+        clipToOutline = false
+        1f
     }
 }
 
@@ -30,10 +34,14 @@ private fun ViewGroup.getScaleObjectAnimator(x: Float, y: Float): ObjectAnimator
 }
 
 fun View.elevate(isUp: Boolean) {
-    if (isUp) {
+    elevation = if (isUp) {
         scaleTo(1.1f)
+        clipToOutline = true
+        1.1f
     } else {
         scaleTo(1f)
+        clipToOutline = false
+        1f
     }
 }
 
