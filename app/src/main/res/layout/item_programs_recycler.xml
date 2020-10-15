@@ -5,11 +5,12 @@
     android:id="@+id/card_program"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="-4dp"
-    android:layout_marginBottom="-4dp"
-    android:layout_marginStart="@dimen/margin_horizontal_small"
-    android:layout_marginEnd="@dimen/margin_horizontal_small"
+    android:layout_marginTop="@dimen/margin_negative_vertical_very_small"
+    android:layout_marginBottom="@dimen/margin_negative_vertical_very_small"
     app:cardUseCompatPadding="true"
+    android:outlineProvider="bounds"
+   app:cardElevation="1dp"
+   app:cardCornerRadius="3dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +38,7 @@
                     android:id="@+id/img_program_status"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
+                    android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_vertical_small"
                     app:srcCompat="@drawable/outline_restore_white_16"
                     tools:ignore="ContentDescription" />
@@ -123,6 +125,21 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <TextView
+                android:id="@+id/tv_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_normal"
+                android:paddingEnd="@dimen/padding_normal"
+                android:text="@string/holder_genre"
+                android:textColor="@color/grey_light"
+                android:textSize="@dimen/text_size_normal"
+                app:layout_constraintBottom_toTopOf="@+id/tv_country_and_year_of_production"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_program_name" />
+
+            <TextView
                 android:id="@+id/tv_country_and_year_of_production"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,20 +155,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_genre" />
 
-            <TextView
-                android:id="@+id/tv_genre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_normal"
-                android:paddingEnd="@dimen/padding_normal"
-                android:text="@string/holder_genre"
-                android:textColor="@color/grey_light"
-                android:textSize="@dimen/text_size_normal"
-                app:layout_constraintBottom_toTopOf="@+id/tv_country_and_year_of_production"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_program_name" />
         </LinearLayout>
 
     </LinearLayout>

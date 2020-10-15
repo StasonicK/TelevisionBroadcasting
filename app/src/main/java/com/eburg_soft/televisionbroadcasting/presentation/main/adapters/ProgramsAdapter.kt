@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
-import com.eburg_soft.televisionbroadcasting.extensions.disableClipOnParents
 import com.eburg_soft.televisionbroadcasting.extensions.elevate
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter
@@ -41,7 +40,6 @@ class ProgramsAdapter : BaseAdapter<ProgramEntity, ProgramViewHolder>(ProgramsDi
                     tv_country_and_year_of_production.setTextColor(resources.getColor(R.color.blue_light))
                     tv_genre.setTextColor(resources.getColor(R.color.blue_light))
                     elevate(true)
-//                    disableClipOnParents()
 //                    clipToOutline = false
                 }
             } else {
@@ -50,7 +48,6 @@ class ProgramsAdapter : BaseAdapter<ProgramEntity, ProgramViewHolder>(ProgramsDi
                     tv_country_and_year_of_production.setTextColor(resources.getColor(R.color.grey_light))
                     tv_genre.setTextColor(resources.getColor(R.color.grey_light))
                     elevate(false)
-//                    disableClipOnParents()
                 }
             }
         }
