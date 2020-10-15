@@ -13,9 +13,7 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Gro
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
-import com.eburg_soft.televisionbroadcasting.extensions.centerItemsInLinearLayout
-import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
-import com.eburg_soft.televisionbroadcasting.extensions.elevate
+import com.eburg_soft.televisionbroadcasting.extensions.centerListInLinearLayout
 import com.eburg_soft.televisionbroadcasting.extensions.selectMiddleItem
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdapter
@@ -268,16 +266,16 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             setHasFixedSize(true)
         }
         //This is used to center first and last item on screen
-        recycler_group_list.centerItemsInLinearLayout(R.dimen.width_group_item)
+//        recycler_group_list.centerListInLinearLayout(R.dimen.width_group_item)
 
         // Attach OnScrollListener to your RecyclerView
-//        recycler_group_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                recyclerView.post {
-//                    recyclerView.selectMiddleItem(recyclerView, requireContext(), groupsAdapter)
-//                }
-//            }
-//        })
+        recycler_group_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                recyclerView.post {
+                    recyclerView.selectMiddleItem(recyclerView, requireContext(), groupsAdapter)
+                }
+            }
+        })
 
         Timber.d("initGroupsRecycler accomplished")
     }
@@ -324,7 +322,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             setHasFixedSize(true)
         }
         //This is used to center first and last item on screen
-//        recycler_channel_list.centerItemsInLinearLayout(R.dimen.width_channel_item)
+//        recycler_channel_list.centerListInLinearLayout(R.dimen.width_channel_item)
 
         Timber.d("initChannelsRecycler accomplished")
     }
@@ -370,7 +368,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             setHasFixedSize(true)
         }
         //This is used to center first and last item on screen
-//        recycler_programs_list.centerItemsInLinearLayout(R.dimen.width_program_item)
+//        recycler_programs_list.centerListInLinearLayout(R.dimen.width_program_item)
 
         Timber.d("initProgramsRecycler accomplished")
     }
@@ -416,7 +414,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             setHasFixedSize(true)
         }
         //This is used to center first and last item on screen
-//        recycler_days_list.centerItemsInLinearLayout(R.dimen.width_day_item)
+//        recycler_days_list.centerListInLinearLayout(R.dimen.width_day_item)
 
         Timber.d("initDaysRecycler accomplished")
     }

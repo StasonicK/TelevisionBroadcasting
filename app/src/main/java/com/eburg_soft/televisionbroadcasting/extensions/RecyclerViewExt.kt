@@ -10,17 +10,30 @@ import androidx.recyclerview.widget.RecyclerView.State
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter.BaseViewHolder
 
-fun RecyclerView.centerItemsInLinearLayout(itemSize: Int, marginSize: Int = 0) {
+fun RecyclerView.centerListInLinearLayout(itemSize: Int, marginSize: Int = 0) {
     this.addItemDecoration(
         object : ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: State) {
-                val viewHolderWidth = parent.width
+                val screenWidth = parent.width
                 val itemWidth = resources.getDimension(itemSize).toInt()
-                val realWidth = state.itemCount * (itemWidth + marginSize) + marginSize
-                if (realWidth < viewHolderWidth) {
-                    val position = parent.getChildViewHolder(view).adapterPosition
+                val listWidth = state.itemCount * (itemWidth + marginSize) + marginSize
+                val position = parent.getChildViewHolder(view).adapterPosition
+//                if (listWidth < screenWidth) {
+//                    if (position == 0 || position == state.itemCount - 1) {
+//                        val padding: Int = (screenWidth - listWidth) / 2
+//                        when (position) {
+//                            0 -> {
+//                                outRect.left = padding
+//                            }
+//                            state.itemCount - 1 -> {
+//                                outRect.right = padding
+//                            }
+//                        }
+//                    }
+//                }
+//                else {
                     if (position == 0 || position == state.itemCount - 1) {
-                        val padding: Int = (viewHolderWidth - realWidth) / 2
+                        val padding: Int = screenWidth / 2
                         when (position) {
                             0 -> {
                                 outRect.left = padding
@@ -30,14 +43,18 @@ fun RecyclerView.centerItemsInLinearLayout(itemSize: Int, marginSize: Int = 0) {
                             }
                         }
                     }
-                }
+//                }
             }
         }
     )
 }
 
 // implementation of method that is called from OnScrollListener
-fun RecyclerView.selectMiddleItem(recyclerView: RecyclerView,context: Context, adapter: BaseAdapter<out Any, out BaseViewHolder>) {
+fun RecyclerView.selectMiddleItem(
+    recyclerView: RecyclerView,
+    context: Context,
+    adapter: BaseAdapter<out Any, out BaseViewHolder>
+) {
     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
     val firstVisibleIndex = layoutManager.findFirstVisibleItemPosition()
     val lastVisibleIndex = layoutManager.findLastVisibleItemPosition()
