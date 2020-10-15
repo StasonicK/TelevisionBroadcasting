@@ -4,7 +4,6 @@
     android:id="@+id/linear_channel"
     android:layout_width="@dimen/width_channel_item"
     android:layout_height="@dimen/height_channel_item"
-    android:background="@color/black_transparent"
     android:orientation="vertical">
 
     <TextView

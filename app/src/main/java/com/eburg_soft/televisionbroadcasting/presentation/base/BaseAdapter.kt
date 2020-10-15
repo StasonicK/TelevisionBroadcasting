@@ -58,6 +58,8 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
         }
     }
 
+    fun selectItemAtIndex(i: Int): Item = getItem(i)
+
     interface OnClick {
 
         fun onClick(item0: Any?, positionItem0: Int, item1: Any?, positionItem1: Int)

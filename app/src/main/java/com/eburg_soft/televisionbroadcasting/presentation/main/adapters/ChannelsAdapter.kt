@@ -47,7 +47,6 @@ class ChannelsAdapter : BaseAdapter<ChannelEntity, ChannelViewHolder>(ChannelsDi
             } else {
                 itemView.apply {
                     tv_channel_name.visibility = View.INVISIBLE
-
                     img_channel_icon.setBackgroundColor(resources.getColor(R.color.black))
                 }
             }
