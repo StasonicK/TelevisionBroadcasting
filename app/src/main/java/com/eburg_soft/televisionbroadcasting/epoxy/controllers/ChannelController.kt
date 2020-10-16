@@ -5,10 +5,10 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Cha
 import com.eburg_soft.televisionbroadcasting.epoxy.holder.channelHolder
 
 class ChannelController(
-    private val callback: Callback
+    private val channelCallback: ChannelCallback
 ) : TypedEpoxyController<List<ChannelEntity>>() {
 
-    interface Callback {
+    interface ChannelCallback {
 
         fun onChannelClick(channelEntity: ChannelEntity, position: Int)
     }
@@ -18,7 +18,7 @@ class ChannelController(
             channelHolder {
                 id(channelEntity.id)
                 channelEntity(channelEntity)
-                listener { callback.onChannelClick(channelEntity, index) }
+                listener { channelCallback.onChannelClick(channelEntity, index) }
             }
         }
     }

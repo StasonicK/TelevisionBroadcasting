@@ -5,10 +5,10 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Gro
 import com.eburg_soft.televisionbroadcasting.epoxy.holder.groupHolder
 
 class GroupController(
-    private val callback: Callback
+    private val groupCallback: GroupCallback
 ) : TypedEpoxyController<List<GroupEntity>>() {
 
-    interface Callback {
+    interface GroupCallback {
 
         fun onGroupClick(groupEntity: GroupEntity, position: Int)
     }
@@ -18,7 +18,7 @@ class GroupController(
             groupHolder {
                 id(groupEntity.id)
                 groupEntity(groupEntity)
-                listener { callback.onGroupClick(groupEntity, index) }
+                listener { groupCallback.onGroupClick(groupEntity, index) }
             }
         }
     }

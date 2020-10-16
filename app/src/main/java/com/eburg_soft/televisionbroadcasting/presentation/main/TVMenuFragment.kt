@@ -4,11 +4,16 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.core.TelevisionBroadcastingApp
+import com.eburg_soft.televisionbroadcasting.customviews.CenterLayoutManager
+import com.eburg_soft.televisionbroadcasting.customviews.ChannelsScrollListener
+import com.eburg_soft.televisionbroadcasting.customviews.DaysScrollListener
+import com.eburg_soft.televisionbroadcasting.customviews.GroupsScrollListener
 import com.eburg_soft.televisionbroadcasting.customviews.ItemDecoration
-import com.eburg_soft.televisionbroadcasting.customviews.ScrollListener
+import com.eburg_soft.televisionbroadcasting.customviews.ProgramsScrollListener
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
@@ -32,25 +37,27 @@ import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_programs_list
 import timber.log.Timber
 import javax.inject.Inject
 
-class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View, ScrollListener.Callback,
-    GroupController.Callback, ChannelController.Callback, ProgramController.Callback, DayController.Callback {
+class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View, GroupsScrollListener.GroupsCallback,
+    ChannelsScrollListener.ChannelCallback, ProgramsScrollListener.ProgramCallback, DaysScrollListener.DaysCallback,
+    GroupController.GroupCallback, ChannelController.ChannelCallback, ProgramController.ProgramCallback,
+    DayController.DayCallback {
 
     @Inject
     lateinit var presenter: TVMenuContract.Presenter
 
-    private val groupsController by lazy {
+    private val groupController by lazy {
         GroupController(this)
     }
 
-    private val channelsController by lazy {
+    private val channelController by lazy {
         ChannelController(this)
     }
 
-    private val programsController by lazy {
+    private val programController by lazy {
         ProgramController(this)
     }
 
-    private val daysController by lazy {
+    private val dayController by lazy {
         DayController(this)
     }
 
@@ -201,28 +208,28 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
     override fun submitGroupsList(list: List<GroupEntity>?) {
 //        groupsAdapter.setData(list)
 //        groupsAdapter.submitList(list)
-        groupsController.setData(list)
+        groupController.setData(list)
         Timber.d("submitGroupList")
     }
 
     override fun submitChannelsList(list: List<ChannelEntity>?) {
 //        channelsAdapter.setData(list)
 //        channelsAdapter.submitList(list)
-        channelsController.setData(list)
+        channelController.setData(list)
         Timber.d("submitChannelList")
     }
 
     override fun submitProgramsList(list: List<ProgramEntity>?) {
 //        programsAdapter.setData(list)
 //        programsAdapter.submitList(list)
-        programsController.setData(list)
+        programController.setData(list)
         Timber.d("submitProgramList")
     }
 
     override fun submitDaysList(list: List<DayEntity>?) {
 //        daysAdapter.setData(list)
 //        daysAdapter.submitList(list)
-        daysController.setData(list)
+        dayController.setData(list)
         Timber.d("submitDaysList")
     }
 
@@ -259,10 +266,12 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 
         val snapHelper = LinearSnapHelper()
         recycler_groups_list.apply {
-            setController(groupsController)
+            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setLayoutManager(layoutManager)
+            setController(groupController)
             addItemDecoration(ItemDecoration())
             addOnScrollListener(
-                ScrollListener(
+                GroupsScrollListener(
                     snapHelper,
                     this@TVMenuFragment
                 )
@@ -325,17 +334,19 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 //            }
 //        })
 
-//        Timber.d("initGroupsRecycler accomplished")
+        Timber.d("initGroupsRecycler accomplished")
     }
 
     override fun initChannelsRecycler() {
 
         val snapHelper = LinearSnapHelper()
         recycler_channels_list.apply {
-            setController(channelsController)
+            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setLayoutManager(layoutManager)
+            setController(channelController)
             addItemDecoration(ItemDecoration())
             addOnScrollListener(
-                ScrollListener(
+                ChannelsScrollListener(
                     snapHelper,
                     this@TVMenuFragment
                 )
@@ -387,17 +398,19 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 //        //This is used to center first and last item on screen
 ////        recycler_channel_list.centerListInLinearLayout(R.dimen.width_channel_item)
 ////        recycler_channels_list.addItemDecoration(CustomItemDecoration())
-//        Timber.d("initChannelsRecycler accomplished")
+        Timber.d("initChannelsRecycler accomplished")
     }
 
     override fun initProgramsRecycler() {
 
         val snapHelper = LinearSnapHelper()
         recycler_programs_list.apply {
-            setController(programsController)
+            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setLayoutManager(layoutManager)
+            setController(programController)
             addItemDecoration(ItemDecoration())
             addOnScrollListener(
-                ScrollListener(
+                ProgramsScrollListener(
                     snapHelper,
                     this@TVMenuFragment
                 )
@@ -456,10 +469,12 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 
         val snapHelper = LinearSnapHelper()
         recycler_days_list.apply {
-            setController(daysController)
+            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setLayoutManager(layoutManager)
+            setController(dayController)
             addItemDecoration(ItemDecoration())
             addOnScrollListener(
-                ScrollListener(
+                DaysScrollListener(
                     snapHelper,
                     this@TVMenuFragment
                 )
@@ -534,9 +549,6 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
         Timber.d("populateDaysRecycler accomplished")
     }
 
-    override fun onPositionChanged(position: Int) {
-    }
-
     override fun onGroupClick(groupEntity: GroupEntity, position: Int) {
         recycler_groups_list.smoothScrollToPosition(position)
         presenter.loadChannelsByGroupIdFromDb(groupEntity.id)
@@ -553,6 +565,22 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 
     override fun onDayClick(dayEntity: DayEntity, position: Int) {
         recycler_days_list.smoothScrollToPosition(position)
+    }
+
+    override fun onGroupsPositionChanged(position: Int) {
+
+    }
+
+    override fun onChannelsPositionChanged(position: Int) {
+
+    }
+
+    override fun onProgramsPositionChanged(position: Int) {
+
+    }
+
+    override fun onDaysPositionChanged(position: Int) {
+
     }
 
     //endregion

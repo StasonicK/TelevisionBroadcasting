@@ -5,10 +5,10 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Day
 import com.eburg_soft.televisionbroadcasting.epoxy.holder.dayHolder
 
 class DayController(
-    private val callback: Callback
+    private val dayCallback: DayCallback
 ) : TypedEpoxyController<List<DayEntity>>() {
 
-    interface Callback {
+    interface DayCallback {
 
         fun onDayClick(dayEntity: DayEntity, position: Int)
     }
@@ -18,7 +18,7 @@ class DayController(
             dayHolder {
                 id(dayEntity.id)
                 dayEntity(dayEntity)
-                listener { callback.onDayClick(dayEntity, index) }
+                listener { dayCallback.onDayClick(dayEntity, index) }
             }
         }
     }

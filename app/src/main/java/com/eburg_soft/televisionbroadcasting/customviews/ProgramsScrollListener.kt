@@ -3,19 +3,17 @@ package com.eburg_soft.televisionbroadcasting.customviews
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 
-open class ScrollListener(
+class ProgramsScrollListener(
     private val snapHelper: SnapHelper,
-    private val callback: Callback
-) : RecyclerView.OnScrollListener() {
+    private val callback: ProgramCallback
+)  : RecyclerView.OnScrollListener() {
+    interface ProgramCallback {
 
-    interface Callback {
-
-        fun onPositionChanged(position: Int)
+        fun onProgramsPositionChanged(position: Int)
     }
-
     private var snapPosition = RecyclerView.NO_POSITION
 
-    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         dispatchPositionChange(recyclerView)
     }
 
@@ -25,7 +23,7 @@ open class ScrollListener(
         val snapPosition = layoutManager.getPosition(snapView)
         val snapPositionChanged = this.snapPosition != snapPosition
         if (snapPositionChanged) {
-            callback.onPositionChanged(snapPosition)
+            callback.onProgramsPositionChanged(snapPosition)
             this.snapPosition = snapPosition
         }
     }

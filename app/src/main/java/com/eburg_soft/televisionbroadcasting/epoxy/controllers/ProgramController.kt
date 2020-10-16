@@ -5,10 +5,10 @@ import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.Pro
 import com.eburg_soft.televisionbroadcasting.epoxy.holder.programHolder
 
 class ProgramController(
-    private val callback: Callback
+    private val programCallback: ProgramCallback
 ) : TypedEpoxyController<List<ProgramEntity>>() {
 
-    interface Callback {
+    interface ProgramCallback {
 
         fun onProgramClick(programEntity: ProgramEntity, position: Int)
     }
@@ -18,7 +18,7 @@ class ProgramController(
             programHolder {
                 id(programEntity.id)
                 programEntity(programEntity)
-                listener { callback.onProgramClick(programEntity, index) }
+                listener { programCallback.onProgramClick(programEntity, index) }
             }
         }
     }

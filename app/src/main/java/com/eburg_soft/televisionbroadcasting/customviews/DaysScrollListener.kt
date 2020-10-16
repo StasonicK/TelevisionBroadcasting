@@ -3,16 +3,14 @@ package com.eburg_soft.televisionbroadcasting.customviews
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 
-open class ScrollListener(
+class DaysScrollListener (
     private val snapHelper: SnapHelper,
-    private val callback: Callback
-) : RecyclerView.OnScrollListener() {
+    private val callback: DaysCallback
+)  : RecyclerView.OnScrollListener() {
+    interface DaysCallback {
 
-    interface Callback {
-
-        fun onPositionChanged(position: Int)
+        fun onDaysPositionChanged(position: Int)
     }
-
     private var snapPosition = RecyclerView.NO_POSITION
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -25,7 +23,7 @@ open class ScrollListener(
         val snapPosition = layoutManager.getPosition(snapView)
         val snapPositionChanged = this.snapPosition != snapPosition
         if (snapPositionChanged) {
-            callback.onPositionChanged(snapPosition)
+            callback.onDaysPositionChanged(snapPosition)
             this.snapPosition = snapPosition
         }
     }
