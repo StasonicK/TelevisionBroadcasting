@@ -17,7 +17,7 @@ import kotlin.math.min
  *
  * Designed to work with [LinearLayoutManager] with [.HORIZONTAL] orientation *ONLY*
  */
-class StickyRecyclerView : RecyclerView {
+class CustomRecyclerView : RecyclerView {
 
     private var mScrollDirection = 0
     private var mCenterItemChangedListener: OnCenterItemChangedListener? = null
@@ -125,7 +125,7 @@ class StickyRecyclerView : RecyclerView {
     }
 
     /**
-     * A listener interface that can be added to the [StickyRecyclerView] to get
+     * A listener interface that can be added to the [CustomRecyclerView] to get
      * notified when the central item is changed.
      */
     interface OnCenterItemChangedListener {

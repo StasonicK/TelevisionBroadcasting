@@ -15,7 +15,7 @@
         android:clipToPadding="false"
         tools:context=".presentation.main.TVMenuFragment">
 
-        <com.eburg_soft.televisionbroadcasting.customviews.StickyRecyclerView
+        <com.eburg_soft.televisionbroadcasting.customviews.CustomRecyclerView
             android:id="@+id/recycler_days_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_days_recycler" />
 
-        <com.eburg_soft.televisionbroadcasting.customviews.StickyRecyclerView
+        <com.eburg_soft.televisionbroadcasting.customviews.CustomRecyclerView
             android:id="@+id/recycler_programs_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_program_item"
@@ -52,7 +52,7 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/recycler_group_list"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_groups_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_programs_list">
@@ -64,21 +64,21 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@color/blue" />
 
-            <com.eburg_soft.televisionbroadcasting.customviews.StickyRecyclerView
-                android:id="@+id/recycler_channel_list"
+            <com.eburg_soft.televisionbroadcasting.customviews.CustomRecyclerView
+                android:id="@+id/recycler_channels_list"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_channel_item"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@+id/recycler_group_list"
+                app:layout_constraintBottom_toTopOf="@+id/recycler_groups_list"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_blue_lint"
                 tools:listitem="@layout/item_channels_recycler" />
         </LinearLayout>
 
-        <com.eburg_soft.televisionbroadcasting.customviews.StickyRecyclerView
-            android:id="@+id/recycler_group_list"
+        <com.eburg_soft.televisionbroadcasting.customviews.CustomRecyclerView
+            android:id="@+id/recycler_groups_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
             android:background="@color/black"
@@ -99,7 +99,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_group_list">
+            app:layout_constraintTop_toBottomOf="@+id/recycler_groups_list">
 
             <ImageView
                 android:id="@+id/img_bear"

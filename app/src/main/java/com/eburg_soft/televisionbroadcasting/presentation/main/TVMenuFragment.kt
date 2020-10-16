@@ -4,26 +4,24 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.core.TelevisionBroadcastingApp
+import com.eburg_soft.televisionbroadcasting.customviews.CustomItemDecoration
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
-import com.eburg_soft.televisionbroadcasting.extensions.centerListInLinearLayout
-import com.eburg_soft.televisionbroadcasting.extensions.selectMiddleItem
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_tv_menu.pb_tv_menu
-import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_channel_list
+import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_channels_list
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_days_list
-import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_group_list
+import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_groups_list
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_programs_list
 import timber.log.Timber
 import javax.inject.Inject
@@ -227,7 +225,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     }
 
     override fun initGroupsRecycler() {
-        recycler_group_list.apply {
+        recycler_groups_list.apply {
             groupsAdapter.apply {
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as GroupEntity).let {
@@ -269,19 +267,19 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
 //        recycler_group_list.centerListInLinearLayout(R.dimen.width_group_item)
 
         // Attach OnScrollListener to your RecyclerView
-        recycler_group_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                recyclerView.post {
-                    recyclerView.selectMiddleItem(recyclerView, requireContext(), groupsAdapter)
-                }
-            }
-        })
+//        recycler_groups_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                recyclerView.post {
+//                    recyclerView.selectMiddleItem(recyclerView, requireContext(), groupsAdapter)
+//                }
+//            }
+//        })
 
         Timber.d("initGroupsRecycler accomplished")
     }
 
     override fun initChannelsRecycler() {
-        recycler_channel_list.apply {
+        recycler_channels_list.apply {
             channelsAdapter.apply {
                 setOnClick { item0, positionItem0, item1, positionItem1 ->
                     (item1 as ChannelEntity).let {
@@ -323,7 +321,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         }
         //This is used to center first and last item on screen
 //        recycler_channel_list.centerListInLinearLayout(R.dimen.width_channel_item)
-
+        recycler_channels_list.addItemDecoration(CustomItemDecoration())
         Timber.d("initChannelsRecycler accomplished")
     }
 
@@ -369,6 +367,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         }
         //This is used to center first and last item on screen
 //        recycler_programs_list.centerListInLinearLayout(R.dimen.width_program_item)
+        recycler_programs_list.addItemDecoration(CustomItemDecoration())
 
         Timber.d("initProgramsRecycler accomplished")
     }
@@ -415,6 +414,7 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         }
         //This is used to center first and last item on screen
 //        recycler_days_list.centerListInLinearLayout(R.dimen.width_day_item)
+        recycler_days_list.addItemDecoration(CustomItemDecoration())
 
         Timber.d("initDaysRecycler accomplished")
     }
