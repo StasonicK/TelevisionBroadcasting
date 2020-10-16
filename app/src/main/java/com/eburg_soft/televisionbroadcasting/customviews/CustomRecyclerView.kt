@@ -10,6 +10,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 /**
+ * Class is based on the StickyRecyclerView example: https://gist.github.com/mandybess/dada043b2e20bf3f9da4
  * A [android.support.v7.widget.RecyclerView] implementation which snaps the current visible
  * item to the center of the screen based on scroll directions defined by [ ][.getScrollDirection]
  *
@@ -40,7 +41,7 @@ class StickyRecyclerView : RecyclerView {
         for (i in 0 until childCount) {
             val child: View = getChildAt(i)
             val percentage = getPercentageFromCenter(child)
-            val scale = 1f - 0.4f * percentage
+            val scale = 1f //- 0.4f * percentage
             child.scaleX = scale
             child.scaleY = scale
         }
