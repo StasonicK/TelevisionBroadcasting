@@ -12,6 +12,10 @@ import kotlinx.android.synthetic.main.item_groups_recycler.view.tv_group_name
 
 class GroupsAdapter : BaseAdapter<GroupEntity, GroupViewHolder>(GroupsDiffCallback()) {
 
+    fun setPosition(position: Int) {
+        super.selectedItemPosition = position
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val view = parent.inflate(R.layout.item_groups_recycler)
         return GroupViewHolder(view)

@@ -10,12 +10,25 @@ abstract class BaseAdapter<Item : Any, VH : BaseAdapter.BaseViewHolder>(
     diff: BaseDiffCallback<Item>
 ) : ListAdapter<Item, VH>(diff) {
 
-    private var selectedItemPosition = -1
-    private var itemPosition = -1
+    private var itemsList = arrayListOf<Item>()
+
+    protected var selectedItemPosition = -1
+    protected var itemPosition = -1
 
     private var onClick: OnClick? = null
 
     private var onTouch: OnTouch? = null
+
+    override fun getItem(position: Int): Item = itemsList[position]
+
+    override fun getItemCount(): Int = itemsList.size
+
+    override fun getCurrentList(): MutableList<Item> = itemsList
+
+    fun setData(list: List<Item>?) {
+        itemsList.clear()
+        list?.let { itemsList.addAll(it) }
+    }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.bind(getItem(position))

@@ -6,7 +6,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.core.TelevisionBroadcastingApp
-import com.eburg_soft.televisionbroadcasting.customviews.CustomItemDecoration
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
@@ -26,7 +25,8 @@ import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_programs_list
 import timber.log.Timber
 import javax.inject.Inject
 
-class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View {
+class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
+    CustomRecyclerView.OnCenterItemChangedListener {
 
     @Inject
     lateinit var presenter: TVMenuContract.Presenter
@@ -176,21 +176,25 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
     }
 
     override fun submitGroupsList(list: List<GroupEntity>?) {
+        groupsAdapter.setData(list)
         groupsAdapter.submitList(list)
         Timber.d("submitGroupList")
     }
 
     override fun submitChannelsList(list: List<ChannelEntity>?) {
+        channelsAdapter.setData(list)
         channelsAdapter.submitList(list)
         Timber.d("submitChannelList")
     }
 
     override fun submitProgramsList(list: List<ProgramEntity>?) {
+        programsAdapter.setData(list)
         programsAdapter.submitList(list)
         Timber.d("submitProgramList")
     }
 
     override fun submitDaysList(list: List<DayEntity>?) {
+        daysAdapter.setData(list)
         daysAdapter.submitList(list)
         Timber.d("submitDaysList")
     }
@@ -264,7 +268,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
             setHasFixedSize(true)
         }
         //This is used to center first and last item on screen
-//        recycler_group_list.centerListInLinearLayout(R.dimen.width_group_item)
+//        recycler_groups_list.centerListInLinearLayout(R.dimen.width_group_item)
+        recycler_groups_list.apply {
+            addItemDecoration(CustomItemDecoration())
+//            setOnCenterItemChangedListener(this)
+        }
 
         // Attach OnScrollListener to your RecyclerView
 //        recycler_groups_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -439,6 +447,9 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View 
         Timber.d("populateDaysRecycler accomplished")
     }
 
-//endregion
+    //endregion
 
+    override fun onCenterItemChanged(centerPosition: Int) {
+        recycler_groups_list.scrollToPosition(centerPosition)
+    }
 }
