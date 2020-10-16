@@ -3,44 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black_transparent"
+        android:background="@color/black_light"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         tools:context=".presentation.main.TVMenuFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.airbnb.epoxy.EpoxyRecyclerView
             android:id="@+id/recycler_days_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
             android:layout_marginTop="@dimen/margin_vertical_small"
-            android:layout_marginBottom="@dimen/margin_vertical_very_small"
             android:background="@color/black"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             app:layout_constraintBottom_toTopOf="@+id/recycler_programs_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_days_recycler" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.airbnb.epoxy.EpoxyRecyclerView
             android:id="@+id/recycler_programs_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_program_item"
-            android:layout_marginBottom="@dimen/margin_vertical_very_small"
-            app:layout_constraintBottom_toTopOf="@+id/frame_channel_list"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/linear_channels"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_days_list"
-            tools:listitem="@layout/item_programs_recycler" />
+            app:layout_constraintTop_toBottomOf="@id/recycler_days_list" />
 
-        <FrameLayout
-            android:id="@+id/frame_channel_list"
+        <LinearLayout
+            android:id="@+id/linear_channels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white_transparent"
-            app:layout_constraintBottom_toTopOf="@+id/recycler_group_list"
+            android:background="@color/black"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_groups_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_programs_list">
@@ -52,56 +58,44 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@color/blue" />
 
-            <LinearLayout
+            <com.airbnb.epoxy.EpoxyRecyclerView
+                android:id="@+id/recycler_channels_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_height="@dimen/height_channel_item"
+                app:layout_constraintBottom_toTopOf="@+id/recycler_groups_list"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_blue_lint" />
+        </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_channel_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_channel_item"
-                    android:background="@color/black_transparent"
-                    app:layout_constraintBottom_toTopOf="@+id/recycler_group_list"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view_blue_lint"
-                    tools:listitem="@layout/item_channels_recycler" />
-            </LinearLayout>
-
-        </FrameLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_group_list"
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/recycler_groups_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
             android:background="@color/black"
             app:layout_constraintBottom_toTopOf="@id/const_lay_buttons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frame_channel_list"
-            tools:listitem="@layout/item_groups_recycler" />
+            app:layout_constraintTop_toBottomOf="@+id/linear_channels" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/const_lay_buttons"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/height_text_list"
             android:layout_marginBottom="@dimen/margin_vertical_small"
             android:background="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_group_list">
+            app:layout_constraintTop_toBottomOf="@+id/recycler_groups_list">
 
             <ImageView
                 android:id="@+id/img_bear"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
-                android:layout_gravity="center"
-                android:layout_marginStart="160dp"
+                android:layout_marginStart="148dp"
+                android:gravity="center"
                 android:src="@drawable/teddy_bear_white_16"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_current_time"
                 app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +106,7 @@
                 android:id="@+id/tv_current_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:text="@string/holder_current_time"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
@@ -125,7 +119,7 @@
                 android:id="@+id/tv_showcase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:text="@string/showcase"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
@@ -138,7 +132,7 @@
                 android:id="@+id/tv_television"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:text="@string/television"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
@@ -151,7 +145,7 @@
                 android:id="@+id/tv_favorites"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:text="@string/favorites"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
@@ -165,6 +159,7 @@
                 android:id="@+id/tv_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/search"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
@@ -178,7 +173,7 @@
                 android:id="@+id/img_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:src="@drawable/outline_perm_identity_white_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_messages"
@@ -190,8 +185,8 @@
                 android:id="@+id/tv_messages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginEnd="64dp"
+                android:gravity="center"
                 android:text="@string/message_count"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"

@@ -5,8 +5,13 @@
     android:id="@+id/card_program"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/margin_horizontal_small"
-    android:layout_marginEnd="@dimen/margin_horizontal_small"
+    android:layout_marginStart="@dimen/margin_vertical_small"
+    android:layout_marginEnd="@dimen/margin_vertical_small"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:cardBackgroundColor="@color/grey_dark"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="0dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +39,7 @@
                     android:id="@+id/img_program_status"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
+                    android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_vertical_small"
                     app:srcCompat="@drawable/outline_restore_white_16"
                     tools:ignore="ContentDescription" />
@@ -73,7 +79,7 @@
                 android:id="@+id/img_program"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/black"
+                android:background="@color/blue_light"
                 android:src="@drawable/old_tv_white_256"
                 tools:ignore="ContentDescription" />
 
@@ -84,7 +90,7 @@
                 android:layout_gravity="end|top"
                 android:layout_marginTop="@dimen/margin_horizontal_small"
                 android:layout_marginEnd="@dimen/margin_vertical_small"
-                android:background="@color/white_transparent"
+                android:background="@color/grey_transparent"
                 android:text="@string/holder_age"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal" />
@@ -120,6 +126,21 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <TextView
+                android:id="@+id/tv_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_normal"
+                android:paddingEnd="@dimen/padding_normal"
+                android:text="@string/holder_genre"
+                android:textColor="@color/grey_light"
+                android:textSize="@dimen/text_size_normal"
+                app:layout_constraintBottom_toTopOf="@+id/tv_country_and_year_of_production"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_program_name" />
+
+            <TextView
                 android:id="@+id/tv_country_and_year_of_production"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -135,20 +156,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_genre" />
 
-            <TextView
-                android:id="@+id/tv_genre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_normal"
-                android:paddingEnd="@dimen/padding_normal"
-                android:text="@string/holder_genre"
-                android:textColor="@color/grey_light"
-                android:textSize="@dimen/text_size_normal"
-                app:layout_constraintBottom_toTopOf="@+id/tv_country_and_year_of_production"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_program_name" />
         </LinearLayout>
 
     </LinearLayout>

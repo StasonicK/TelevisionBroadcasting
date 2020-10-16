@@ -9,13 +9,14 @@ import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsAdapter.ChannelViewHolder
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_channels_recycler.view.img_channel_icon
-import kotlinx.android.synthetic.main.item_channels_recycler.view.tv_channel_name
+import kotlinx.android.synthetic.main.item_channel.view.img_channel_icon
+import kotlinx.android.synthetic.main.item_channel.view.linear_channel_img_background
+import kotlinx.android.synthetic.main.item_channel.view.tv_channel_name
 
 class ChannelsAdapter : BaseAdapter<ChannelEntity, ChannelViewHolder>(ChannelsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelViewHolder {
-        val view = parent.inflate(R.layout.item_channels_recycler)
+        val view = parent.inflate(R.layout.item_channel)
         return ChannelViewHolder(view)
     }
 
@@ -42,13 +43,12 @@ class ChannelsAdapter : BaseAdapter<ChannelEntity, ChannelViewHolder>(ChannelsDi
             if (isSelected) {
                 itemView.apply {
                     tv_channel_name.visibility = View.VISIBLE
-                    img_channel_icon.setBackgroundColor(resources.getColor(R.color.blue_light))
+                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.blue_light))
                 }
             } else {
                 itemView.apply {
                     tv_channel_name.visibility = View.INVISIBLE
-
-                    img_channel_icon.setBackgroundColor(resources.getColor(R.color.black))
+                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.black))
                 }
             }
         }

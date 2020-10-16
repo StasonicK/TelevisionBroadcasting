@@ -8,19 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 
 fun ViewGroup.elevate(isUp: Boolean) {
-    if (isUp) {
-        scaleTo(1.2f) {
-        }
+    elevation = if (isUp) {
+        scaleTo(1.1f)
+        clipToOutline = true
+        1.1f
     } else {
-        scaleTo(1f) {
-        }
+        scaleTo(1f)
+        clipToOutline = false
+        1f
     }
 }
 
-private fun ViewGroup.scaleTo(scale: Float, listenerEnd: () -> Unit) {
+private fun ViewGroup.scaleTo(scale: Float) {
     getScaleObjectAnimator(scale, scale).apply {
-//        animatorEndListener { listenerEnd() }
-        duration = 200
+        duration = 500
         start()
     }
 }
@@ -32,19 +33,20 @@ private fun ViewGroup.getScaleObjectAnimator(x: Float, y: Float): ObjectAnimator
 }
 
 fun View.elevate(isUp: Boolean) {
-    if (isUp) {
-        scaleTo(1.2f) {
-        }
+    elevation = if (isUp) {
+        scaleTo(1.1f)
+        clipToOutline = true
+        1.1f
     } else {
-        scaleTo(1f) {
-        }
+        scaleTo(1f)
+        clipToOutline = false
+        1f
     }
 }
 
-private fun View.scaleTo(scale: Float, listenerEnd: () -> Unit) {
+private fun View.scaleTo(scale: Float) {
     getScaleObjectAnimator(scale, scale).apply {
-//        animatorEndListener { listenerEnd() }
-        duration = 200
+        duration = 500
         start()
     }
 }
