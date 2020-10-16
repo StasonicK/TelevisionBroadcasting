@@ -3,11 +3,12 @@ package com.eburg_soft.televisionbroadcasting.customviews
 import com.airbnb.epoxy.TypedEpoxyController
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 
-class GroupController (
+class GroupController(
     private val callback: Callback
-): TypedEpoxyController<List<GroupEntity>>() {
+) : TypedEpoxyController<List<GroupEntity>>() {
 
     interface Callback {
+
         fun onImageClick(album: GroupEntity, position: Int)
     }
 
@@ -17,7 +18,6 @@ class GroupController (
 //                id(album.albumName)
 //                album(album)
 //                listener { callback.onImageClick(album, index) }
-            }
         }
     }
 }
