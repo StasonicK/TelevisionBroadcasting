@@ -5,10 +5,11 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemDecoration (
+class ItemDecoration(
     private val paddingPx: Int = dpToPx(12),
     private val viewWidthPx: Int = dpToPx(120)
-): RecyclerView.ItemDecoration() {
+) : RecyclerView.ItemDecoration() {
+
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -18,12 +19,12 @@ class ItemDecoration (
         val position = parent.getChildAdapterPosition(view)
         val itemCount = parent.adapter?.itemCount ?: 0
         val startMargin = if (position == 0) {
-            (screenWidth() - viewWidthPx)/2
+            (screenWidth() - viewWidthPx) / 2
         } else {
             paddingPx
         }
         val endMargin = if (position == itemCount - 1) {
-            (screenWidth() - viewWidthPx)/2
+            (screenWidth() - viewWidthPx) / 2
         } else {
             paddingPx
         }

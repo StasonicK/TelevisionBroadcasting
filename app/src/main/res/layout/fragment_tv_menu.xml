@@ -15,7 +15,7 @@
         android:clipToPadding="false"
         tools:context=".presentation.main.TVMenuFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.airbnb.epoxy.EpoxyRecyclerView
             android:id="@+id/recycler_days_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
@@ -24,25 +24,25 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layoutManager=".customviews.CenterLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/recycler_programs_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_days_recycler" />
+            tools:listitem="@layout/item_day" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.airbnb.epoxy.EpoxyRecyclerView
             android:id="@+id/recycler_programs_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_program_item"
             android:elevation="1dp"
             android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layoutManager=".customviews.CenterLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/linear_channels"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recycler_days_list"
-            tools:listitem="@layout/item_programs_recycler" />
+            tools:listitem="@layout/item_program" />
 
         <LinearLayout
             android:id="@+id/linear_channels"
@@ -64,31 +64,31 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@color/blue" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.airbnb.epoxy.EpoxyRecyclerView
                 android:id="@+id/recycler_channels_list"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_channel_item"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layoutManager=".customviews.CenterLayoutManager"
                 app:layout_constraintBottom_toTopOf="@+id/recycler_groups_list"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_blue_lint"
-                tools:listitem="@layout/item_channels_recycler" />
+                tools:listitem="@layout/item_channel" />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.airbnb.epoxy.EpoxyRecyclerView
             android:id="@+id/recycler_groups_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
             android:background="@color/black"
             android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layoutManager=".customviews.CenterLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/const_lay_buttons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linear_channels"
-            tools:listitem="@layout/item_groups_recycler" />
+            tools:listitem="@layout/item_group" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/const_lay_buttons"

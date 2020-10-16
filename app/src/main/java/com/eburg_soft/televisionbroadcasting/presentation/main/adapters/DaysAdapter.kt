@@ -8,12 +8,12 @@ import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdapter.DayViewHolder
-import kotlinx.android.synthetic.main.item_days_recycler.view.tv_day_date
+import kotlinx.android.synthetic.main.item_day.view.tv_day_date
 
 class DaysAdapter : BaseAdapter<DayEntity, DayViewHolder>(DaysDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
-        val view = parent.inflate(R.layout.item_days_recycler)
+        val view = parent.inflate(R.layout.item_day)
         return DayViewHolder(view)
     }
 

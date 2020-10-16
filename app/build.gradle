@@ -57,6 +57,9 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -72,7 +75,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
 
     // Epoxy - RecyclerView helper
-    def epoxy_version = '3.7.0'
+    def epoxy_version = '4.1.0'
     implementation "com.airbnb.android:epoxy:$epoxy_version"
     implementation "com.airbnb.android:epoxy-databinding:$epoxy_version"
     kapt "com.airbnb.android:epoxy-processor:$epoxy_version"

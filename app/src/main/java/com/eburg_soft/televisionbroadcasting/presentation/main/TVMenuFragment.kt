@@ -4,14 +4,21 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.core.TelevisionBroadcastingApp
+import com.eburg_soft.televisionbroadcasting.customviews.ItemDecoration
+import com.eburg_soft.televisionbroadcasting.customviews.ScrollListener
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
+import com.eburg_soft.televisionbroadcasting.epoxy.controllers.ChannelController
+import com.eburg_soft.televisionbroadcasting.epoxy.controllers.DayController
+import com.eburg_soft.televisionbroadcasting.epoxy.controllers.GroupController
+import com.eburg_soft.televisionbroadcasting.epoxy.controllers.ProgramController
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter
@@ -25,11 +32,27 @@ import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_programs_list
 import timber.log.Timber
 import javax.inject.Inject
 
-class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
-    CustomRecyclerView.OnCenterItemChangedListener {
+class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View, ScrollListener.Callback,
+    GroupController.Callback, ChannelController.Callback, ProgramController.Callback, DayController.Callback {
 
     @Inject
     lateinit var presenter: TVMenuContract.Presenter
+
+    private val groupsController by lazy {
+        GroupController(this)
+    }
+
+    private val channelsController by lazy {
+        ChannelController(this)
+    }
+
+    private val programsController by lazy {
+        ProgramController(this)
+    }
+
+    private val daysController by lazy {
+        DayController(this)
+    }
 
     private val groupsAdapter = GroupsAdapter()
     private val channelsAdapter = ChannelsAdapter()
@@ -176,26 +199,30 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
     }
 
     override fun submitGroupsList(list: List<GroupEntity>?) {
-        groupsAdapter.setData(list)
-        groupsAdapter.submitList(list)
+//        groupsAdapter.setData(list)
+//        groupsAdapter.submitList(list)
+        groupsController.setData(list)
         Timber.d("submitGroupList")
     }
 
     override fun submitChannelsList(list: List<ChannelEntity>?) {
-        channelsAdapter.setData(list)
-        channelsAdapter.submitList(list)
+//        channelsAdapter.setData(list)
+//        channelsAdapter.submitList(list)
+        channelsController.setData(list)
         Timber.d("submitChannelList")
     }
 
     override fun submitProgramsList(list: List<ProgramEntity>?) {
-        programsAdapter.setData(list)
-        programsAdapter.submitList(list)
+//        programsAdapter.setData(list)
+//        programsAdapter.submitList(list)
+        programsController.setData(list)
         Timber.d("submitProgramList")
     }
 
     override fun submitDaysList(list: List<DayEntity>?) {
-        daysAdapter.setData(list)
-        daysAdapter.submitList(list)
+//        daysAdapter.setData(list)
+//        daysAdapter.submitList(list)
+        daysController.setData(list)
         Timber.d("submitDaysList")
     }
 
@@ -229,50 +256,65 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
     }
 
     override fun initGroupsRecycler() {
+
+        val snapHelper = LinearSnapHelper()
         recycler_groups_list.apply {
-            groupsAdapter.apply {
-                setOnClick { item0, positionItem0, item1, positionItem1 ->
-                    (item1 as GroupEntity).let {
-                        presenter.loadChannelsByGroupIdFromDb(it.id)
-                        selectedGroupId = it.id
-//                        showNetworkErrorMessage("Clicked on $selectedGroupId")
-                    }
-                    (item0 as GroupEntity?).let {
-                    }
-                    previousGroupItemPosition = positionItem0
-                    selectedGroupItemPosition = positionItem1
-                    presenter.setSelectedGroupView(
-                        previousGroupItemPosition to item0,
-                        selectedGroupItemPosition to item1,
-                        currentList
-                    )
-                }
-//                presenter.setSelectedGroupView(
-//                    previousGroupItemPosition to currentList[previousGroupItemPosition],
-//                    selectedGroupItemPosition to currentList[selectedGroupItemPosition],
-//                    currentList
-//                )
-                setOnTouch {
-                    groupRecyclerTouchStatus = it
-//                    if (groupRecyclerTouchStatus) {
-//                        changeBackgroundColor(R.color.white_transparent)
-//                        elevateOnTouch()
-//                    } else {
-//                        changeBackgroundColor(R.color.black)
-//                        elevateBackOutOfTouch()
-//                    }
-                    Timber.d("Group $it touched")
-                }
-            }
-            adapter = groupsAdapter
-            setHasFixedSize(true)
+            setController(groupsController)
+            addItemDecoration(ItemDecoration())
+            addOnScrollListener(
+                ScrollListener(
+                    snapHelper,
+                    this@TVMenuFragment
+                )
+            )
         }
+        // LinearSnapHelper will try to locate at center when scroll
+        snapHelper.attachToRecyclerView(recycler_groups_list)
+
+//        recycler_groups_list.apply {
+//            groupsAdapter.apply {
+//                setOnClick { item0, positionItem0, item1, positionItem1 ->
+//                    (item1 as GroupEntity).let {
+//                        presenter.loadChannelsByGroupIdFromDb(it.id)
+//                        selectedGroupId = it.id
+////                        showNetworkErrorMessage("Clicked on $selectedGroupId")
+//                    }
+//                    (item0 as GroupEntity?).let {
+//                    }
+//                    previousGroupItemPosition = positionItem0
+//                    selectedGroupItemPosition = positionItem1
+//                    presenter.setSelectedGroupView(
+//                        previousGroupItemPosition to item0,
+//                        selectedGroupItemPosition to item1,
+//                        currentList
+//                    )
+//                }
+////                presenter.setSelectedGroupView(
+////                    previousGroupItemPosition to currentList[previousGroupItemPosition],
+////                    selectedGroupItemPosition to currentList[selectedGroupItemPosition],
+////                    currentList
+////                )
+//                setOnTouch {
+//                    groupRecyclerTouchStatus = it
+////                    if (groupRecyclerTouchStatus) {
+////                        changeBackgroundColor(R.color.white_transparent)
+////                        elevateOnTouch()
+////                    } else {
+////                        changeBackgroundColor(R.color.black)
+////                        elevateBackOutOfTouch()
+////                    }
+//                    Timber.d("Group $it touched")
+//                }
+//            }
+//            adapter = groupsAdapter
+//            setHasFixedSize(true)
+//        }
         //This is used to center first and last item on screen
 //        recycler_groups_list.centerListInLinearLayout(R.dimen.width_group_item)
-        recycler_groups_list.apply {
-            addItemDecoration(CustomItemDecoration())
+//        recycler_groups_list.apply {
+//            addItemDecoration(CustomItemDecoration())
 //            setOnCenterItemChangedListener(this)
-        }
+//        }
 
         // Attach OnScrollListener to your RecyclerView
 //        recycler_groups_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -283,146 +325,191 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 //            }
 //        })
 
-        Timber.d("initGroupsRecycler accomplished")
+//        Timber.d("initGroupsRecycler accomplished")
     }
 
     override fun initChannelsRecycler() {
+
+        val snapHelper = LinearSnapHelper()
         recycler_channels_list.apply {
-            channelsAdapter.apply {
-                setOnClick { item0, positionItem0, item1, positionItem1 ->
-                    (item1 as ChannelEntity).let {
-                        presenter.loadProgramsByChannelIdFromDb(it.id)
-                        selectedChannelId = it.id
-//                        showNetworkErrorMessage("Clicked on $selectedChannelId")
-                    }
-                    (item0 as ChannelEntity?).let {
-                    }
-                    previousChannelItemPosition = positionItem0
-                    selectedChannelItemPosition = positionItem1
-                    presenter.setSelectedChannelView(
-                        previousChannelItemPosition to item0,
-                        selectedChannelItemPosition to item1,
-                        currentList
-                    )
+            setController(channelsController)
+            addItemDecoration(ItemDecoration())
+            addOnScrollListener(
+                ScrollListener(
+                    snapHelper,
+                    this@TVMenuFragment
+                )
+            )
+        }
+        // LinearSnapHelper will try to locate at center when scroll
+        snapHelper.attachToRecyclerView(recycler_channels_list)
+
+//        recycler_channels_list.apply {
+//            channelsAdapter.apply {
+//                setOnClick { item0, positionItem0, item1, positionItem1 ->
+//                    (item1 as ChannelEntity).let {
+//                        presenter.loadProgramsByChannelIdFromDb(it.id)
+//                        selectedChannelId = it.id
+////                        showNetworkErrorMessage("Clicked on $selectedChannelId")
+//                    }
+//                    (item0 as ChannelEntity?).let {
+//                    }
+//                    previousChannelItemPosition = positionItem0
+//                    selectedChannelItemPosition = positionItem1
 //                    presenter.setSelectedChannelView(
-//                        previousChannelItemPosition to currentList[previousChannelItemPosition],
-//                        selectedChannelItemPosition to currentList[selectedChannelItemPosition],
+//                        previousChannelItemPosition to item0,
+//                        selectedChannelItemPosition to item1,
 //                        currentList
 //                    )
-                    setOnTouch {
-                        channelRecyclerTouchStatus = it
-                        Timber.d("Channel $it touched")
-                    }
-                }
-            }
-            channelRecyclerTouchStatus.apply {
-//                if (channelRecyclerTouchStatus) {
-//                    changeBackgroundColor(R.color.white_transparent)
-//                    elevate(true)
-//                } else {
-//                    changeBackgroundColor(R.color.black)
-//                    elevate(false)
+////                    presenter.setSelectedChannelView(
+////                        previousChannelItemPosition to currentList[previousChannelItemPosition],
+////                        selectedChannelItemPosition to currentList[selectedChannelItemPosition],
+////                        currentList
+////                    )
+//                    setOnTouch {
+//                        channelRecyclerTouchStatus = it
+//                        Timber.d("Channel $it touched")
+//                    }
 //                }
-            }
-            adapter = channelsAdapter
-            setHasFixedSize(true)
-        }
-        //This is used to center first and last item on screen
-//        recycler_channel_list.centerListInLinearLayout(R.dimen.width_channel_item)
-        recycler_channels_list.addItemDecoration(CustomItemDecoration())
-        Timber.d("initChannelsRecycler accomplished")
+//            }
+//            channelRecyclerTouchStatus.apply {
+////                if (channelRecyclerTouchStatus) {
+////                    changeBackgroundColor(R.color.white_transparent)
+////                    elevate(true)
+////                } else {
+////                    changeBackgroundColor(R.color.black)
+////                    elevate(false)
+////                }
+//            }
+//            adapter = channelsAdapter
+//            setHasFixedSize(true)
+//        }
+//        //This is used to center first and last item on screen
+////        recycler_channel_list.centerListInLinearLayout(R.dimen.width_channel_item)
+////        recycler_channels_list.addItemDecoration(CustomItemDecoration())
+//        Timber.d("initChannelsRecycler accomplished")
     }
 
     override fun initProgramsRecycler() {
+
+        val snapHelper = LinearSnapHelper()
         recycler_programs_list.apply {
-            programsAdapter.apply {
-                setOnClick { item0, positionItem0, item1, positionItem1 ->
-                    (item1 as ProgramEntity).let {
-                        selectedProgramId = it.id
-//                        showNetworkErrorMessage("Clicked on $selectedProgramId")
-                    }
-                    (item0 as ProgramEntity?).let {
-                    }
-                    previousProgramItemPosition = positionItem0
-                    selectedProgramItemPosition = positionItem1
-                    presenter.setSelectedProgramView(
-                        previousProgramItemPosition to item0,
-                        selectedProgramItemPosition to item1,
-                        currentList
-                    )
-                }
-//                presenter.setSelectedProgramView(
-//                    previousProgramItemPosition to currentList[previousProgramItemPosition],
-//                    selectedProgramItemPosition to currentList[selectedProgramItemPosition],
-//                    currentList
-//                )
-                setOnTouch {
-                    programRecyclerTouchStatus = it
-                    Timber.d("Program $it touched")
-                }
-            }
-            programRecyclerTouchStatus.apply {
-//                if (channelRecyclerTouchStatus) {
-//                    changeBackgroundColor(R.color.white_transparent)
-//                    elevate(true)
-//                } else {
-//                    changeBackgroundColor(R.color.black)
-//                    elevate(false)
-//                }
-            }
-            adapter = programsAdapter
-            setHasFixedSize(true)
+            setController(programsController)
+            addItemDecoration(ItemDecoration())
+            addOnScrollListener(
+                ScrollListener(
+                    snapHelper,
+                    this@TVMenuFragment
+                )
+            )
         }
-        //This is used to center first and last item on screen
-//        recycler_programs_list.centerListInLinearLayout(R.dimen.width_program_item)
-        recycler_programs_list.addItemDecoration(CustomItemDecoration())
+        // LinearSnapHelper will try to locate at center when scroll
+        snapHelper.attachToRecyclerView(recycler_programs_list)
+
+//        recycler_programs_list.apply {
+//            programsAdapter.apply {
+//                setOnClick { item0, positionItem0, item1, positionItem1 ->
+//                    (item1 as ProgramEntity).let {
+//                        selectedProgramId = it.id
+////                        showNetworkErrorMessage("Clicked on $selectedProgramId")
+//                    }
+//                    (item0 as ProgramEntity?).let {
+//                    }
+//                    previousProgramItemPosition = positionItem0
+//                    selectedProgramItemPosition = positionItem1
+//                    presenter.setSelectedProgramView(
+//                        previousProgramItemPosition to item0,
+//                        selectedProgramItemPosition to item1,
+//                        currentList
+//                    )
+//                }
+////                presenter.setSelectedProgramView(
+////                    previousProgramItemPosition to currentList[previousProgramItemPosition],
+////                    selectedProgramItemPosition to currentList[selectedProgramItemPosition],
+////                    currentList
+////                )
+//                setOnTouch {
+//                    programRecyclerTouchStatus = it
+//                    Timber.d("Program $it touched")
+//                }
+//            }
+//            programRecyclerTouchStatus.apply {
+////                if (channelRecyclerTouchStatus) {
+////                    changeBackgroundColor(R.color.white_transparent)
+////                    elevate(true)
+////                } else {
+////                    changeBackgroundColor(R.color.black)
+////                    elevate(false)
+////                }
+//            }
+//            adapter = programsAdapter
+//            setHasFixedSize(true)
+//        }
+//        //This is used to center first and last item on screen
+////        recycler_programs_list.centerListInLinearLayout(R.dimen.width_program_item)
+////        recycler_programs_list.addItemDecoration(CustomItemDecoration())
 
         Timber.d("initProgramsRecycler accomplished")
     }
 
     override fun initDaysRecycler() {
+
+        val snapHelper = LinearSnapHelper()
         recycler_days_list.apply {
-            daysAdapter.apply {
-                setOnClick { item0, positionItem0, item1, positionItem1 ->
-                    (item1 as DayEntity).let {
-                        selectedDayId = it.id
-                        showNetworkErrorMessage("Clicked on $selectedDayId")
-                    }
-                    (item0 as DayEntity?).let {
-                    }
-                    previousDayItemPosition = positionItem0
-                    selectedDayItemPosition = positionItem1
-                    presenter.setSelectedDayView(
-                        previousDayItemPosition to item0,
-                        selectedDayItemPosition to item1,
-                        currentList
-                    )
-                }
-//                presenter.setSelectedDayView(
-//                    previousDayItemPosition to currentList[previousDayItemPosition],
-//                    selectedDayItemPosition to currentList[selectedDayItemPosition],
-//                    currentList
-//                )
-                setOnTouch {
-                    dayRecyclerTouchStatus = it
-                    Timber.d("Day $it touched")
-                }
-            }
-            dayRecyclerTouchStatus.apply {
-//                if (dayRecyclerTouchStatus) {
-//                    changeBackgroundColor(R.color.white_transparent)
-//                    elevate(true)
-//                } else {
-//                    changeBackgroundColor(R.color.black)
-//                    elevate(false)
-//                }
-            }
-            adapter = daysAdapter
-            setHasFixedSize(true)
+            setController(daysController)
+            addItemDecoration(ItemDecoration())
+            addOnScrollListener(
+                ScrollListener(
+                    snapHelper,
+                    this@TVMenuFragment
+                )
+            )
         }
-        //This is used to center first and last item on screen
-//        recycler_days_list.centerListInLinearLayout(R.dimen.width_day_item)
-        recycler_days_list.addItemDecoration(CustomItemDecoration())
+        // LinearSnapHelper will try to locate at center when scroll
+        snapHelper.attachToRecyclerView(recycler_days_list)
+
+//        recycler_days_list.apply {
+//            daysAdapter.apply {
+//                setOnClick { item0, positionItem0, item1, positionItem1 ->
+//                    (item1 as DayEntity).let {
+//                        selectedDayId = it.id
+//                        showNetworkErrorMessage("Clicked on $selectedDayId")
+//                    }
+//                    (item0 as DayEntity?).let {
+//                    }
+//                    previousDayItemPosition = positionItem0
+//                    selectedDayItemPosition = positionItem1
+//                    presenter.setSelectedDayView(
+//                        previousDayItemPosition to item0,
+//                        selectedDayItemPosition to item1,
+//                        currentList
+//                    )
+//                }
+////                presenter.setSelectedDayView(
+////                    previousDayItemPosition to currentList[previousDayItemPosition],
+////                    selectedDayItemPosition to currentList[selectedDayItemPosition],
+////                    currentList
+////                )
+//                setOnTouch {
+//                    dayRecyclerTouchStatus = it
+//                    Timber.d("Day $it touched")
+//                }
+//            }
+//            dayRecyclerTouchStatus.apply {
+////                if (dayRecyclerTouchStatus) {
+////                    changeBackgroundColor(R.color.white_transparent)
+////                    elevate(true)
+////                } else {
+////                    changeBackgroundColor(R.color.black)
+////                    elevate(false)
+////                }
+//            }
+//            adapter = daysAdapter
+//            setHasFixedSize(true)
+//        }
+//        //This is used to center first and last item on screen
+////        recycler_days_list.centerListInLinearLayout(R.dimen.width_day_item)
+////        recycler_days_list.addItemDecoration(CustomItemDecoration())
 
         Timber.d("initDaysRecycler accomplished")
     }
@@ -447,9 +534,27 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
         Timber.d("populateDaysRecycler accomplished")
     }
 
+    override fun onPositionChanged(position: Int) {
+    }
+
+    override fun onGroupClick(groupEntity: GroupEntity, position: Int) {
+        recycler_groups_list.smoothScrollToPosition(position)
+        presenter.loadChannelsByGroupIdFromDb(groupEntity.id)
+    }
+
+    override fun onChannelClick(channelEntity: ChannelEntity, position: Int) {
+        recycler_channels_list.smoothScrollToPosition(position)
+        presenter.loadProgramsByChannelIdFromDb(channelEntity.id)
+    }
+
+    override fun onProgramClick(programEntity: ProgramEntity, position: Int) {
+        recycler_programs_list.smoothScrollToPosition(position)
+    }
+
+    override fun onDayClick(dayEntity: DayEntity, position: Int) {
+        recycler_days_list.smoothScrollToPosition(position)
+    }
+
     //endregion
 
-    override fun onCenterItemChanged(centerPosition: Int) {
-        recycler_groups_list.scrollToPosition(centerPosition)
-    }
 }

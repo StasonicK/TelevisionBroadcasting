@@ -32,17 +32,17 @@ fun RecyclerView.centerListInLinearLayout(itemSize: Int, marginSize: Int = 0) {
 //                    }
 //                }
 //                else {
-                    if (position == 0 || position == state.itemCount - 1) {
-                        val padding: Int = screenWidth / 2
-                        when (position) {
-                            0 -> {
-                                outRect.left = padding
-                            }
-                            state.itemCount - 1 -> {
-                                outRect.right = padding
-                            }
+                if (position == 0 || position == state.itemCount - 1) {
+                    val padding: Int = screenWidth / 2
+                    when (position) {
+                        0 -> {
+                            outRect.left = padding
+                        }
+                        state.itemCount - 1 -> {
+                            outRect.right = padding
                         }
                     }
+                }
 //                }
             }
         }

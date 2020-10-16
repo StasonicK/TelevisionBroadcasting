@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 
 fun ViewGroup.elevate(isUp: Boolean) {
     elevation = if (isUp) {

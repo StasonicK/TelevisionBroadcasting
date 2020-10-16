@@ -9,15 +9,15 @@ import com.eburg_soft.televisionbroadcasting.extensions.elevate
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsAdapter.ProgramViewHolder
-import kotlinx.android.synthetic.main.item_programs_recycler.view.linear_program_description
-import kotlinx.android.synthetic.main.item_programs_recycler.view.tv_country_and_year_of_production
-import kotlinx.android.synthetic.main.item_programs_recycler.view.tv_genre
-import kotlinx.android.synthetic.main.item_programs_recycler.view.tv_program_name
+import kotlinx.android.synthetic.main.item_program.view.linear_program_description
+import kotlinx.android.synthetic.main.item_program.view.tv_country_and_year_of_production
+import kotlinx.android.synthetic.main.item_program.view.tv_genre
+import kotlinx.android.synthetic.main.item_program.view.tv_program_name
 
 class ProgramsAdapter : BaseAdapter<ProgramEntity, ProgramViewHolder>(ProgramsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProgramViewHolder {
-        val view = parent.inflate(R.layout.item_programs_recycler)
+        val view = parent.inflate(R.layout.item_program)
         return ProgramViewHolder(view)
     }
 

@@ -6,10 +6,13 @@ import androidx.recyclerview.widget.SnapHelper
 class ScrollListener(
     private val snapHelper: SnapHelper,
     private val callback: Callback
-): RecyclerView.OnScrollListener() {
+) : RecyclerView.OnScrollListener() {
+
     interface Callback {
+
         fun onPositionChanged(position: Int)
     }
+
     private var snapPosition = RecyclerView.NO_POSITION
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

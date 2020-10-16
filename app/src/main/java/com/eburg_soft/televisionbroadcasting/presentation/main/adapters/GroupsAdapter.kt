@@ -8,7 +8,7 @@ import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.base.BaseAdapter
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter.GroupViewHolder
-import kotlinx.android.synthetic.main.item_groups_recycler.view.tv_group_name
+import kotlinx.android.synthetic.main.item_group.view.tv_group_name
 
 class GroupsAdapter : BaseAdapter<GroupEntity, GroupViewHolder>(GroupsDiffCallback()) {
 
@@ -17,7 +17,7 @@ class GroupsAdapter : BaseAdapter<GroupEntity, GroupViewHolder>(GroupsDiffCallba
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
-        val view = parent.inflate(R.layout.item_groups_recycler)
+        val view = parent.inflate(R.layout.item_group)
         return GroupViewHolder(view)
     }
 
