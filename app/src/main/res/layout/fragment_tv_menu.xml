@@ -21,8 +21,6 @@
             android:layout_height="@dimen/height_text_list"
             android:layout_marginTop="@dimen/margin_vertical_small"
             android:background="@color/black"
-            android:clipChildren="false"
-            android:clipToPadding="false"
             app:layout_constraintBottom_toTopOf="@+id/recycler_programs_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

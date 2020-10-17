@@ -52,10 +52,10 @@ class TVMenuPresenter @Inject constructor(
             .subscribe({
                 fetchChannelsByChannelSetFromApiIntoDb(it)
                 Timber.d("fetchGroupsFromApiToDbUseCase accomplished")
-                view?.initGroupsRecycler()
-                Timber.d("initGroupsRecycler accomplished")
-                view?.populateGroupsRecycler()
-                Timber.d("populateGroupsRecycler accomplished")
+//                view?.initGroupsRecycler()
+//                Timber.d("initGroupsRecycler accomplished")
+//                view?.populateGroupsRecycler()
+//                Timber.d("populateGroupsRecycler accomplished")
                 view?.hideLoading()
             }, { error ->
                 when (error) {
@@ -83,10 +83,10 @@ class TVMenuPresenter @Inject constructor(
             .subscribe({
                 fetchProgramsByChannelIdFromApiIntoDb(it)
                 Timber.d("fetchChannelsByChannelSetFromApiIntoDb accomplished")
-                view?.initChannelsRecycler()
-                Timber.d("initChannelsRecycler accomplished")
-                view?.populateChannelsRecycler()
-                Timber.d("populateChannelsRecycler accomplished")
+//                view?.initChannelsRecycler()
+//                Timber.d("initChannelsRecycler accomplished")
+//                view?.populateChannelsRecycler()
+//                Timber.d("populateChannelsRecycler accomplished")
                 view?.hideLoading()
             }, { error ->
                 when (error) {
@@ -114,10 +114,10 @@ class TVMenuPresenter @Inject constructor(
             .subscribe({
                 fetchDaysFromApiIntoDb()
                 Timber.d("fetchProgramsFromApiToDbUseCase")
-                view?.initProgramsRecycler()
-                Timber.d("initProgramsRecycler accomplished")
-                view?.populateProgramsRecycler()
-                Timber.d("populateProgramsRecycler accomplished")
+//                view?.initProgramsRecycler()
+//                Timber.d("initProgramsRecycler accomplished")
+//                view?.populateProgramsRecycler()
+//                Timber.d("populateProgramsRecycler accomplished")
                 view?.hideLoading()
             }, { error ->
                 when (error) {
@@ -144,10 +144,10 @@ class TVMenuPresenter @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    view?.initDaysRecycler()
-                    Timber.d("initDaysRecycler accomplished")
-                    view?.populateDaysRecycler()
-                    Timber.d("populateDaysRecycler accomplished")
+//                    view?.initDaysRecycler()
+//                    Timber.d("initDaysRecycler accomplished")
+//                    view?.populateDaysRecycler()
+//                    Timber.d("populateDaysRecycler accomplished")
                     Timber.d("fetchDaysFromApiIntoDb accomplished")
                     view?.hideLoading()
                 }, { error ->

@@ -5,8 +5,6 @@
     android:id="@+id/card_program"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/margin_vertical_small"
-    android:layout_marginEnd="@dimen/margin_vertical_small"
     android:clipChildren="false"
     android:clipToPadding="false"
     app:cardBackgroundColor="@color/grey_dark"

@@ -151,6 +151,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
             previousDayItemPosition = it.getInt(PREVIOUS_DAY_ITEM_POSITION)
         }
 
+        initGroupsRecycler()
+        initChannelsRecycler()
+        initProgramsRecycler()
+        initDaysRecycler()
+
         if (savedInstanceState == null) {
             presenter.syncData()
         }
@@ -269,7 +274,14 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
             val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setLayoutManager(layoutManager)
             setController(groupController)
-            addItemDecoration(ItemDecoration())
+            addItemDecoration(
+                ItemDecoration(
+                    resources.getDimension(R.dimen.width_group_item).toInt(),
+                    resources.getDimension(R.dimen.padding_normal).toInt()
+//                    0
+                )
+            )
+//            addItemDecoration(ItemDecoration())
             addOnScrollListener(
                 GroupsScrollListener(
                     snapHelper,
@@ -344,7 +356,13 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
             val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setLayoutManager(layoutManager)
             setController(channelController)
-            addItemDecoration(ItemDecoration())
+            addItemDecoration(
+                ItemDecoration(
+                    resources.getDimension(R.dimen.width_channel_item).toInt(),
+                    resources.getDimension(R.dimen.padding_normal).toInt()
+                )
+            )
+//            addItemDecoration(ItemDecoration())
             addOnScrollListener(
                 ChannelsScrollListener(
                     snapHelper,
@@ -404,18 +422,24 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
     override fun initProgramsRecycler() {
 
         val snapHelper = LinearSnapHelper()
-        recycler_programs_list.apply {
-            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setLayoutManager(layoutManager)
-            setController(programController)
-            addItemDecoration(ItemDecoration())
-            addOnScrollListener(
-                ProgramsScrollListener(
-                    snapHelper,
-                    this@TVMenuFragment
-                )
+        recycler_programs_list
+        val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recycler_programs_list.layoutManager = layoutManager
+        recycler_programs_list.setController(programController)
+        recycler_programs_list.addItemDecoration(
+            ItemDecoration(
+                resources.getDimension(R.dimen.width_program_item).toInt(),
+                resources.getDimension(R.dimen.padding_small).toInt()
             )
-        }
+        )
+//            recycler_programs_list.addItemDecoration(ItemDecoration())
+        recycler_programs_list.addOnScrollListener(
+            ProgramsScrollListener(
+                snapHelper,
+                this@TVMenuFragment
+            )
+        )
+
         // LinearSnapHelper will try to locate at center when scroll
         snapHelper.attachToRecyclerView(recycler_programs_list)
 
@@ -472,7 +496,13 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
             val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setLayoutManager(layoutManager)
             setController(dayController)
-            addItemDecoration(ItemDecoration())
+            addItemDecoration(
+                ItemDecoration(
+                    resources.getDimension(R.dimen.width_day_item).toInt(),
+                    resources.getDimension(R.dimen.padding_normal).toInt()
+                )
+            )
+//            addItemDecoration(ItemDecoration())
             addOnScrollListener(
                 DaysScrollListener(
                     snapHelper,
@@ -550,37 +580,37 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
     }
 
     override fun onGroupClick(groupEntity: GroupEntity, position: Int) {
+        Timber.d("onGroupClick $position")
         recycler_groups_list.smoothScrollToPosition(position)
         presenter.loadChannelsByGroupIdFromDb(groupEntity.id)
     }
 
     override fun onChannelClick(channelEntity: ChannelEntity, position: Int) {
+        Timber.d("onChannelClick $position")
         recycler_channels_list.smoothScrollToPosition(position)
         presenter.loadProgramsByChannelIdFromDb(channelEntity.id)
     }
 
     override fun onProgramClick(programEntity: ProgramEntity, position: Int) {
+        Timber.d("onProgramClick $position")
         recycler_programs_list.smoothScrollToPosition(position)
     }
 
     override fun onDayClick(dayEntity: DayEntity, position: Int) {
+        Timber.d("onDayClick $position")
         recycler_days_list.smoothScrollToPosition(position)
     }
 
     override fun onGroupsPositionChanged(position: Int) {
-
     }
 
     override fun onChannelsPositionChanged(position: Int) {
-
     }
 
     override fun onProgramsPositionChanged(position: Int) {
-
     }
 
     override fun onDaysPositionChanged(position: Int) {
-
     }
 
     //endregion
