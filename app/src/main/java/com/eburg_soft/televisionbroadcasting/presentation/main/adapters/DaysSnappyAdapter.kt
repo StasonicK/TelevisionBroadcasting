@@ -6,27 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.eburg_soft.televisionbroadcasting.R
-import com.eburg_soft.televisionbroadcasting.core.Constants
 import com.eburg_soft.televisionbroadcasting.customviews.SnappyAdapter
-import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
+import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsSnappyAdapter.ChannelViewHolder
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_channel.view.img_channel_icon
-import kotlinx.android.synthetic.main.item_channel.view.linear_channel_img_background
-import kotlinx.android.synthetic.main.item_channel.view.tv_channel_name
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysSnappyAdapter.DayViewHolder
+import kotlinx.android.synthetic.main.item_day.view.tv_day_date
 
-class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
+class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
 
-    inner class ChannelViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var onClick: OnClick? = null
         var onTouch: OnTouch? = null
-        var item: ChannelEntity? = null
+        var item: DayEntity? = null
         private var rect: Rect? = null
         private var isTouching: Boolean = false
 
         init {
+
             view.setOnClickListener {
                 val previousItemPosition = selectedItemPosition
                 selectedItemPosition = position
@@ -64,35 +62,28 @@ class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
         fun changeSelectedView(isSelected: Boolean) {
             if (isSelected) {
                 itemView.apply {
-                    tv_channel_name.visibility = View.VISIBLE
-                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.blue_light))
+                    tv_day_date.setTextColor(resources.getColor(R.color.white))
+                    changeBackgroundColor(R.color.blue)
                 }
             } else {
                 itemView.apply {
-                    tv_channel_name.visibility = View.INVISIBLE
-                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.black))
+                    tv_day_date.setTextColor(resources.getColor(R.color.grey_light))
+                    changeBackgroundColor(R.color.black)
                 }
             }
         }
 
-        fun bind(item: ChannelEntity) {
+        fun bind(item: DayEntity) {
             this.item = item
             this.itemView.apply {
-                tv_channel_name.text = item.name
-
-                Picasso.get()
-                    .load(Constants.BASE_URL + item.logoUrl)
-                    .placeholder(R.drawable.old_tv_white_32)
-                    .error(R.drawable.old_tv_white_32)
-                    .fit()
-                    .into(img_channel_icon)
+                tv_day_date.text = item.date
             }
         }
     }
 
-    private val dataList = arrayListOf<ChannelEntity>()
+    private val dataList = arrayListOf<DayEntity>()
 
-    fun setData(list: List<ChannelEntity>?) {
+    fun setData(list: List<DayEntity>?) {
         dataList.clear()
         list?.let { dataList.addAll(it) }
         this.notifyDataSetChanged()
@@ -119,7 +110,7 @@ class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
 
     fun getItemAt(position: Int) = dataList[position]
 
-    override fun onBindViewHolder(vh: ChannelViewHolder, position: Int, isAtTheCenter: Boolean) {
+    override fun onBindViewHolder(vh: DayViewHolder, position: Int, isAtTheCenter: Boolean) {
 
         if (isAtTheCenter) {
             itemPosition = selectedItemPosition
@@ -133,12 +124,12 @@ class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
         vh.onTouch = onTouch
     }
 
-    override fun onSnapedFromCenter(vh: ChannelViewHolder) {
+    override fun onSnapedFromCenter(vh: DayViewHolder) {
         vh.changeSelectedView(false)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelViewHolder {
-        val view = parent.inflate(R.layout.item_channel)
-        return ChannelViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
+        val view = parent.inflate(R.layout.item_day)
+        return DayViewHolder(view)
     }
 }

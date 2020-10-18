@@ -142,8 +142,8 @@ class SnappyRecyclerView @JvmOverloads constructor(context: Context, attrs: Attr
         mIsScrollEnabled = true
         mBehavior = behavior
         if (layoutManager == null) return
-        val isVertical = (layoutManager as LinearLayoutManager?)
-            .getOrientation() == VERTICAL
+        val isVertical = (layoutManager as LinearLayoutManager)
+            .orientation == VERTICAL
         when (behavior) {
             NOTIFY_ON_SCROLL -> addOnScrollListener(object : OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -235,7 +235,7 @@ class SnappyRecyclerView @JvmOverloads constructor(context: Context, attrs: Attr
      * @param position position of the item that will be placed in the center
      */
     override fun smoothSnapToPosition(position: Int) {
-        if (snappedPosition == position) return
+        if (getSnappedPosition() == position) return
         if (layoutManager == null || mAdapter == null) return
         if (mBehavior == NOTIFY_ON_IDLE_AND_NO_POSITION
             && mCurentPosition != NO_POSITION
@@ -285,7 +285,7 @@ class SnappyRecyclerView @JvmOverloads constructor(context: Context, attrs: Attr
      * Instantly scrolls to position
      */
     override fun snapToPosition(position: Int) {
-        if (snappedPosition == position) return
+        if (getSnappedPosition() == position) return
         snapTo(position)
         if (mIsScrollEnabled) {
             mCurentPosition = position

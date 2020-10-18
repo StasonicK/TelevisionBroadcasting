@@ -6,13 +6,18 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 abstract class SnappyAdapter<VH : ViewHolder?> : Adapter<VH>() {
 
-    protected var snapper: Snapper? = null
+    private var snapper: Snapper? = null
     private var mSnapper: MSnapper? = null
     private var mCallback: Callback? = null
     private var mCenteredVh: VH? = null
+
+    @JvmName("setSnapper1")
     fun setSnapper(snapper: Snapper?) {
         this.snapper = snapper
     }
+
+    @JvmName("getSnapper1")
+    fun getSnapper(): Snapper? = snapper
 
     fun setMSnapper(snapper: MSnapper?) {
         mSnapper = snapper
@@ -25,7 +30,7 @@ abstract class SnappyAdapter<VH : ViewHolder?> : Adapter<VH>() {
     fun onNewItemCentered(position: Int) {
         if (mSnapper!!.notifyOnSnap()) {
             if (mCenteredVh != null) {
-                onSnapedFromCenter(mCenteredVh)
+                onSnapedFromCenter(mCenteredVh!!)
                 mCenteredVh = null
             }
             if (position != RecyclerView.NO_POSITION) notifyItemChanged(position)
@@ -34,7 +39,7 @@ abstract class SnappyAdapter<VH : ViewHolder?> : Adapter<VH>() {
 
     override fun onBindViewHolder(vh: VH, i: Int) {
         if (mSnapper == null) return
-        if (i == mSnapper!!.currentPosition && mSnapper!!.notifyOnSnap()) {
+        if (i == mSnapper!!.getCurrentPosition() && mSnapper!!.notifyOnSnap()) {
             mCenteredVh = vh
             onBindViewHolder(vh, i, true)
             if (mCallback != null) mCallback!!.onItemCentered(i)
@@ -65,7 +70,7 @@ abstract class SnappyAdapter<VH : ViewHolder?> : Adapter<VH>() {
     protected abstract fun onSnapedFromCenter(vh: VH)
     interface Snapper {
 
-        val snappedPosition: Int
+        fun getSnappedPosition(): Int
         fun snapToPosition(position: Int)
         fun smoothSnapToPosition(position: Int)
         fun smoothSnapBy(dx: Int, dy: Int)
@@ -78,7 +83,7 @@ abstract class SnappyAdapter<VH : ViewHolder?> : Adapter<VH>() {
 
     interface MSnapper {
 
-        val currentPosition: Int
+        fun getCurrentPosition(): Int
         fun notifyOnSnap(): Boolean
     }
 }
