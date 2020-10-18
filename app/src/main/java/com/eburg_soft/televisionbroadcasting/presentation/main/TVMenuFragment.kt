@@ -269,28 +269,28 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 
     override fun initGroupsRecycler() {
 
-        val snapHelper = LinearSnapHelper()
-        recycler_groups_list.apply {
-            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setLayoutManager(layoutManager)
-            setController(groupController)
-            addItemDecoration(
-                ItemDecoration(
-                    resources.getDimension(R.dimen.width_group_item).toInt(),
-                    resources.getDimension(R.dimen.padding_normal).toInt()
-//                    0
-                )
-            )
-//            addItemDecoration(ItemDecoration())
-            addOnScrollListener(
-                GroupsScrollListener(
-                    snapHelper,
-                    this@TVMenuFragment
-                )
-            )
-        }
-        // LinearSnapHelper will try to locate at center when scroll
-        snapHelper.attachToRecyclerView(recycler_groups_list)
+//        val snapHelper = LinearSnapHelper()
+//        recycler_groups_list.apply {
+//            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//            setLayoutManager(layoutManager)
+//            setController(groupController)
+//            addItemDecoration(
+//                ItemDecoration(
+//                    resources.getDimension(R.dimen.width_group_item).toInt(),
+//                    resources.getDimension(R.dimen.padding_normal).toInt()
+////                    0
+//                )
+//            )
+////            addItemDecoration(ItemDecoration())
+//            addOnScrollListener(
+//                GroupsScrollListener(
+//                    snapHelper,
+//                    this@TVMenuFragment
+//                )
+//            )
+//        }
+//        // LinearSnapHelper will try to locate at center when scroll
+//        snapHelper.attachToRecyclerView(recycler_groups_list)
 
 //        recycler_groups_list.apply {
 //            groupsAdapter.apply {
@@ -351,27 +351,27 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 
     override fun initChannelsRecycler() {
 
-        val snapHelper = LinearSnapHelper()
-        recycler_channels_list.apply {
-            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setLayoutManager(layoutManager)
-            setController(channelController)
-            addItemDecoration(
-                ItemDecoration(
-                    resources.getDimension(R.dimen.width_channel_item).toInt(),
-                    resources.getDimension(R.dimen.padding_normal).toInt()
-                )
-            )
-//            addItemDecoration(ItemDecoration())
-            addOnScrollListener(
-                ChannelsScrollListener(
-                    snapHelper,
-                    this@TVMenuFragment
-                )
-            )
-        }
-        // LinearSnapHelper will try to locate at center when scroll
-        snapHelper.attachToRecyclerView(recycler_channels_list)
+//        val snapHelper = LinearSnapHelper()
+//        recycler_channels_list.apply {
+//            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//            setLayoutManager(layoutManager)
+//            setController(channelController)
+//            addItemDecoration(
+//                ItemDecoration(
+//                    resources.getDimension(R.dimen.width_channel_item).toInt(),
+//                    resources.getDimension(R.dimen.padding_normal).toInt()
+//                )
+//            )
+////            addItemDecoration(ItemDecoration())
+//            addOnScrollListener(
+//                ChannelsScrollListener(
+//                    snapHelper,
+//                    this@TVMenuFragment
+//                )
+//            )
+//        }
+//        // LinearSnapHelper will try to locate at center when scroll
+//        snapHelper.attachToRecyclerView(recycler_channels_list)
 
 //        recycler_channels_list.apply {
 //            channelsAdapter.apply {
@@ -421,27 +421,27 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 
     override fun initProgramsRecycler() {
 
-        val snapHelper = LinearSnapHelper()
-        recycler_programs_list
-        val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recycler_programs_list.layoutManager = layoutManager
-        recycler_programs_list.setController(programController)
-        recycler_programs_list.addItemDecoration(
-            ItemDecoration(
-                resources.getDimension(R.dimen.width_program_item).toInt(),
-                resources.getDimension(R.dimen.padding_small).toInt()
-            )
-        )
-//            recycler_programs_list.addItemDecoration(ItemDecoration())
-        recycler_programs_list.addOnScrollListener(
-            ProgramsScrollListener(
-                snapHelper,
-                this@TVMenuFragment
-            )
-        )
-
-        // LinearSnapHelper will try to locate at center when scroll
-        snapHelper.attachToRecyclerView(recycler_programs_list)
+//        val snapHelper = LinearSnapHelper()
+//        recycler_programs_list
+//        val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//        recycler_programs_list.layoutManager = layoutManager
+//        recycler_programs_list.setController(programController)
+//        recycler_programs_list.addItemDecoration(
+//            ItemDecoration(
+//                resources.getDimension(R.dimen.width_program_item).toInt(),
+//                resources.getDimension(R.dimen.padding_small).toInt()
+//            )
+//        )
+////            recycler_programs_list.addItemDecoration(ItemDecoration())
+//        recycler_programs_list.addOnScrollListener(
+//            ProgramsScrollListener(
+//                snapHelper,
+//                this@TVMenuFragment
+//            )
+//        )
+//
+//        // LinearSnapHelper will try to locate at center when scroll
+//        snapHelper.attachToRecyclerView(recycler_programs_list)
 
 //        recycler_programs_list.apply {
 //            programsAdapter.apply {
@@ -491,27 +491,27 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 
     override fun initDaysRecycler() {
 
-        val snapHelper = LinearSnapHelper()
-        recycler_days_list.apply {
-            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setLayoutManager(layoutManager)
-            setController(dayController)
-            addItemDecoration(
-                ItemDecoration(
-                    resources.getDimension(R.dimen.width_day_item).toInt(),
-                    resources.getDimension(R.dimen.padding_normal).toInt()
-                )
-            )
-//            addItemDecoration(ItemDecoration())
-            addOnScrollListener(
-                DaysScrollListener(
-                    snapHelper,
-                    this@TVMenuFragment
-                )
-            )
-        }
-        // LinearSnapHelper will try to locate at center when scroll
-        snapHelper.attachToRecyclerView(recycler_days_list)
+//        val snapHelper = LinearSnapHelper()
+//        recycler_days_list.apply {
+//            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//            setLayoutManager(layoutManager)
+//            setController(dayController)
+//            addItemDecoration(
+//                ItemDecoration(
+//                    resources.getDimension(R.dimen.width_day_item).toInt(),
+//                    resources.getDimension(R.dimen.padding_normal).toInt()
+//                )
+//            )
+////            addItemDecoration(ItemDecoration())
+//            addOnScrollListener(
+//                DaysScrollListener(
+//                    snapHelper,
+//                    this@TVMenuFragment
+//                )
+//            )
+//        }
+//        // LinearSnapHelper will try to locate at center when scroll
+//        snapHelper.attachToRecyclerView(recycler_days_list)
 
 //        recycler_days_list.apply {
 //            daysAdapter.apply {

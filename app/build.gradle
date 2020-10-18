@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "de.mannodermaus.android-junit5"
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 30
@@ -73,6 +75,11 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
+
+    //  SnappyRecyclerView
+//    implementation 'amarenkov.android:snappyrecyclerview:0.1.2'
+    implementation project(path: ':snappyrecyclerviewx')
+    implementation project(path: ':snappyrecyclerview')
 
     // Epoxy - RecyclerView helper
     def epoxy_version = '4.1.0'

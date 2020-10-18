@@ -15,7 +15,7 @@
         android:clipToPadding="false"
         tools:context=".presentation.main.TVMenuFragment">
 
-        <com.airbnb.epoxy.EpoxyRecyclerView
+        <amarenkov.android.snappyrecyclerview.SnappyRecyclerView
             android:id="@+id/recycler_days_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"
@@ -26,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.airbnb.epoxy.EpoxyRecyclerView
+        <amarenkov.android.snappyrecyclerview.SnappyRecyclerView
             android:id="@+id/recycler_programs_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_program_item"
@@ -56,7 +56,7 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@color/blue" />
 
-            <com.airbnb.epoxy.EpoxyRecyclerView
+            <amarenkov.android.snappyrecyclerview.SnappyRecyclerView
                 android:id="@+id/recycler_channels_list"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_channel_item"
@@ -66,7 +66,7 @@
                 app:layout_constraintTop_toBottomOf="@id/view_blue_lint" />
         </LinearLayout>
 
-        <com.airbnb.epoxy.EpoxyRecyclerView
+        <amarenkov.android.snappyrecyclerview.SnappyRecyclerView
             android:id="@+id/recycler_groups_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_text_list"

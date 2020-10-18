@@ -1,2 +1,4 @@
+include ':snappyrecyclerviewx'
+include ':snappyrecyclerview'
 include ':app'
 rootProject.name = "Television Broadcasting"
