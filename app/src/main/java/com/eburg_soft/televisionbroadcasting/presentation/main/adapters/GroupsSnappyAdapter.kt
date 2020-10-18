@@ -60,21 +60,21 @@ class GroupsSnappyAdapter : SnappyAdapter<GroupViewHolder>() {
         }
 
         fun changeSelectedView(isSelected: Boolean) {
-            if (isSelected) {
-                itemView.apply {
-                    tv_group_name.apply {
+//            if (isSelected) {
+//                itemView.apply {
+//                    tv_group_name.apply {
 //                        setTextColor(resources.getColor(R.color.white))
-                    }
-                    changeBackgroundColor(R.color.black_light)
-                }
-            } else {
-                itemView.apply {
-                    tv_group_name.apply {
+//                    }
+//                    changeBackgroundColor(R.color.black_light)
+//                }
+//            } else {
+//                itemView.apply {
+//                    tv_group_name.apply {
 //                        setTextColor(resources.getColor(R.color.grey_light))
-                    }
-                    changeBackgroundColor(R.color.black)
-                }
-            }
+//                    }
+//                    changeBackgroundColor(R.color.black)
+//                }
+//            }
         }
 
         fun bind(item: GroupEntity) {

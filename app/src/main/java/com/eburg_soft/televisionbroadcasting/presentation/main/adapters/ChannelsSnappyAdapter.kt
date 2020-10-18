@@ -62,17 +62,17 @@ class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
         }
 
         fun changeSelectedView(isSelected: Boolean) {
-            if (isSelected) {
-                itemView.apply {
-                    tv_channel_name.visibility = View.VISIBLE
-                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.blue_light))
-                }
-            } else {
-                itemView.apply {
-                    tv_channel_name.visibility = View.INVISIBLE
-                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.black))
-                }
-            }
+//            if (isSelected) {
+//                itemView.apply {
+//                    tv_channel_name.visibility = View.VISIBLE
+//                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.blue_light))
+//                }
+//            } else {
+//                itemView.apply {
+//                    tv_channel_name.visibility = View.INVISIBLE
+//                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.black))
+//                }
+//            }
         }
 
         fun bind(item: ChannelEntity) {

@@ -64,22 +64,22 @@ class ProgramsSnappyAdapter : SnappyAdapter<ProgramViewHolder>() {
         }
 
         fun changeSelectedView(isSelected: Boolean) {
-            if (isSelected) {
-                itemView.apply {
-                    linear_program_description.changeBackgroundColor(R.color.blue)
-                    tv_country_and_year_of_production.setTextColor(resources.getColor(R.color.blue_light))
-                    tv_genre.setTextColor(resources.getColor(R.color.blue_light))
-                    elevate(true)
-//                    clipToOutline = false
-                }
-            } else {
-                itemView.apply {
-                    linear_program_description.changeBackgroundColor(R.color.black)
-                    tv_country_and_year_of_production.setTextColor(resources.getColor(R.color.grey_light))
-                    tv_genre.setTextColor(resources.getColor(R.color.grey_light))
-                    elevate(false)
-                }
-            }
+//            if (isSelected) {
+//                itemView.apply {
+//                    linear_program_description.changeBackgroundColor(R.color.blue)
+//                    tv_country_and_year_of_production.setTextColor(resources.getColor(R.color.blue_light))
+//                    tv_genre.setTextColor(resources.getColor(R.color.blue_light))
+//                    elevate(true)
+////                    clipToOutline = false
+//                }
+//            } else {
+//                itemView.apply {
+//                    linear_program_description.changeBackgroundColor(R.color.black)
+//                    tv_country_and_year_of_production.setTextColor(resources.getColor(R.color.grey_light))
+//                    tv_genre.setTextColor(resources.getColor(R.color.grey_light))
+//                    elevate(false)
+//                }
+//            }
         }
 
         fun bind(item: ProgramEntity) {

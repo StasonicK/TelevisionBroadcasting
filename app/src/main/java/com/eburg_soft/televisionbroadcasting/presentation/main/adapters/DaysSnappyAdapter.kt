@@ -60,17 +60,17 @@ class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
         }
 
         fun changeSelectedView(isSelected: Boolean) {
-            if (isSelected) {
-                itemView.apply {
-                    tv_day_date.setTextColor(resources.getColor(R.color.white))
-                    changeBackgroundColor(R.color.blue)
-                }
-            } else {
-                itemView.apply {
-                    tv_day_date.setTextColor(resources.getColor(R.color.grey_light))
-                    changeBackgroundColor(R.color.black)
-                }
-            }
+//            if (isSelected) {
+//                itemView.apply {
+//                    tv_day_date.setTextColor(resources.getColor(R.color.white))
+//                    changeBackgroundColor(R.color.blue)
+//                }
+//            } else {
+//                itemView.apply {
+//                    tv_day_date.setTextColor(resources.getColor(R.color.grey_light))
+//                    changeBackgroundColor(R.color.black)
+//                }
+//            }
         }
 
         fun bind(item: DayEntity) {
