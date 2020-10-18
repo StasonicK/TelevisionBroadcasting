@@ -63,14 +63,14 @@ class GroupsSnappyAdapter : SnappyAdapter<GroupViewHolder>() {
             if (isSelected) {
                 itemView.apply {
                     tv_group_name.apply {
-                        setTextColor(resources.getColor(R.color.white))
+//                        setTextColor(resources.getColor(R.color.white))
                     }
                     changeBackgroundColor(R.color.black_light)
                 }
             } else {
                 itemView.apply {
                     tv_group_name.apply {
-                        setTextColor(resources.getColor(R.color.grey_light))
+//                        setTextColor(resources.getColor(R.color.grey_light))
                     }
                     changeBackgroundColor(R.color.black)
                 }

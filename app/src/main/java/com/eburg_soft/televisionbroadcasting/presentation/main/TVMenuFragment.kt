@@ -149,10 +149,10 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View
             previousDayItemPosition = it.getInt(PREVIOUS_DAY_ITEM_POSITION)
         }
 
-//        initGroupsRecycler()
-//        initChannelsRecycler()
-//        initProgramsRecycler()
-//        initDaysRecycler()
+        initGroupsRecycler()
+        initChannelsRecycler()
+        initProgramsRecycler()
+        initDaysRecycler()
 
         if (savedInstanceState == null) {
             presenter.syncData()

@@ -102,7 +102,7 @@ dependencies {
 
     //  Network
     def retrofit_version = '2.9.0'
-    def ok_http_version = '4.8.1'
+    def ok_http_version = '4.9.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
@@ -111,7 +111,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     //  Dagger2 core
-    def dagger_version = "2.28.3"
+    def dagger_version = '2.29.1'
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
@@ -143,21 +143,21 @@ dependencies {
 
     // Local unit tests (use JUnit5)
     // JUnit Jupiter
-    def junit5_version = "5.6.2"
+    def junit5_version = '5.7.0'
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
     testImplementation "org.junit.vintage:junit-vintage-engine:$junit5_version"
-    testImplementation "org.junit.platform:junit-platform-launcher:1.6.2"
+    testImplementation 'org.junit.platform:junit-platform-launcher:1.7.0'
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
     // (Optional) If you need "Parameterized Tests"
-    testImplementation "org.junit.jupiter:junit-jupiter-params:5.6.2"
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.7.0'
 
     //  MockK tests
-    def mockk_version = '1.10.0'
+    def mockk_version = '1.10.2'
     testImplementation "io.mockk:mockk:$mockk_version"
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
 
     //  Instrumental tests
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
 
     def espresso_version = '3.3.0'
