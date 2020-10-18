@@ -78,8 +78,6 @@ dependencies {
 
     //  SnappyRecyclerView
 //    implementation 'amarenkov.android:snappyrecyclerview:0.1.2'
-    implementation project(path: ':snappyrecyclerviewx')
-    implementation project(path: ':snappyrecyclerview')
 
     // Epoxy - RecyclerView helper
     def epoxy_version = '4.1.0'

@@ -1,4 +1,4 @@
-package amarenkov.androidx.snappyrecyclerview;
+package com.eburg_soft.televisionbroadcasting.customviews;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;

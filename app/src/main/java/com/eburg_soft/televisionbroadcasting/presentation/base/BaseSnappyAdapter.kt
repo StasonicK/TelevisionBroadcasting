@@ -1,12 +1,13 @@
 package com.eburg_soft.televisionbroadcasting.presentation.base
 
-import amarenkov.android.snappyrecyclerview.SnappyAdapter
 import android.graphics.Rect
 import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.eburg_soft.televisionbroadcasting.customviews.SnappyAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.base.BaseSnappyAdapter.BaseViewHolder
 
-abstract class BaseSnappyAdapter<Item : Any> : SnappyAdapter<BaseSnappyAdapter.BaseViewHolder>() {
+abstract class BaseSnappyAdapter<Item : Any> : SnappyAdapter<BaseViewHolder>() {
 
     private val dataList = arrayListOf<Item>()
 
