@@ -7,19 +7,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.customviews.SnappyAdapter
-import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysSnappyAdapter.DayViewHolder
-import kotlinx.android.synthetic.main.item_day.view.tv_day_date
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsSnappyAdapter.GroupViewHolder
+import kotlinx.android.synthetic.main.item_group.view.tv_group_name
 
-class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
+class GroupsSnappyAdapter : SnappyAdapter<GroupViewHolder>() {
 
-    inner class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class GroupViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var onClick: OnClick? = null
         var onTouch: OnTouch? = null
-        var item: DayEntity? = null
+        var item: GroupEntity? = null
         private var rect: Rect? = null
         private var isTouching: Boolean = false
 
@@ -62,28 +62,32 @@ class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
         fun changeSelectedView(isSelected: Boolean) {
             if (isSelected) {
                 itemView.apply {
-                    tv_day_date.setTextColor(resources.getColor(R.color.white))
-                    changeBackgroundColor(R.color.blue)
+                    tv_group_name.apply {
+                        setTextColor(resources.getColor(R.color.white))
+                    }
+                    changeBackgroundColor(R.color.black_light)
                 }
             } else {
                 itemView.apply {
-                    tv_day_date.setTextColor(resources.getColor(R.color.grey_light))
+                    tv_group_name.apply {
+                        setTextColor(resources.getColor(R.color.grey_light))
+                    }
                     changeBackgroundColor(R.color.black)
                 }
             }
         }
 
-        fun bind(item: DayEntity) {
+        fun bind(item: GroupEntity) {
             this.item = item
             this.itemView.apply {
-                tv_day_date.text = item.date
+                tv_group_name.text = item.name
             }
         }
     }
 
-    private val dataList = arrayListOf<DayEntity>()
+    private val dataList = arrayListOf<GroupEntity>()
 
-    fun setData(list: List<DayEntity>?) {
+    fun setData(list: List<GroupEntity>?) {
         this.dataList.clear()
         list?.let { this.dataList.addAll(it) }
         this.notifyDataSetChanged()
@@ -110,7 +114,7 @@ class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
 
     fun getItemAt(position: Int) = dataList[position]
 
-    override fun onBindViewHolder(vh: DayViewHolder, position: Int, isAtTheCenter: Boolean) {
+    override fun onBindViewHolder(vh: GroupViewHolder, position: Int, isAtTheCenter: Boolean) {
 
         if (isAtTheCenter) {
             itemPosition = selectedItemPosition
@@ -124,12 +128,12 @@ class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
         vh.onTouch = onTouch
     }
 
-    override fun onSnapedFromCenter(vh: DayViewHolder) {
+    override fun onSnapedFromCenter(vh: GroupViewHolder) {
         vh.changeSelectedView(false)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val view = parent.inflate(R.layout.item_day)
-        return DayViewHolder(view)
+        return GroupViewHolder(view)
     }
 }

@@ -2,32 +2,24 @@ package com.eburg_soft.televisionbroadcasting.presentation.main
 
 import android.content.Context
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.core.TelevisionBroadcastingApp
-import com.eburg_soft.televisionbroadcasting.customviews.CenterLayoutManager
-import com.eburg_soft.televisionbroadcasting.customviews.ChannelsScrollListener
-import com.eburg_soft.televisionbroadcasting.customviews.DaysScrollListener
-import com.eburg_soft.televisionbroadcasting.customviews.GroupsScrollListener
-import com.eburg_soft.televisionbroadcasting.customviews.ItemDecoration
-import com.eburg_soft.televisionbroadcasting.customviews.ProgramsScrollListener
+import com.eburg_soft.televisionbroadcasting.customviews.SnappyAdapter
+import com.eburg_soft.televisionbroadcasting.customviews.SnappyRecyclerView
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuComponent
 import com.eburg_soft.televisionbroadcasting.data.di.tvmenu.TVMenuContextModule
-import com.eburg_soft.televisionbroadcasting.epoxy.controllers.ChannelController
-import com.eburg_soft.televisionbroadcasting.epoxy.controllers.DayController
-import com.eburg_soft.televisionbroadcasting.epoxy.controllers.GroupController
-import com.eburg_soft.televisionbroadcasting.epoxy.controllers.ProgramController
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsAdapter
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysAdapter
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsAdapter
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsSnappyAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysSnappyAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.GroupsSnappyAdapter
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsSnappyAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_tv_menu.pb_tv_menu
 import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_channels_list
@@ -37,34 +29,40 @@ import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_programs_list
 import timber.log.Timber
 import javax.inject.Inject
 
-class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View, GroupsScrollListener.GroupsCallback,
-    ChannelsScrollListener.ChannelCallback, ProgramsScrollListener.ProgramCallback, DaysScrollListener.DaysCallback,
-    GroupController.GroupCallback, ChannelController.ChannelCallback, ProgramController.ProgramCallback,
-    DayController.DayCallback {
+class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View
+//    , GroupsScrollListener.GroupsCallback,
+//    ChannelsScrollListener.ChannelCallback, ProgramsScrollListener.ProgramCallback, DaysScrollListener.DaysCallback,
+//    GroupController.GroupCallback, ChannelController.ChannelCallback, ProgramController.ProgramCallback,
+//    DayController.DayCallback
+{
 
     @Inject
     lateinit var presenter: TVMenuContract.Presenter
 
-    private val groupController by lazy {
-        GroupController(this)
-    }
+//    private val groupController by lazy {
+//        GroupController(this)
+//    }
+//
+//    private val channelController by lazy {
+//        ChannelController(this)
+//    }
+//
+//    private val programController by lazy {
+//        ProgramController(this)
+//    }
+//
+//    private val dayController by lazy {
+//        DayController(this)
+//    }
 
-    private val channelController by lazy {
-        ChannelController(this)
-    }
-
-    private val programController by lazy {
-        ProgramController(this)
-    }
-
-    private val dayController by lazy {
-        DayController(this)
-    }
-
-    private val groupsAdapter = GroupsAdapter()
-    private val channelsAdapter = ChannelsAdapter()
-    private val programsAdapter = ProgramsAdapter()
-    private val daysAdapter = DaysAdapter()
+    //    private val groupsAdapter = GroupsAdapter()
+//    private val channelsAdapter = ChannelsAdapter()
+//    private val programsAdapter = ProgramsAdapter()
+//    private val daysAdapter = DaysAdapter()
+    private val groupsAdapter = GroupsSnappyAdapter()
+    private val channelsAdapter = ChannelsSnappyAdapter()
+    private val programsAdapter = ProgramsSnappyAdapter()
+    private val daysAdapter = DaysSnappyAdapter()
 
     private var selectedGroupId: String? = null
     private var selectedChannelId: String? = null
@@ -151,10 +149,10 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
             previousDayItemPosition = it.getInt(PREVIOUS_DAY_ITEM_POSITION)
         }
 
-        initGroupsRecycler()
-        initChannelsRecycler()
-        initProgramsRecycler()
-        initDaysRecycler()
+//        initGroupsRecycler()
+//        initChannelsRecycler()
+//        initProgramsRecycler()
+//        initDaysRecycler()
 
         if (savedInstanceState == null) {
             presenter.syncData()
@@ -213,28 +211,33 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
     override fun submitGroupsList(list: List<GroupEntity>?) {
 //        groupsAdapter.setData(list)
 //        groupsAdapter.submitList(list)
-        groupController.setData(list)
+//        groupController.setData(list)
+        groupsAdapter.setData(list)
+//        groupsAdapter.notifyDataSetChanged()
         Timber.d("submitGroupList")
     }
 
     override fun submitChannelsList(list: List<ChannelEntity>?) {
 //        channelsAdapter.setData(list)
 //        channelsAdapter.submitList(list)
-        channelController.setData(list)
+//        channelController.setData(list)
+        channelsAdapter.setData(list)
         Timber.d("submitChannelList")
     }
 
     override fun submitProgramsList(list: List<ProgramEntity>?) {
 //        programsAdapter.setData(list)
 //        programsAdapter.submitList(list)
-        programController.setData(list)
+//        programController.setData(list)
+        programsAdapter.setData(list)
         Timber.d("submitProgramList")
     }
 
     override fun submitDaysList(list: List<DayEntity>?) {
 //        daysAdapter.setData(list)
 //        daysAdapter.submitList(list)
-        dayController.setData(list)
+//        dayController.setData(list)
+        daysAdapter.setData(list)
         Timber.d("submitDaysList")
     }
 
@@ -268,6 +271,24 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
     }
 
     override fun initGroupsRecycler() {
+
+        recycler_groups_list.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            val itemSize =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60f, resources.displayMetrics).toInt()
+            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+            setCenteringPadding(itemSize, margin, 0)
+            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+            groupsAdapter.setCallback(object : SnappyAdapter.Callback {
+                override fun onItemCentered(position: Int) {
+                    val groupId = groupsAdapter.getItemAt(position).id
+                    presenter.loadChannelsByGroupIdFromDb(groupId)
+                }
+            }
+            )
+            adapter = groupsAdapter
+        }
 
 //        val snapHelper = LinearSnapHelper()
 //        recycler_groups_list.apply {
@@ -351,6 +372,24 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 
     override fun initChannelsRecycler() {
 
+        recycler_channels_list.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            val itemSize =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80f, resources.displayMetrics).toInt()
+            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+            setCenteringPadding(itemSize, margin, 0)
+            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+            channelsAdapter.setCallback(object : SnappyAdapter.Callback {
+                override fun onItemCentered(position: Int) {
+                    val channelId = channelsAdapter.getItemAt(position).id
+                    presenter.loadProgramsByChannelIdFromDb(channelId)
+                }
+            }
+            )
+            adapter = channelsAdapter
+        }
+
 //        val snapHelper = LinearSnapHelper()
 //        recycler_channels_list.apply {
 //            val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -421,6 +460,17 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 
     override fun initProgramsRecycler() {
 
+        recycler_programs_list.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            val itemSize =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 168f, resources.displayMetrics).toInt()
+            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+            setCenteringPadding(itemSize, margin, 0)
+            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+            adapter = programsAdapter
+        }
+
 //        val snapHelper = LinearSnapHelper()
 //        recycler_programs_list
 //        val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -490,6 +540,17 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
     }
 
     override fun initDaysRecycler() {
+
+        recycler_days_list.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            val itemSize =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60f, resources.displayMetrics).toInt()
+            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+            setCenteringPadding(itemSize, margin, 0)
+            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+            adapter = daysAdapter
+        }
 
 //        val snapHelper = LinearSnapHelper()
 //        recycler_days_list.apply {
@@ -579,39 +640,39 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
         Timber.d("populateDaysRecycler accomplished")
     }
 
-    override fun onGroupClick(groupEntity: GroupEntity, position: Int) {
-        Timber.d("onGroupClick $position")
-        recycler_groups_list.smoothScrollToPosition(position)
-        presenter.loadChannelsByGroupIdFromDb(groupEntity.id)
-    }
-
-    override fun onChannelClick(channelEntity: ChannelEntity, position: Int) {
-        Timber.d("onChannelClick $position")
-        recycler_channels_list.smoothScrollToPosition(position)
-        presenter.loadProgramsByChannelIdFromDb(channelEntity.id)
-    }
-
-    override fun onProgramClick(programEntity: ProgramEntity, position: Int) {
-        Timber.d("onProgramClick $position")
-        recycler_programs_list.smoothScrollToPosition(position)
-    }
-
-    override fun onDayClick(dayEntity: DayEntity, position: Int) {
-        Timber.d("onDayClick $position")
-        recycler_days_list.smoothScrollToPosition(position)
-    }
-
-    override fun onGroupsPositionChanged(position: Int) {
-    }
-
-    override fun onChannelsPositionChanged(position: Int) {
-    }
-
-    override fun onProgramsPositionChanged(position: Int) {
-    }
-
-    override fun onDaysPositionChanged(position: Int) {
-    }
+//    override fun onGroupClick(groupEntity: GroupEntity, position: Int) {
+//        Timber.d("onGroupClick $position")
+//        recycler_groups_list.smoothScrollToPosition(position)
+//        presenter.loadChannelsByGroupIdFromDb(groupEntity.id)
+//    }
+//
+//    override fun onChannelClick(channelEntity: ChannelEntity, position: Int) {
+//        Timber.d("onChannelClick $position")
+//        recycler_channels_list.smoothScrollToPosition(position)
+//        presenter.loadProgramsByChannelIdFromDb(channelEntity.id)
+//    }
+//
+//    override fun onProgramClick(programEntity: ProgramEntity, position: Int) {
+//        Timber.d("onProgramClick $position")
+//        recycler_programs_list.smoothScrollToPosition(position)
+//    }
+//
+//    override fun onDayClick(dayEntity: DayEntity, position: Int) {
+//        Timber.d("onDayClick $position")
+//        recycler_days_list.smoothScrollToPosition(position)
+//    }
+//
+//    override fun onGroupsPositionChanged(position: Int) {
+//    }
+//
+//    override fun onChannelsPositionChanged(position: Int) {
+//    }
+//
+//    override fun onProgramsPositionChanged(position: Int) {
+//    }
+//
+//    override fun onDaysPositionChanged(position: Int) {
+//    }
 
     //endregion
 

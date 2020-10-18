@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.SnapHelper
 class GroupsScrollListener(
     private val snapHelper: SnapHelper,
     private val callback: GroupsCallback
-)  : RecyclerView.OnScrollListener() {
+) : RecyclerView.OnScrollListener() {
+
     interface GroupsCallback {
 
         fun onGroupsPositionChanged(position: Int)
     }
+
     private var snapPosition = RecyclerView.NO_POSITION
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

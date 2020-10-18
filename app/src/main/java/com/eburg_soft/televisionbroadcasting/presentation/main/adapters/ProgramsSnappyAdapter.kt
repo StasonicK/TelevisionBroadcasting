@@ -7,19 +7,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.customviews.SnappyAdapter
-import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
+import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ProgramEntity
 import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
+import com.eburg_soft.televisionbroadcasting.extensions.elevate
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
-import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysSnappyAdapter.DayViewHolder
-import kotlinx.android.synthetic.main.item_day.view.tv_day_date
+import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ProgramsSnappyAdapter.ProgramViewHolder
+import kotlinx.android.synthetic.main.item_program.view.linear_program_description
+import kotlinx.android.synthetic.main.item_program.view.tv_country_and_year_of_production
+import kotlinx.android.synthetic.main.item_program.view.tv_genre
+import kotlinx.android.synthetic.main.item_program.view.tv_program_name
 
-class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
+class ProgramsSnappyAdapter : SnappyAdapter<ProgramViewHolder>() {
 
-    inner class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ProgramViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var onClick: OnClick? = null
         var onTouch: OnTouch? = null
-        var item: DayEntity? = null
+        var item: ProgramEntity? = null
         private var rect: Rect? = null
         private var isTouching: Boolean = false
 
@@ -62,28 +66,33 @@ class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
         fun changeSelectedView(isSelected: Boolean) {
             if (isSelected) {
                 itemView.apply {
-                    tv_day_date.setTextColor(resources.getColor(R.color.white))
-                    changeBackgroundColor(R.color.blue)
+                    linear_program_description.changeBackgroundColor(R.color.blue)
+                    tv_country_and_year_of_production.setTextColor(resources.getColor(R.color.blue_light))
+                    tv_genre.setTextColor(resources.getColor(R.color.blue_light))
+                    elevate(true)
+//                    clipToOutline = false
                 }
             } else {
                 itemView.apply {
-                    tv_day_date.setTextColor(resources.getColor(R.color.grey_light))
-                    changeBackgroundColor(R.color.black)
+                    linear_program_description.changeBackgroundColor(R.color.black)
+                    tv_country_and_year_of_production.setTextColor(resources.getColor(R.color.grey_light))
+                    tv_genre.setTextColor(resources.getColor(R.color.grey_light))
+                    elevate(false)
                 }
             }
         }
 
-        fun bind(item: DayEntity) {
+        fun bind(item: ProgramEntity) {
             this.item = item
             this.itemView.apply {
-                tv_day_date.text = item.date
+                tv_program_name.text = item.name
             }
         }
     }
 
-    private val dataList = arrayListOf<DayEntity>()
+    private val dataList = arrayListOf<ProgramEntity>()
 
-    fun setData(list: List<DayEntity>?) {
+    fun setData(list: List<ProgramEntity>?) {
         this.dataList.clear()
         list?.let { this.dataList.addAll(it) }
         this.notifyDataSetChanged()
@@ -110,7 +119,7 @@ class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
 
     fun getItemAt(position: Int) = dataList[position]
 
-    override fun onBindViewHolder(vh: DayViewHolder, position: Int, isAtTheCenter: Boolean) {
+    override fun onBindViewHolder(vh: ProgramViewHolder, position: Int, isAtTheCenter: Boolean) {
 
         if (isAtTheCenter) {
             itemPosition = selectedItemPosition
@@ -124,12 +133,12 @@ class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
         vh.onTouch = onTouch
     }
 
-    override fun onSnapedFromCenter(vh: DayViewHolder) {
+    override fun onSnapedFromCenter(vh: ProgramViewHolder) {
         vh.changeSelectedView(false)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProgramViewHolder {
         val view = parent.inflate(R.layout.item_day)
-        return DayViewHolder(view)
+        return ProgramViewHolder(view)
     }
 }

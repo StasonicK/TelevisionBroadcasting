@@ -13,7 +13,6 @@ class ItemDecoration(
 //    private val padding: Int = 0
 ) : RecyclerView.ItemDecoration() {
 
-
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -53,7 +52,7 @@ class ItemDecoration(
 //            outRect.set(0, 0, lastPadding, 0);
 //        }
 
-         val screenWidthPx = screenWidth()
+        val screenWidthPx = screenWidth()
         val position = parent.getChildAdapterPosition(view)
         val viewWidthPx = dpToPx(view.measuredWidth)
         val paddingPx = dpToPx(padding)

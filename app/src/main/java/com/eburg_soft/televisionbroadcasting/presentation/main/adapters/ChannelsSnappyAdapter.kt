@@ -93,8 +93,8 @@ class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
     private val dataList = arrayListOf<ChannelEntity>()
 
     fun setData(list: List<ChannelEntity>?) {
-        dataList.clear()
-        list?.let { dataList.addAll(it) }
+        this.dataList.clear()
+        list?.let { this.dataList.addAll(it) }
         this.notifyDataSetChanged()
     }
 

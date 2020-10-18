@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.SnapHelper
 class ChannelsScrollListener(
     private val snapHelper: SnapHelper,
     private val callback: ChannelCallback
-)  : RecyclerView.OnScrollListener() {
+) : RecyclerView.OnScrollListener() {
+
     interface ChannelCallback {
 
         fun onChannelsPositionChanged(position: Int)
     }
+
     private var snapPosition = RecyclerView.NO_POSITION
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
