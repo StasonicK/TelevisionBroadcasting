@@ -27,7 +27,7 @@ class GroupsSnappyAdapter : SnappyAdapter<GroupViewHolder>() {
 
             view.setOnClickListener {
                 val previousItemPosition = selectedItemPosition
-                selectedItemPosition = position
+                selectedItemPosition = adapterPosition
                 val selectedItem = if (selectedItemPosition != -1) getItemAt(selectedItemPosition) else null
                 val previousItem = if (previousItemPosition != -1) getItemAt(previousItemPosition) else null
                 onClick?.onClick(
