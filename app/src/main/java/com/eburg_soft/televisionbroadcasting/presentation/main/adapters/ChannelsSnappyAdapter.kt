@@ -13,7 +13,6 @@ import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsSnappyAdapter.ChannelViewHolder
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_channel.view.img_channel_icon
-import kotlinx.android.synthetic.main.item_channel.view.linear_channel_img_background
 import kotlinx.android.synthetic.main.item_channel.view.tv_channel_name
 
 class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
@@ -90,7 +89,7 @@ class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
         }
     }
 
-    private val dataList = arrayListOf<ChannelEntity>()
+    private val dataList: ArrayList<ChannelEntity> = arrayListOf()
 
     fun setData(list: List<ChannelEntity>?) {
         this.dataList.clear()
@@ -120,7 +119,11 @@ class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
     fun getItemAt(position: Int) = dataList[position]
 
     override fun onBindViewHolder(vh: ChannelViewHolder, position: Int, isAtTheCenter: Boolean) {
-
+        vh.apply {
+            bind(dataList[position])
+            onClick = onClick
+            onTouch = onTouch
+        }
         if (isAtTheCenter) {
             itemPosition = selectedItemPosition
             selectedItemPosition = position
@@ -128,9 +131,6 @@ class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
         } else {
             vh.changeSelectedView(false)
         }
-
-        vh.onClick = onClick
-        vh.onTouch = onTouch
     }
 
     override fun onSnapedFromCenter(vh: ChannelViewHolder) {

@@ -120,6 +120,11 @@ class ProgramsSnappyAdapter : SnappyAdapter<ProgramViewHolder>() {
     fun getItemAt(position: Int) = dataList[position]
 
     override fun onBindViewHolder(vh: ProgramViewHolder, position: Int, isAtTheCenter: Boolean) {
+        vh.apply {
+            bind(dataList[position])
+            onClick = onClick
+            onTouch = onTouch
+        }
 
         if (isAtTheCenter) {
             itemPosition = selectedItemPosition
@@ -128,9 +133,6 @@ class ProgramsSnappyAdapter : SnappyAdapter<ProgramViewHolder>() {
         } else {
             vh.changeSelectedView(false)
         }
-
-        vh.onClick = onClick
-        vh.onTouch = onTouch
     }
 
     override fun onSnapedFromCenter(vh: ProgramViewHolder) {

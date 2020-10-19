@@ -60,21 +60,21 @@ class GroupsSnappyAdapter : SnappyAdapter<GroupViewHolder>() {
         }
 
         fun changeSelectedView(isSelected: Boolean) {
-//            if (isSelected) {
-//                itemView.apply {
-//                    tv_group_name.apply {
-//                        setTextColor(resources.getColor(R.color.white))
-//                    }
-//                    changeBackgroundColor(R.color.black_light)
-//                }
-//            } else {
-//                itemView.apply {
-//                    tv_group_name.apply {
-//                        setTextColor(resources.getColor(R.color.grey_light))
-//                    }
-//                    changeBackgroundColor(R.color.black)
-//                }
-//            }
+            if (isSelected) {
+                itemView.apply {
+                    tv_group_name.apply {
+                        setTextColor(resources.getColor(R.color.white))
+                    }
+                    changeBackgroundColor(R.color.black_light)
+                }
+            } else {
+                itemView.apply {
+                    tv_group_name.apply {
+                        setTextColor(resources.getColor(R.color.grey_light))
+                    }
+                    changeBackgroundColor(R.color.black)
+                }
+            }
         }
 
         fun bind(item: GroupEntity) {
@@ -115,6 +115,11 @@ class GroupsSnappyAdapter : SnappyAdapter<GroupViewHolder>() {
     fun getItemAt(position: Int) = dataList[position]
 
     override fun onBindViewHolder(vh: GroupViewHolder, position: Int, isAtTheCenter: Boolean) {
+        vh.apply {
+            bind(dataList[position])
+            onClick = onClick
+            onTouch = onTouch
+        }
 
         if (isAtTheCenter) {
             itemPosition = selectedItemPosition
@@ -123,9 +128,6 @@ class GroupsSnappyAdapter : SnappyAdapter<GroupViewHolder>() {
         } else {
             vh.changeSelectedView(false)
         }
-
-        vh.onClick = onClick
-        vh.onTouch = onTouch
     }
 
     override fun onSnapedFromCenter(vh: GroupViewHolder) {

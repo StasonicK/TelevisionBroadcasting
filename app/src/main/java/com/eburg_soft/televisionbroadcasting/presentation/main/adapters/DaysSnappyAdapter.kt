@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.customviews.SnappyAdapter
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
-import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysSnappyAdapter.DayViewHolder
 import kotlinx.android.synthetic.main.item_day.view.tv_day_date
@@ -111,7 +110,11 @@ class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
     fun getItemAt(position: Int) = dataList[position]
 
     override fun onBindViewHolder(vh: DayViewHolder, position: Int, isAtTheCenter: Boolean) {
-
+        vh.apply {
+            bind(dataList[position])
+            onClick = onClick
+            onTouch = onTouch
+        }
         if (isAtTheCenter) {
             itemPosition = selectedItemPosition
             selectedItemPosition = position
@@ -119,9 +122,6 @@ class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
         } else {
             vh.changeSelectedView(false)
         }
-
-        vh.onClick = onClick
-        vh.onTouch = onTouch
     }
 
     override fun onSnapedFromCenter(vh: DayViewHolder) {
