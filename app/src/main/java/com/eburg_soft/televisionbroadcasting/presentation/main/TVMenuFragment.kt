@@ -269,7 +269,15 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
             val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setLayoutManager(layoutManager)
             setController(groupController)
-            addItemDecoration(ItemDecoration())
+//            val itemSize =
+//                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60f, resources.displayMetrics)
+//                    .toInt()
+//            val margin =
+//                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics)
+//                    .toInt()
+//            addItemDecoration(ItemDecoration())
+            addItemDecoration(ItemDecoration(8, 60))
+//            addItemDecoration(ItemDecoration(margin, itemSize))
             addOnScrollListener(
                 GroupsScrollListener(
                     snapHelper,
@@ -344,7 +352,8 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
             val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setLayoutManager(layoutManager)
             setController(channelController)
-            addItemDecoration(ItemDecoration())
+//            addItemDecoration(ItemDecoration())
+            addItemDecoration(ItemDecoration(0, 80))
             addOnScrollListener(
                 ChannelsScrollListener(
                     snapHelper,
@@ -408,7 +417,8 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
             val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setLayoutManager(layoutManager)
             setController(programController)
-            addItemDecoration(ItemDecoration())
+//            addItemDecoration(ItemDecoration())
+            addItemDecoration(ItemDecoration(8, 168))
             addOnScrollListener(
                 ProgramsScrollListener(
                     snapHelper,
@@ -472,7 +482,8 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
             val layoutManager = CenterLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setLayoutManager(layoutManager)
             setController(dayController)
-            addItemDecoration(ItemDecoration())
+//            addItemDecoration(ItemDecoration())
+            addItemDecoration(ItemDecoration(8, 60))
             addOnScrollListener(
                 DaysScrollListener(
                     snapHelper,
@@ -568,19 +579,15 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
     }
 
     override fun onGroupsPositionChanged(position: Int) {
-
     }
 
     override fun onChannelsPositionChanged(position: Int) {
-
     }
 
     override fun onProgramsPositionChanged(position: Int) {
-
     }
 
     override fun onDaysPositionChanged(position: Int) {
-
     }
 
     //endregion

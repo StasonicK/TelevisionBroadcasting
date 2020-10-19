@@ -47,6 +47,8 @@ class CenterLayoutManager : LinearLayoutManager {
             boxStart: Int,
             boxEnd: Int,
             snapPreference: Int
-        ): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+        ):
+//                Int = (boxStart + (boxEnd) / 2) - (viewStart + (viewEnd) / 2)
+                Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
     }
 }

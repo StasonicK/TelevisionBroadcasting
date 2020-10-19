@@ -25,7 +25,7 @@
     <dimen name="height_line_over_channel_items">4dp</dimen>
 
     <!-- width -->
-    <dimen name="width_day_item">60dp</dimen>
+    <dimen name="width_day_item">80dp</dimen>
     <dimen name="width_program_item">168dp</dimen>
     <dimen name="width_channel_item">80dp</dimen>
     <dimen name="width_group_item">60dp</dimen>
