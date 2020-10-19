@@ -12,9 +12,13 @@ class ItemDecoration(
 //    private val viewWidthPx: Int = dpToPx(168),
 //    private val startPadding: Int = 0,
 //    private val endPadding: Int = 0
-    private val padding: Int = 8,
+    private val margin: Int = 8,
     private val viewWidth: Int = 80
 ) : RecyclerView.ItemDecoration() {
+
+    private val screenWidthPx = screenWidth()
+    private var marginPx = dpToPx(margin)
+    private var viewWidthPx = dpToPx(viewWidth)
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -23,10 +27,9 @@ class ItemDecoration(
         state: RecyclerView.State
     ) {
 
-        val screenWidthPx = screenWidth()
         val position = parent.getChildAdapterPosition(view)
-        val marginPx = dpToPx(padding)
-        val viewWidthPx = dpToPx(viewWidth)
+//       val marginPx = dpToPx(padding)
+//        val viewWidthPx = dpToPx(viewWidth)
 //        val viewWidthPx = dpToPx(view.width)
         val itemCount = parent.adapter?.itemCount ?: 0
         val startMargin = if (position == 0) {
@@ -46,7 +49,7 @@ class ItemDecoration(
         Timber.d("screenWidth: $screenWidthPx")
         Timber.d("viewWidth: $viewWidth")
         Timber.d("viewWidthPx: $viewWidthPx")
-        Timber.d("padding: $padding")
+        Timber.d("padding: $margin")
         Timber.d("paddingPx: $marginPx")
         Timber.d("position: $position")
         Timber.d("startMargin: $startMargin")
