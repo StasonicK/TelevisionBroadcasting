@@ -62,30 +62,26 @@ class GroupsSnappyAdapter : SnappyAdapter<GroupViewHolder>() {
         fun changeSelectedView(isSelected: Boolean) {
             if (isSelected) {
                 itemView.apply {
-                    tv_group_name.apply {
-                        setTextColor(resources.getColor(R.color.white))
-                    }
+                    tv_group_name.setTextColor(resources.getColor(R.color.white))
                     changeBackgroundColor(R.color.black_light)
                 }
             } else {
                 itemView.apply {
-                    tv_group_name.apply {
-                        setTextColor(resources.getColor(R.color.grey_light))
-                    }
+                    tv_group_name.setTextColor(resources.getColor(R.color.grey_light))
                     changeBackgroundColor(R.color.black)
                 }
             }
         }
 
         fun bind(item: GroupEntity) {
-            this.item = item
-            this.itemView.apply {
+//            this.item = item
+            itemView.apply {
                 tv_group_name.text = item.name
             }
         }
     }
 
-    private val dataList = arrayListOf<GroupEntity>()
+    private var dataList: ArrayList<GroupEntity> = arrayListOf()
 
     fun setData(list: List<GroupEntity>?) {
         this.dataList.clear()

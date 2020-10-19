@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.customviews.SnappyAdapter
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
+import com.eburg_soft.televisionbroadcasting.extensions.changeBackgroundColor
 import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.DaysSnappyAdapter.DayViewHolder
 import kotlinx.android.synthetic.main.item_day.view.tv_day_date
@@ -59,28 +60,28 @@ class DaysSnappyAdapter : SnappyAdapter<DayViewHolder>() {
         }
 
         fun changeSelectedView(isSelected: Boolean) {
-//            if (isSelected) {
-//                itemView.apply {
-//                    tv_day_date.setTextColor(resources.getColor(R.color.white))
-//                    changeBackgroundColor(R.color.blue)
-//                }
-//            } else {
-//                itemView.apply {
-//                    tv_day_date.setTextColor(resources.getColor(R.color.grey_light))
-//                    changeBackgroundColor(R.color.black)
-//                }
-//            }
+            if (isSelected) {
+                itemView.apply {
+                    tv_day_date.setTextColor(resources.getColor(R.color.white))
+                    changeBackgroundColor(R.color.blue)
+                }
+            } else {
+                itemView.apply {
+                    tv_day_date.setTextColor(resources.getColor(R.color.grey_light))
+                    changeBackgroundColor(R.color.black)
+                }
+            }
         }
 
         fun bind(item: DayEntity) {
             this.item = item
-            this.itemView.apply {
+            itemView.apply {
                 tv_day_date.text = item.date
             }
         }
     }
 
-    private val dataList = arrayListOf<DayEntity>()
+    private var dataList: ArrayList<DayEntity> = arrayListOf()
 
     fun setData(list: List<DayEntity>?) {
         this.dataList.clear()

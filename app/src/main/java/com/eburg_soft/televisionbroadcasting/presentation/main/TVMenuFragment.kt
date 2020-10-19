@@ -212,7 +212,24 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View
 //        groupsAdapter.setData(list)
 //        groupsAdapter.submitList(list)
 //        groupController.setData(list)
-        groupsAdapter.setData(list)
+        recycler_groups_list.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            val itemSize =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60f, resources.displayMetrics).toInt()
+            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+            setCenteringPadding(itemSize, margin, 0)
+            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+            groupsAdapter.setData(list)
+            groupsAdapter.setCallback(object : SnappyAdapter.Callback {
+                override fun onItemCentered(position: Int) {
+                    val groupId = groupsAdapter.getItemAt(position).id
+                    presenter.loadChannelsByGroupIdFromDb(groupId)
+                }
+            }
+            )
+            adapter = groupsAdapter
+        }
 //        groupsAdapter.notifyDataSetChanged()
         Timber.d("submitGroupList")
     }
@@ -221,7 +238,24 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View
 //        channelsAdapter.setData(list)
 //        channelsAdapter.submitList(list)
 //        channelController.setData(list)
-        channelsAdapter.setData(list)
+        recycler_channels_list.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            val itemSize =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80f, resources.displayMetrics).toInt()
+            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+            setCenteringPadding(itemSize, margin, 0)
+            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+            channelsAdapter.setData(list)
+            channelsAdapter.setCallback(object : SnappyAdapter.Callback {
+                override fun onItemCentered(position: Int) {
+                    val channelId = channelsAdapter.getItemAt(position).id
+                    presenter.loadProgramsByChannelIdFromDb(channelId)
+                }
+            }
+            )
+            adapter = channelsAdapter
+        }
         Timber.d("submitChannelList")
     }
 
@@ -229,7 +263,17 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View
 //        programsAdapter.setData(list)
 //        programsAdapter.submitList(list)
 //        programController.setData(list)
-        programsAdapter.setData(list)
+        recycler_programs_list.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            val itemSize =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 168f, resources.displayMetrics).toInt()
+            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+            setCenteringPadding(itemSize, margin, 0)
+            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+            programsAdapter.setData(list)
+            adapter = programsAdapter
+        }
         Timber.d("submitProgramList")
     }
 
@@ -237,7 +281,17 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View
 //        daysAdapter.setData(list)
 //        daysAdapter.submitList(list)
 //        dayController.setData(list)
-        daysAdapter.setData(list)
+        recycler_days_list.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            val itemSize =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60f, resources.displayMetrics).toInt()
+            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+            setCenteringPadding(itemSize, margin, 0)
+            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+            daysAdapter.setData(list)
+            adapter = daysAdapter
+        }
         Timber.d("submitDaysList")
     }
 
@@ -272,23 +326,23 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View
 
     override fun initGroupsRecycler() {
 
-        recycler_groups_list.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
-            val itemSize =
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60f, resources.displayMetrics).toInt()
-            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
-            setCenteringPadding(itemSize, margin, 0)
-            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
-            groupsAdapter.setCallback(object : SnappyAdapter.Callback {
-                override fun onItemCentered(position: Int) {
-                    val groupId = groupsAdapter.getItemAt(position).id
-                    presenter.loadChannelsByGroupIdFromDb(groupId)
-                }
-            }
-            )
-            adapter = groupsAdapter
-        }
+//        recycler_groups_list.apply {
+//            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//            setHasFixedSize(true)
+//            val itemSize =
+//                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60f, resources.displayMetrics).toInt()
+//            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+//            setCenteringPadding(itemSize, margin, 0)
+//            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+//            groupsAdapter.setCallback(object : SnappyAdapter.Callback {
+//                override fun onItemCentered(position: Int) {
+//                    val groupId = groupsAdapter.getItemAt(position).id
+//                    presenter.loadChannelsByGroupIdFromDb(groupId)
+//                }
+//            }
+//            )
+//            adapter = groupsAdapter
+//        }
 
 //        val snapHelper = LinearSnapHelper()
 //        recycler_groups_list.apply {
@@ -372,23 +426,23 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View
 
     override fun initChannelsRecycler() {
 
-        recycler_channels_list.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
-            val itemSize =
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80f, resources.displayMetrics).toInt()
-            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
-            setCenteringPadding(itemSize, margin, 0)
-            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
-            channelsAdapter.setCallback(object : SnappyAdapter.Callback {
-                override fun onItemCentered(position: Int) {
-                    val channelId = channelsAdapter.getItemAt(position).id
-                    presenter.loadProgramsByChannelIdFromDb(channelId)
-                }
-            }
-            )
-            adapter = channelsAdapter
-        }
+//        recycler_channels_list.apply {
+//            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//            setHasFixedSize(true)
+//            val itemSize =
+//                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80f, resources.displayMetrics).toInt()
+//            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+//            setCenteringPadding(itemSize, margin, 0)
+//            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+//            channelsAdapter.setCallback(object : SnappyAdapter.Callback {
+//                override fun onItemCentered(position: Int) {
+//                    val channelId = channelsAdapter.getItemAt(position).id
+//                    presenter.loadProgramsByChannelIdFromDb(channelId)
+//                }
+//            }
+//            )
+//            adapter = channelsAdapter
+//        }
 
 //        val snapHelper = LinearSnapHelper()
 //        recycler_channels_list.apply {
@@ -460,16 +514,16 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View
 
     override fun initProgramsRecycler() {
 
-        recycler_programs_list.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
-            val itemSize =
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 168f, resources.displayMetrics).toInt()
-            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
-            setCenteringPadding(itemSize, margin, 0)
-            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
-            adapter = programsAdapter
-        }
+//        recycler_programs_list.apply {
+//            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//            setHasFixedSize(true)
+//            val itemSize =
+//                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 168f, resources.displayMetrics).toInt()
+//            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+//            setCenteringPadding(itemSize, margin, 0)
+//            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+//            adapter = programsAdapter
+//        }
 
 //        val snapHelper = LinearSnapHelper()
 //        recycler_programs_list
@@ -541,16 +595,16 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View
 
     override fun initDaysRecycler() {
 
-        recycler_days_list.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
-            val itemSize =
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60f, resources.displayMetrics).toInt()
-            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
-            setCenteringPadding(itemSize, margin, 0)
-            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
-            adapter = daysAdapter
-        }
+//        recycler_days_list.apply {
+//            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//            setHasFixedSize(true)
+//            val itemSize =
+//                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60f, resources.displayMetrics).toInt()
+//            val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+//            setCenteringPadding(itemSize, margin, 0)
+//            enableSnapListener(SnappyRecyclerView.Behavior.NOTIFY_ON_IDLE)
+//            adapter = daysAdapter
+//        }
 
 //        val snapHelper = LinearSnapHelper()
 //        recycler_days_list.apply {

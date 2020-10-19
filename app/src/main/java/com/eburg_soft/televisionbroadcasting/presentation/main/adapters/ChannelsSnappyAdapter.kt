@@ -13,6 +13,7 @@ import com.eburg_soft.televisionbroadcasting.extensions.inflate
 import com.eburg_soft.televisionbroadcasting.presentation.main.adapters.ChannelsSnappyAdapter.ChannelViewHolder
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_channel.view.img_channel_icon
+import kotlinx.android.synthetic.main.item_channel.view.linear_channel_img_background
 import kotlinx.android.synthetic.main.item_channel.view.tv_channel_name
 
 class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
@@ -61,22 +62,22 @@ class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
         }
 
         fun changeSelectedView(isSelected: Boolean) {
-//            if (isSelected) {
-//                itemView.apply {
-//                    tv_channel_name.visibility = View.VISIBLE
-//                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.blue_light))
-//                }
-//            } else {
-//                itemView.apply {
-//                    tv_channel_name.visibility = View.INVISIBLE
-//                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.black))
-//                }
-//            }
+            if (isSelected) {
+                itemView.apply {
+                    tv_channel_name.visibility = View.VISIBLE
+                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.blue_light))
+                }
+            } else {
+                itemView.apply {
+                    tv_channel_name.visibility = View.INVISIBLE
+                    linear_channel_img_background.setBackgroundColor(resources.getColor(R.color.black))
+                }
+            }
         }
 
         fun bind(item: ChannelEntity) {
-            this.item = item
-            this.itemView.apply {
+//            this.item = item
+            itemView.apply {
                 tv_channel_name.text = item.name
 
                 Picasso.get()
@@ -89,7 +90,7 @@ class ChannelsSnappyAdapter : SnappyAdapter<ChannelViewHolder>() {
         }
     }
 
-    private val dataList: ArrayList<ChannelEntity> = arrayListOf()
+    private var dataList: ArrayList<ChannelEntity> = arrayListOf()
 
     fun setData(list: List<ChannelEntity>?) {
         this.dataList.clear()

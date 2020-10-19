@@ -83,14 +83,14 @@ class ProgramsSnappyAdapter : SnappyAdapter<ProgramViewHolder>() {
         }
 
         fun bind(item: ProgramEntity) {
-            this.item = item
-            this.itemView.apply {
+//            this.item = item
+            itemView.apply {
                 tv_program_name.text = item.name
             }
         }
     }
 
-    private val dataList = arrayListOf<ProgramEntity>()
+    private var dataList: ArrayList<ProgramEntity> = arrayListOf()
 
     fun setData(list: List<ProgramEntity>?) {
         this.dataList.clear()
