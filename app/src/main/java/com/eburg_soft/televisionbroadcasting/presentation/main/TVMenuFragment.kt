@@ -8,12 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.eburg_soft.televisionbroadcasting.R
 import com.eburg_soft.televisionbroadcasting.core.TelevisionBroadcastingApp
+import com.eburg_soft.televisionbroadcasting.customviews.BaseScrollListener
 import com.eburg_soft.televisionbroadcasting.customviews.CenterLayoutManager
-import com.eburg_soft.televisionbroadcasting.customviews.ChannelsScrollListener
-import com.eburg_soft.televisionbroadcasting.customviews.DaysScrollListener
-import com.eburg_soft.televisionbroadcasting.customviews.GroupsScrollListener
 import com.eburg_soft.televisionbroadcasting.customviews.ItemDecoration
-import com.eburg_soft.televisionbroadcasting.customviews.ProgramsScrollListener
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.ChannelEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.DayEntity
 import com.eburg_soft.televisionbroadcasting.data.datasource.database.models.GroupEntity
@@ -37,8 +34,8 @@ import kotlinx.android.synthetic.main.fragment_tv_menu.recycler_programs_list
 import timber.log.Timber
 import javax.inject.Inject
 
-class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View, GroupsScrollListener.GroupsCallback,
-    ChannelsScrollListener.ChannelCallback, ProgramsScrollListener.ProgramCallback, DaysScrollListener.DaysCallback,
+class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
+//    GroupsScrollListener.GroupsCallback,    ChannelsScrollListener.ChannelCallback, ProgramsScrollListener.ProgramCallback, DaysScrollListener.DaysCallback,
     GroupController.GroupCallback, ChannelController.ChannelCallback, ProgramController.ProgramCallback,
     DayController.DayCallback {
 
@@ -195,6 +192,10 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 
     //region ====================== Contract implementation ======================
 
+    override fun setChannelsRecyclerVisibility(isVisible: Boolean) {
+        recycler_channels_list.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
+    }
+
     override fun showLoading() {
         pb_tv_menu.visibility = View.VISIBLE
         Timber.d("showLoading")
@@ -279,10 +280,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
             addItemDecoration(ItemDecoration(8, 60))
 //            addItemDecoration(ItemDecoration(margin, itemSize))
             addOnScrollListener(
-                GroupsScrollListener(
-                    snapHelper,
-                    this@TVMenuFragment
-                )
+                BaseScrollListener(snapHelper)
+//                GroupsScrollListener(
+//                    snapHelper,
+//                    this@TVMenuFragment
+//                )
             )
         }
         // LinearSnapHelper will try to locate at center when scroll
@@ -355,10 +357,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 //            addItemDecoration(ItemDecoration())
             addItemDecoration(ItemDecoration(0, 80))
             addOnScrollListener(
-                ChannelsScrollListener(
-                    snapHelper,
-                    this@TVMenuFragment
-                )
+                BaseScrollListener(snapHelper)
+//                ChannelsScrollListener(
+//                    snapHelper,
+//                    this@TVMenuFragment
+//                )
             )
         }
         // LinearSnapHelper will try to locate at center when scroll
@@ -420,10 +423,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 //            addItemDecoration(ItemDecoration())
             addItemDecoration(ItemDecoration(8, 168))
             addOnScrollListener(
-                ProgramsScrollListener(
-                    snapHelper,
-                    this@TVMenuFragment
-                )
+                BaseScrollListener(snapHelper)
+//                ProgramsScrollListener(
+//                    snapHelper,
+//                    this@TVMenuFragment
+//                )
             )
         }
         // LinearSnapHelper will try to locate at center when scroll
@@ -485,10 +489,11 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
 //            addItemDecoration(ItemDecoration())
             addItemDecoration(ItemDecoration(8, 60))
             addOnScrollListener(
-                DaysScrollListener(
-                    snapHelper,
-                    this@TVMenuFragment
-                )
+                BaseScrollListener(snapHelper)
+//                DaysScrollListener(
+//                    snapHelper,
+//                    this@TVMenuFragment
+//                )
             )
         }
         // LinearSnapHelper will try to locate at center when scroll
@@ -578,17 +583,17 @@ class TVMenuFragment : Fragment(R.layout.fragment_tv_menu), TVMenuContract.View,
         recycler_days_list.smoothScrollToPosition(position)
     }
 
-    override fun onGroupsPositionChanged(position: Int) {
-    }
-
-    override fun onChannelsPositionChanged(position: Int) {
-    }
-
-    override fun onProgramsPositionChanged(position: Int) {
-    }
-
-    override fun onDaysPositionChanged(position: Int) {
-    }
+//    override fun onGroupsPositionChanged(position: Int) {
+//    }
+//
+//    override fun onChannelsPositionChanged(position: Int) {
+//    }
+//
+//    override fun onProgramsPositionChanged(position: Int) {
+//    }
+//
+//    override fun onDaysPositionChanged(position: Int) {
+//    }
 
     //endregion
 

@@ -331,12 +331,19 @@ class TVMenuPresenter @Inject constructor(
                     it.printStackTrace()
                     Timber.d("loadGroupsFromDb error: ${it.message}")
                     view?.hideLoading()
+                    view?.apply {
+                        hideLoading()
+                        setChannelsRecyclerVisibility(true)
+                    }
                 })
         )
     }
 
     override fun loadChannelsByGroupIdFromDb(savedGroupId: String) {
-        view?.showLoading()
+        view?.apply {
+            showLoading()
+            setChannelsRecyclerVisibility(false)
+        }
         subscribe(
             getChannelsByGroupIdFromDbUseCase
                 .execute(savedGroupId)
@@ -346,11 +353,17 @@ class TVMenuPresenter @Inject constructor(
                     view?.submitChannelsList(channelsList)
                     Timber.d("submitChannelsList accomplished")
                     Timber.d("loadChannelsByGroupIdFromDb accomplished")
-                    view?.hideLoading()
+                    view?.apply {
+                        hideLoading()
+                        setChannelsRecyclerVisibility(true)
+                    }
                 }, {
                     it.printStackTrace()
                     Timber.d("loadChannelsByGroupIdFromDb error: ${it.message}")
-                    view?.hideLoading()
+                    view?.apply {
+                        hideLoading()
+                        setChannelsRecyclerVisibility(true)
+                    }
                 })
         )
     }
